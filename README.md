@@ -13,9 +13,15 @@
 
 ### User Stories
 
-- As a user, I want to use the fingerprint scanner to unlock my property door, so no need to carry keys and prevent being locked out in case of lossing the keys.
-- As a user, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
-- As a user, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door.
+- As a property owner, I want to use the fingerprint scanner to unlock my property door, so no need to carry keys and prevent being locked out in case of lossing the keys.
+- As a property owner, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
+- As a property owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door.
+- As a property owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor who enters and leaves my property.
+- As a homeowner, I want to receive real-time alerts on my smartphone whenever someone attempts to tamper with or forcibly open the door, so I can take immediate action if there's a security breach.
+
+- As a family member or friend visiting the property, I want the ability to receive a digital invitation via the mobile app from the homeowner, granting me temporary access to the property during my stay.
+- As a family member or friend visiting the property, I want the ability to communicate with the homeowner through the app in case of any issues or concerns with accessing the property, ensuring prompt assistance and support during my visit.
+- As a family member or friend visiting the property, I want the door lock system to provide clear instructions on how to use it, including how to input access codes or utilize other authentication methods, to ensure smooth and hassle-free entry.
 
 <br><br>
 
