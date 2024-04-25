@@ -20,6 +20,7 @@ return new class extends Migration
             $table->datetime('start_date')->nullable();
             $table->datetime('end_date')->nullable();
             $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
