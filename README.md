@@ -7,20 +7,23 @@
 
 > An IoT door lock system empowers homeowners to remotely control their property's door via a mobile app.
 >
-> It provides multiple secure methods for users to unlock the door, including knock pattern, fingerprint scanning, RFID card access, password authentication, and cutting-edge face recognition.
+> It provides multiple secure methods for users to unlock the door, including knock pattern, fingerprint scanning, passcode authentication.
 >
-> Additionally, users can conveniently operate the door remotely through the mobile app interface, as well as by accessing the associated camera on the door.
+> Additionally, users can conveniently operate the door from anywhere through the mobile app interface, as well as by accessing the associated camera on the door.
+>
+> As well as, user can be alerted on any abnormal door opening conditions.
 
 ### User Stories
 
-- As a property owner, I want to use the fingerprint scanner to unlock my property door, so no need to carry keys and prevent being locked out in case of lossing the keys.
-- As a property owner, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
-- As a property owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door.
-- As a property owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor who enters and leaves my property.
-- As a homeowner, I want to receive real-time alerts on my smartphone whenever someone attempts to tamper with or forcibly open the door, so I can take immediate action if there's a security breach.
-- As a family member or friend visiting the property, I want the ability to receive a digital invitation via the mobile app from the homeowner, granting me temporary access to the property during my stay.
-- As a family member or friend visiting the property, I want the ability to communicate with the homeowner through the app in case of any issues or concerns with accessing the property, ensuring prompt assistance and support during my visit.
-- As a family member or friend visiting the property, I want the door lock system to provide clear instructions on how to use it, including how to input access codes or utilize other authentication methods, to ensure smooth and hassle-free entry.
+- As a home owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door or not.
+- As a home owner, I want to track my family members and guests when they're leaving the home.
+- As a home owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor the whole door activity at specific date.
+- As a home owner, I want to receive real-time alerts on my smartphone whenever someone attempts to tamper with or forcibly open the door, so I can take immediate action if there's a security breach.
+- As a family member, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me access to the home.
+- As a family member, I want to use the fingerprint scanner to unlock the home door, so no need to carry keys and prevent being locked out in case of lossing them.
+- As a family member, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
+- As a guest, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me temporary access to the home during my stay.
+- As a guest, I want to be able to notify the home owner whenever I am at his/her home or leaving.
 
 <br><br>
 
