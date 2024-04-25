@@ -17,18 +17,6 @@ return new class extends Migration
             $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-        Schema::create('commands', function (Blueprint $table) {
-            $table->id();
-            $table->string('command');
-            $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
-        Schema::create('logs', function (Blueprint $table) {
-            $table->id();
-            $table->text('log');
-            $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
     }
 
     /**
