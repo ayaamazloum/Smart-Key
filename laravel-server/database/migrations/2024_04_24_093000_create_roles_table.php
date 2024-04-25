@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('commands', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('command');
-            $table->enum('status', ['pending', 'done'])->default('pending');
-            $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
+            $table->enum('role', ['owner', 'family_member', 'guest']);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('commands');
+        Schema::dropIfExists('roles');
     }
 };

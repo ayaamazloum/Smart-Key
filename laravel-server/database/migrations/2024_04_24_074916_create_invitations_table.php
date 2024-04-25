@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
             $table->string('email');
+            $table->string('key');
             $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -25,7 +26,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('invitations');
-        Schema::dropIfExists('commands');
-        Schema::dropIfExists('logs');
     }
 };
