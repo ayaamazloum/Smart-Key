@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/tabs/home.dart';
+import 'screens/tabs/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
