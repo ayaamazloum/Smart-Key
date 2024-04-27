@@ -22,7 +22,7 @@ class SmartKey extends StatelessWidget {
         textTheme: GoogleFonts.lexendTextTheme(),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
