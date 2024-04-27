@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/tabs/home.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const SmartKey());
@@ -18,6 +19,7 @@ class SmartKey extends StatelessWidget {
           secondary: const Color(0xFF373737),
           tertiary: const Color(0xFFFEDF57),
         ),
+        textTheme: GoogleFonts.lexendTextTheme(),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
