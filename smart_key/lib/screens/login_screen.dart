@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             SizedBox(
-              height: 50,
+              height: 80,
             ),
             EmailTextField(),
             SizedBox(
@@ -53,7 +53,7 @@ class LoginScreen extends StatelessWidget {
             ),
             PasswordTextField(),
             SizedBox(
-              height: 10,
+              height: 5,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -63,6 +63,41 @@ class LoginScreen extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   fontSize: 14,
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).colorScheme.primary),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                onPressed: () {},
+                child: Text('Log In'),
+              ),
+            ),
+            SizedBox(
+              height: 7,
+            ),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary),
+                  ),
+                  TextSpan(
+                    text: 'Sign up',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary),
+                  ),
+                ],
               ),
             ),
           ],

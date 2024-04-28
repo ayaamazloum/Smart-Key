@@ -25,6 +25,7 @@ class SmartKey extends StatelessWidget {
             color: const Color(0xFF373737),
             fontFamily: 'Niramit',
             fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
           bodyMedium: TextStyle(
             color: const Color(0xFF373737),
