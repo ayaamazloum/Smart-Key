@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/others/splash.dart';
+import 'package:smart_key/screens/tabs/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -22,8 +22,12 @@ class SmartKey extends StatelessWidget {
         textTheme: GoogleFonts.lexendTextTheme(),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        // '/': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
+      },
     );
   }
 }
