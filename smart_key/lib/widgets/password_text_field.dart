@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_key/utils/constants.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField({super.key});
@@ -30,7 +31,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           suffixIcon: IconButton(
             icon: Icon(
                 _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                color: Theme.of(context).colorScheme.primary,
+                color: primaryColor,
             onPressed: () {
               setState(() {
                 _isPasswordVisible = !_isPasswordVisible;
@@ -40,7 +41,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         ),
         style: TextStyle(
           fontSize: 14.0,
-          color: Theme.of(context).colorScheme.secondary,
+          color: secondaryColor,
         ),
         onChanged: (value) {
           // Add password validation logic

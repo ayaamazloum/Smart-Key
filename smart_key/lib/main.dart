@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/login_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
+import 'package:smart_key/utils/constants.dart';
 
 void main() {
   runApp(const SmartKey());
@@ -15,20 +16,20 @@ class SmartKey extends StatelessWidget {
       title: 'Smart Key',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF53BC9D),
-          primary: const Color(0xFF53BC9D),
-          secondary: const Color(0xFF373737),
-          tertiary: const Color(0xFFFEDF57),
+          seedColor: primaryColor,
+          primary: primaryColor,
+          secondary: secondaryColor,
+          tertiary: tertiaryColor,
         ),
         textTheme: TextTheme(
           headlineLarge: TextStyle(
-            color: const Color(0xFF373737),
+            color: secondaryColor,
             fontFamily: 'Niramit',
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
           bodyMedium: TextStyle(
-            color: const Color(0xFF373737),
+            color: secondaryColor,
             fontFamily: 'Niramit',
             fontSize: 18,
           ),

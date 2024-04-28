@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_key/utils/constants.dart';
 
 class EmailTextField extends StatelessWidget {
   const EmailTextField({super.key});
@@ -23,7 +24,7 @@ class EmailTextField extends StatelessWidget {
         ),
         style: TextStyle(
           fontSize: 14.0,
-          color: Theme.of(context).colorScheme.secondary,
+          color: secondaryColor,
         ),
         onChanged: (value) {
           // Add email validation logic
