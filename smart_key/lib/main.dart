@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_key/screens/login_screen.dart';
+import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 
