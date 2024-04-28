@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class EmailTextField extends StatelessWidget {
-  const EmailTextField({super.key});
-  
+class PasswordTextField extends StatelessWidget {
+  const PasswordTextField({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -11,8 +11,8 @@ class EmailTextField extends StatelessWidget {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(left: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: 'Email',
-          hintText: 'example@example.com',
+          labelText: 'Password',
+          hintText: '********',
           hintStyle: TextStyle(
             color: Colors.grey.shade400,
             fontWeight: FontWeight.w300,
@@ -26,9 +26,10 @@ class EmailTextField extends StatelessWidget {
           color: Theme.of(context).colorScheme.secondary,
         ),
         onChanged: (value) {
-          // Add email validation logic
+          // Add password validation logic
         },
-        keyboardType: TextInputType.emailAddress,
+        obscureText: true,
+        keyboardType: TextInputType.visiblePassword,
       ),
     );
   }

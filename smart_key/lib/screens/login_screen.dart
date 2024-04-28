@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/widgets/email_text_field.dart';
+import 'package:smart_key/widgets/password_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -47,6 +48,10 @@ class LoginScreen extends StatelessWidget {
               height: 50,
             ),
             EmailTextField(),
+            SizedBox(
+              height: 20,
+            ),
+            PasswordTextField(),
           ],
         ),
       ),
