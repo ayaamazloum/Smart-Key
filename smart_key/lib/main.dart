@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/login_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const SmartKey());
@@ -17,10 +16,22 @@ class SmartKey extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF53BC9D),
+          primary: const Color(0xFF53BC9D),
           secondary: const Color(0xFF373737),
           tertiary: const Color(0xFFFEDF57),
         ),
-        textTheme: GoogleFonts.lexendTextTheme(),
+        textTheme: TextTheme(
+          headlineLarge: TextStyle(
+            color: const Color(0xFF373737),
+            fontFamily: 'Lexend',
+            fontSize: 22,
+          ),
+          bodyMedium: TextStyle(
+            color: const Color(0xFF373737),
+            fontFamily: 'Lexend',
+            fontSize: 18,
+          ),
+        ),
         useMaterial3: true,
       ),
       home: const LoginScreen(),
