@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PasswordTextField extends StatelessWidget {
+class PasswordTextField extends StatefulWidget {
   const PasswordTextField({super.key});
+
+  @override
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +27,16 @@ class PasswordTextField extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),
+          suffixIcon: IconButton(
+            icon: Icon(
+                _isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                color: Theme.of(context).colorScheme.primary,
+            onPressed: () {
+              setState(() {
+                _isPasswordVisible = !_isPasswordVisible;
+              });
+            },
+          ),
         ),
         style: TextStyle(
           fontSize: 14.0,
@@ -28,7 +45,7 @@ class PasswordTextField extends StatelessWidget {
         onChanged: (value) {
           // Add password validation logic
         },
-        obscureText: true,
+        obscureText: !_isPasswordVisible,
         keyboardType: TextInputType.visiblePassword,
       ),
     );
