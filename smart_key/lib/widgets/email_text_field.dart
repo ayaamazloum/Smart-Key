@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+class EmailTextField extends StatelessWidget {
+  const EmailTextField({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 55,
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 20),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: 'Email',
+          hintText: 'example@example.com',
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontWeight: FontWeight.w300,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(
+              color: Colors.red,
+              width: 100,
+            ),
+          ),
+        ),
+        style: TextStyle(
+          fontSize: 14.0,
+          color: Theme.of(context).colorScheme.secondary,
+        ),
+        onChanged: (value) {
+          // Add email validation logic
+        },
+        keyboardType: TextInputType.emailAddress,
+      ),
+    );
+  }
+}

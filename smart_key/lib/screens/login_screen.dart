@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_key/widgets/email_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -43,28 +44,9 @@ class LoginScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
             SizedBox(
-              height: 55,
-              child: TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 20),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  labelText: 'Email',
-                  hintText: 'example@example.com',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontWeight: FontWeight.w300,
-                    ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                style: TextStyle(
-                  fontSize: 14.0,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                keyboardType: TextInputType.emailAddress,
-              ),
+              height: 50,
             ),
+            EmailTextField(),
           ],
         ),
       ),
