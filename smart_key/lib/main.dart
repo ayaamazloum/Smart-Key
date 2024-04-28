@@ -23,12 +23,12 @@ class SmartKey extends StatelessWidget {
         textTheme: TextTheme(
           headlineLarge: TextStyle(
             color: const Color(0xFF373737),
-            fontFamily: 'Lexend',
+            fontFamily: 'Niramit',
             fontSize: 22,
           ),
           bodyMedium: TextStyle(
             color: const Color(0xFF373737),
-            fontFamily: 'Lexend',
+            fontFamily: 'Niramit',
             fontSize: 18,
           ),
         ),

@@ -52,6 +52,19 @@ class LoginScreen extends StatelessWidget {
               height: 20,
             ),
             PasswordTextField(),
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'forgot password?',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 14,
+                ),
+              ),
+            ),
           ],
         ),
       ),
