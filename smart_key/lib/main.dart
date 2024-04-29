@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
+import 'package:smart_key/screens/auth/signup_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 
@@ -38,8 +39,10 @@ class SmartKey extends StatelessWidget {
       ),
       home: const LoginScreen(),
       debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
         '/home': (context) => const HomeScreen(),
       },
     );
