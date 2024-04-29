@@ -22,11 +22,12 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final logger = Logger();
 
-  void registerUser(context) async {
+  void registerUser() async {
     final data = {
       'name': _nameController.text.toString(),
       'email': _emailController.text.toString(),
@@ -39,7 +40,8 @@ class _SignupScreenState extends State<SignupScreen> {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
-      Navigator.of(context).popAndPushNamed('/home');
+      logger.i('Signup successful');
+      Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
     }
   }
 
@@ -160,7 +162,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     text: 'Sign Up',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        registerUser(context);
+                        registerUser();
                       }
                     },
                   ),

@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final logger = Logger();
 
-  void loginUser(context) async {
+  void loginUser() async {
     final data = {
       'email': _emailController.text.toString(),
       'password': _passwordController.text.toString(),
@@ -35,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
-      Navigator.of(context).popAndPushNamed('/home');
+      logger.i('login successful');
+      Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
     }
   }
 
@@ -127,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'Log in',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        loginUser(context);
+                        loginUser();
                       }
                     },
                   ),
