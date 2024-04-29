@@ -8,6 +8,7 @@ import 'package:smart_key/widgets/password_text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,7 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
-      logger.i('login successful');
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setString('name', response['user']['name']);
+      await preferences.setString('token', response['authorisation']['token']);
+      
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
     } else {
       final errorMessage = response['error'] == 'Unauthorized'
