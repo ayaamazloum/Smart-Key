@@ -47,7 +47,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
         SnackBar(
-          content: Text(response['message']),
+          content: Text(
+            'Signed up successfully, welcome.',
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 30,
         ),
       );
 
@@ -144,7 +149,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: _passwordController,
                     validator: (val) {
                       if (val == null || val.isEmpty || !val.isValidPassword) {
-                        return 'Please enter a valid password';
+                        return 'Password must be at least 8 characters long';
                       }
                       return null;
                     },
