@@ -5,8 +5,15 @@ import 'package:smart_key/widgets/password_text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController email = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
