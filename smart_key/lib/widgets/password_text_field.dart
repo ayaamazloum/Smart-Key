@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 
 class PasswordTextField extends StatefulWidget {
-  const PasswordTextField({super.key});
+  final String name;
+  
+  const PasswordTextField({super.key, required this.name});
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -19,7 +21,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(left: 20),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: 'Password',
+          labelText: widget.name,
           hintText: '********',
           hintStyle: TextStyle(
             color: Colors.grey.shade400,
