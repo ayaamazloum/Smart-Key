@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Arduino;
 
 class AuthController extends Controller
 {
@@ -43,16 +45,30 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:6',
+        // ]);
+        
+        $role = Role::where('role', 'owner')->first();
+        
+        if (!$role) {
+            return response()->json(['error' => 'Role not found'], 404);
+        }
+
+        $arduino = Arduino::where('id', 1)->first();
+
+        if (!$arduino) {
+            return response()->json(['error' => 'Arduino not found'], 404);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'arduino_id' => $arduino->id,
+            'role_id' => $role->id,
         ]);
 
         $token = Auth::login($user);
