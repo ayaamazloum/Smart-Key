@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/widgets/email_text_field.dart';
 import 'package:smart_key/widgets/password_text_field.dart';
+import 'package:smart_key/widgets/primary_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -52,7 +53,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            PasswordTextField(),
+            PasswordTextField(name: 'Password'),
             SizedBox(
               height: 5,
             ),
@@ -69,18 +70,9 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               height: 40,
             ),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: () {},
-                child: Text('Log In'),
-              ),
+            PrimaryButton(
+              text: 'Sign Up',
+              onPressed: () {},
             ),
             SizedBox(
               height: 7,
@@ -90,13 +82,11 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: 'Don\'t have an account? ',
-                    style: TextStyle(
-                        color: secondaryColor),
+                    style: TextStyle(color: secondaryColor),
                   ),
                   TextSpan(
                     text: 'Sign up',
-                    style:
-                        TextStyle(color: primaryColor),
+                    style: TextStyle(color: primaryColor),
                   ),
                 ],
               ),
