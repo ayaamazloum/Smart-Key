@@ -33,7 +33,7 @@ dependencies:
   google_fonts: ^6.2.1
   hexcolor: ^3.0.1
   http: ^1.2.1
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.2.3
   logger: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.

@@ -9,6 +9,7 @@ import 'package:smart_key/widgets/password_text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -40,7 +41,16 @@ class _SignupScreenState extends State<SignupScreen> {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
-      logger.i('Signup successful');
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.setString('name', response['user']['name']);
+      await preferences.setString('token', response['authorisation']['token']);
+
+      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(response['message']),
+        ),
+      );
+
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
     }
   }
