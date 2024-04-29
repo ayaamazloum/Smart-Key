@@ -3,6 +3,7 @@ import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const SmartKey());
@@ -37,7 +38,27 @@ class SmartKey extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: FutureBuilder(
+        future: SharedPreferences.getInstance(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text('Some error has occurred');
+          } else if (snapshot.hasData) {
+            final token = snapshot.data!.getString('token');
+            if (token != null) {
+              return HomeScreen();
+            } else {
+              return LoginScreen();
+            }
+          } else {
+            return LoginScreen();
+          }
+        },
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
