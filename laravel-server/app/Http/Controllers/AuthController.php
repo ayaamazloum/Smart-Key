@@ -29,7 +29,7 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'error' => 'Unauthorized',
             ], 401);
         }
 
@@ -51,6 +51,12 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
+        
+        $email = User::where('email', $request->email)->first();
+        
+        if ($email) {
+            return response()->json(['error' => 'Email already exists'], 404);
+        }
         
         $role = Role::where('role', 'owner')->first();
         

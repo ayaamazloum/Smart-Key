@@ -37,6 +37,20 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response['status'] == 'success') {
       logger.i('login successful');
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
+    } else {
+      final errorMessage = response['error'] == 'Unauthorized'
+          ? 'Incorrect credentials'
+          : response['message'];
+      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 30,
+        ),
+      );
     }
   }
 

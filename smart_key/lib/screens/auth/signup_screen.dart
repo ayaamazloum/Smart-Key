@@ -52,6 +52,19 @@ class _SignupScreenState extends State<SignupScreen> {
       );
 
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
+    } else {
+      logger.i(response);
+      final errorMessage = response['error'];
+      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 30,
+        ),
+      );
     }
   }
 
