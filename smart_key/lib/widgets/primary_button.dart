@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 
 class PrimaryButton extends StatelessWidget {
+  const PrimaryButton({super.key, required this.text, required this.onPressed});
+  
   final String text;
   final VoidCallback onPressed;
-
-  const PrimaryButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class PrimaryButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
         ),
-        onPressed: () {},
-        child: Text('Log In'),
+        onPressed: onPressed,
+        child: Text(text),
       ),
     );
   }
