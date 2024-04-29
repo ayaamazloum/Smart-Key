@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
+import 'package:smart_key/methods/api.dart';
 import 'package:smart_key/widgets/email_text_field.dart';
 import 'package:smart_key/widgets/password_text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
+import 'package:logger/logger.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,24 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final logger = Logger();
+
+  void loginUser(context) async {
+    final data = {
+      'email': _emailController.text.toString(),
+      'password': _passwordController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API().postRequest(route: '/login', data: data);
+    final response = jsonDecode(result.body);
+
+    if (response['status'] == 'success') {
+      Navigator.of(context).popAndPushNamed('/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: 'Log in',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).popAndPushNamed('/signup');
+                        loginUser(context);
                       }
                     },
                   ),

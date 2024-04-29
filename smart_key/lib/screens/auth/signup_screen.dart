@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
+import 'package:smart_key/methods/api.dart';
 import 'package:smart_key/widgets/email_text_field.dart';
 import 'package:smart_key/widgets/name_text_field.dart';
 import 'package:smart_key/widgets/password_text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
+import 'package:logger/logger.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -16,10 +19,29 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  final logger = Logger();
+
+  void registerUser(context) async {
+    final data = {
+      'name': _nameController.text.toString(),
+      'email': _emailController.text.toString(),
+      'password': _passwordController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API().postRequest(route: '/register', data: data);
+    final response = jsonDecode(result.body);
+
+    if (response['status'] == 'success') {
+      Navigator.of(context).popAndPushNamed('/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   NameTextField(
                     name: 'Full Name',
-                    controller: _emailController,
+                    controller: _nameController,
                     validator: (val) {
                       if (val == null || val.isEmpty || !val.isValidName) {
                         return 'Please enter your full name';
@@ -135,10 +157,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 30,
                   ),
                   PrimaryButton(
-                    text: ' Up',
+                    text: 'Sign Up',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).popAndPushNamed('/login');
+                        registerUser(context);
                       }
                     },
                   ),

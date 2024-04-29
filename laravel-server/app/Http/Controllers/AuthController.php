@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Arduino;
@@ -45,11 +46,11 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:6',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ]);
         
         $role = Role::where('role', 'owner')->first();
         
