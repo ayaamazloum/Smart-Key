@@ -5,4 +5,4 @@ Color primaryColor = HexColor('#53BC9D');
 Color secondaryColor = HexColor('#373737');
 Color tertiaryColor = HexColor('#FEDF57');
 
-String apiUrl='';
+String apiUrl='http://192.168.0.107:8000/api';
