@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/utils/constants.dart';
+import 'package:logger/logger.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,7 +13,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
   bool isLoading = false;
-  String firstName = '';
+  String? firstName;
+  String? profilePicture;
+
+  final logger = Logger();
 
   @override
   void initState() {
@@ -24,8 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
     preferences = await SharedPreferences.getInstance();
-    firstName = preferences.getString('name')!.split(' ')[0];
     setState(() {
+      firstName = preferences.getString('name')!.split(' ')[0];
+      profilePicture = preferences.getString('profilePicture');
       isLoading = false;
     });
   }
@@ -33,25 +39,83 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Home'),
-      ),
       body: SafeArea(
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Hi, $firstName',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                  ],
-                ),
+            : Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Image.asset(
+                      'assets/images/screen_shape_1.png',
+                      width: screenWidth(context) * 0.35,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth(context) * 0.05,
+                        vertical: screenHeight(context) * 0.05),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: primaryColor,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      '$serverImagesUrl/${preferences.getString('profilePicture')}',
+                                      width: screenWidth(context) * 0.2,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          {return child;}
+                                        return CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: screenWidth(context) * 0.03),
+                              Expanded(
+                                flex: 8,
+                                child: Text(
+                                  'Hi, $firstName',
+                                  style: 
+                                      Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
       ),
     );

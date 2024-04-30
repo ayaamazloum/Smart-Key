@@ -32,6 +32,7 @@ class LoginScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
+      await preferences.setString('profilePicture', response['user']['profile_picture']);
       await preferences.setString('userType', response['userType']);
       await preferences.setString('token', response['authorisation']['token']);
 

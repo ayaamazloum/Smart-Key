@@ -53,6 +53,11 @@ class _SmartKeyState extends State<SmartKey> {
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
+          bodyLarge: TextStyle(
+            color: secondaryColor,
+            fontFamily: 'Niramit',
+            fontSize: 20,
+          ),
           bodyMedium: TextStyle(
             color: secondaryColor,
             fontFamily: 'Niramit',

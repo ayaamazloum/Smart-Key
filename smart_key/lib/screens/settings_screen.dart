@@ -21,7 +21,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void getUserData() async {
     preferences = await SharedPreferences.getInstance();
-    userType = preferences.getString('userType');
+    setState(() {
+      userType = preferences.getString('userType');
+    });
   }
 
   @override
