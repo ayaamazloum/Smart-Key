@@ -30,9 +30,9 @@ class _SmartKeyState extends State<SmartKey> {
   void checkAuth() async {
     preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('token');
-    if (token != null) {
-      isAuth = true;
-    }
+    setState(() {
+      isAuth = token != null;
+  });
   }
 
   @override
