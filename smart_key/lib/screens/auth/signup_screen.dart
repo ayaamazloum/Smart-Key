@@ -11,20 +11,14 @@ import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  SignupScreen({super.key});
 
-  @override
-  State<SignupScreen> createState() => _SignupScreenState();
-}
-
-class _SignupScreenState extends State<SignupScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   final logger = Logger();
 
