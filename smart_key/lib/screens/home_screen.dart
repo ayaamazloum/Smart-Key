@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
@@ -77,93 +78,152 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenWidth(context) * 0.05,
-                        vertical: screenHeight(context) * 0.05),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: EdgeInsets.only(
+                        left: screenWidth(context) * 0.05,
+                        right: screenWidth(context) * 0.05,
+                        top: screenHeight(context) * 0.05),
+                    child: ListView(
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: primaryColor,
-                                      width: 2,
-                                    ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: primaryColor,
+                                    width: 2,
                                   ),
-                                  child: ClipOval(
-                                    child: Image.network(
-                                      '$serverImagesUrl/${preferences.getString('profilePicture')}',
-                                      width: screenWidth(context) * 0.2,
-                                      loadingBuilder:
-                                          (context, child, loadingProgress) {
-                                        if (loadingProgress == null) {
-                                          return child;
-                                        }
-                                        return CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                        );
-                                      },
-                                    ),
+                                ),
+                                child: ClipOval(
+                                  child: Image.network(
+                                    '$serverImagesUrl/${preferences.getString('profilePicture')}',
+                                    width: screenWidth(context) * 0.2,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
-                              SizedBox(width: screenWidth(context) * 0.03),
-                              Expanded(
-                                flex: 12,
+                            ),
+                            SizedBox(width: screenWidth(context) * 0.03),
+                            Expanded(
+                              flex: 12,
+                              child: Text(
+                                'Hi, $firstName',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Icon(
+                                Icons.notifications_none_outlined,
+                                color: primaryColor,
+                                size: screenWidth(context) * 0.08,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight(context) * 0.05),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/homeMembers');
+                            },
+                            child: Align(
+                                alignment: Alignment.centerRight,
                                 child: Text(
-                                  'Hi, $firstName',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  'Members at home',
+                                  style: TextStyle(color: primaryColor),
+                                ))),
+                        SizedBox(height: screenHeight(context) * 0.05),
+                        SizedBox(
+                          height: screenHeight(context) * 0.45,
+                          width: screenWidth(context),
+                          child: _videoFrame.isNotEmpty
+                              ? Image.memory(_videoFrame)
+                              : CircularProgressIndicator(),
+                        ),
+                        SizedBox(height: screenHeight(context) * 0.05),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                              height: screenWidth(context) * 0.25,
+                              width: screenWidth(context) * 0.25,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          15.0),
+                                    ),
+                                  ),
+                                  textStyle: MaterialStateProperty.all<TextStyle>(
+                                    TextStyle(fontSize: 16.0),
+                                  ),
+                                  elevation: MaterialStateProperty.all<double>(
+                                      4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(Icons.sensor_door_outlined, color: Colors.white, size: 35,),
+                                    SizedBox(height: 8,),
+                                    Text('Open', style: TextStyle(fontFamily: 'Niramit', color: Colors.white, fontSize: 14),),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                flex: 2,
-                                child: Icon(
-                                  Icons.notifications_none_outlined,
-                                  color: primaryColor,
-                                  size: screenWidth(context) * 0.08,
+                            ),
+                            SizedBox(
+                              height: screenWidth(context) * 0.25,
+                              width: screenWidth(context) * 0.25,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          15.0),
+                                    ),
+                                  ),
+                                  textStyle: MaterialStateProperty.all<TextStyle>(
+                                    TextStyle(fontSize: 16.0),
+                                  ),
+                                  elevation: MaterialStateProperty.all<double>(
+                                      4.0),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(Icons.fit_screen_outlined, color: Colors.white, size: 35,),
+                                    SizedBox(height: 8,),
+                                    Text('Capture', style: TextStyle(fontFamily: 'Niramit', color: Colors.white, fontSize: 14),),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushNamed('/homeMembers');
-                              },
-                              child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    'Members at home',
-                                    style: TextStyle(color: primaryColor),
-                                  ))),
-                        ),
-                        Expanded(
-                          flex: 10,
-                          child: SizedBox(
-                            width: screenWidth(context),
-                            child: _videoFrame.isNotEmpty
-                                ? Image.memory(_videoFrame)
-                                : CircularProgressIndicator(),
-                          ),
-                        )
                       ],
                     ),
                   ),
