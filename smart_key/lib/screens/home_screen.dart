@@ -66,9 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           flex: 1,
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
@@ -83,8 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: screenWidth(context) * 0.2,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          {return child;}
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
                                         return CircularProgressIndicator(
                                           value: loadingProgress
                                                       .expectedTotalBytes !=
@@ -102,13 +104,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: screenWidth(context) * 0.03),
                               Expanded(
-                                flex: 8,
+                                flex: 12,
                                 child: Text(
                                   'Hi, $firstName',
-                                  style: 
-                                      Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                              )
+                              ),
+                              Expanded(
+                                flex: 2,
+                                  child: Icon(
+                                    Icons.notifications_none_outlined,
+                                    color: primaryColor,
+                                    size: screenWidth(context) * 0.08,
+                                  ),
+                              ),
                             ],
                           ),
                         ),
