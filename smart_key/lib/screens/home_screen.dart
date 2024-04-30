@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
@@ -131,10 +130,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Expanded(
                               flex: 2,
-                              child: Icon(
-                                Icons.notifications_none_outlined,
-                                color: primaryColor,
-                                size: screenWidth(context) * 0.08,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/notifications');
+                                },
+                                child: Icon(
+                                  Icons.notifications_none_outlined,
+                                  color: primaryColor,
+                                  size: screenWidth(context) * 0.08,
+                                ),
                               ),
                             ),
                           ],
@@ -168,26 +173,46 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith<Color>(
+                                          (states) {
+                                    if (states
+                                        .contains(MaterialState.pressed)) {
+                                      return primaryColor.withOpacity(0.6);
+                                    }
+                                    return primaryColor;
+                                  }),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          15.0),
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
                                   ),
-                                  textStyle: MaterialStateProperty.all<TextStyle>(
+                                  textStyle:
+                                      MaterialStateProperty.all<TextStyle>(
                                     TextStyle(fontSize: 16.0),
                                   ),
-                                  elevation: MaterialStateProperty.all<double>(
-                                      4.0),
+                                  elevation:
+                                      MaterialStateProperty.all<double>(4.0),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [
-                                    Icon(Icons.sensor_door_outlined, color: Colors.white, size: 35,),
-                                    SizedBox(height: 8,),
-                                    Text('Open', style: TextStyle(fontFamily: 'Niramit', color: Colors.white, fontSize: 14),),
+                                    Icon(
+                                      Icons.sensor_door_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      'Open',
+                                      style: TextStyle(
+                                          fontFamily: 'Niramit',
+                                          color: Colors.white,
+                                          fontSize: 14),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -198,26 +223,46 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith<Color>(
+                                          (states) {
+                                    if (states
+                                        .contains(MaterialState.pressed)) {
+                                      return primaryColor.withOpacity(0.6);
+                                    }
+                                    return primaryColor;
+                                  }),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          15.0),
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
                                   ),
-                                  textStyle: MaterialStateProperty.all<TextStyle>(
+                                  textStyle:
+                                      MaterialStateProperty.all<TextStyle>(
                                     TextStyle(fontSize: 16.0),
                                   ),
-                                  elevation: MaterialStateProperty.all<double>(
-                                      4.0),
+                                  elevation:
+                                      MaterialStateProperty.all<double>(4.0),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: const [
-                                    Icon(Icons.fit_screen_outlined, color: Colors.white, size: 35,),
-                                    SizedBox(height: 8,),
-                                    Text('Capture', style: TextStyle(fontFamily: 'Niramit', color: Colors.white, fontSize: 14),),
+                                    Icon(
+                                      Icons.fit_screen_outlined,
+                                      color: Colors.white,
+                                      size: 35,
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Text(
+                                      'Capture',
+                                      style: TextStyle(
+                                          fontFamily: 'Niramit',
+                                          color: Colors.white,
+                                          fontSize: 14),
+                                    ),
                                   ],
                                 ),
                               ),
