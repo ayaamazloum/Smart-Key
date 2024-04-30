@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
-import 'package:smart_key/methods/api.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
@@ -35,6 +35,7 @@ class SignupScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
+      await preferences.setString('userType', response['userType']);
       await preferences.setString('token', response['authorisation']['token']);
 
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
@@ -130,6 +131,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: false,
                       textInputType: TextInputType.name,
                     ),
                     SizedBox(
@@ -145,6 +147,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: false,
                       textInputType: TextInputType.emailAddress,
                     ),
                     SizedBox(
@@ -162,6 +165,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: true,
                       textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(
@@ -180,6 +184,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: true,
                       textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(

@@ -9,6 +9,7 @@ class MyTextField extends StatefulWidget {
       required this.controller,
       this.showVisibilityIcon = false,
       this.validator,
+      required this.obscureText,
       required this.textInputType});
 
   final String labelText;
@@ -16,6 +17,7 @@ class MyTextField extends StatefulWidget {
   final bool? showVisibilityIcon;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final bool obscureText;
   final TextInputType textInputType;
 
   @override
@@ -41,18 +43,18 @@ class _MyTextFieldState extends State<MyTextField> {
           borderRadius: BorderRadius.circular(30),
         ),
         suffixIcon: widget.showVisibilityIcon!
-          ? IconButton(
-              icon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-              ),
-              color: primaryColor,
-              onPressed: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
-            )
-          : null,
+            ? IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                color: primaryColor,
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              )
+            : null,
       ),
       style: TextStyle(
         fontSize: 14.0,
@@ -60,7 +62,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
       controller: widget.controller,
       validator: widget.validator,
-      obscureText: !_isPasswordVisible,
+      obscureText: widget.obscureText && !_isPasswordVisible,
       keyboardType: widget.textInputType,
     );
   }

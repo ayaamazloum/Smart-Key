@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
-import 'package:smart_key/methods/api.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
@@ -32,6 +32,7 @@ class LoginScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
+      await preferences.setString('userType', response['userType']);
       await preferences.setString('token', response['authorisation']['token']);
 
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
@@ -117,6 +118,7 @@ class LoginScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: false,
                       textInputType: TextInputType.emailAddress,
                     ),
                     SizedBox(
@@ -132,6 +134,7 @@ class LoginScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      obscureText: true,
                       showVisibilityIcon: true,
                       textInputType: TextInputType.visiblePassword,
                     ),

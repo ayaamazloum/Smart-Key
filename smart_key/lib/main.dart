@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
-import 'package:smart_key/screens/home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
@@ -10,8 +9,31 @@ void main() {
   runApp(const SmartKey());
 }
 
-class SmartKey extends StatelessWidget {
+class SmartKey extends StatefulWidget {
   const SmartKey({super.key});
+
+  @override
+  State<SmartKey> createState() => _SmartKeyState();
+}
+
+class _SmartKeyState extends State<SmartKey> {
+  late SharedPreferences preferences;
+  bool isLoading = false;
+  bool isAuth = false;
+
+  @override
+  void initState() {
+    super.initState();
+    checkAuth();
+  }
+
+  void checkAuth() async {
+    preferences = await SharedPreferences.getInstance();
+    final token = preferences.getString('token');
+    if (token != null) {
+      isAuth = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,32 +61,12 @@ class SmartKey extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Some error has occurred');
-          } else if (snapshot.hasData) {
-            final token = snapshot.data!.getString('token');
-            if (token != null) {
-              return NavigationMenu();
-            } else {
-              return LoginScreen();
-            }
-          } else {
-            return LoginScreen();
-          }
-        },
-      ),
+      home: isAuth ? NavigationMenu() : LoginScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => NavigationMenu(),
       },
     );
   }

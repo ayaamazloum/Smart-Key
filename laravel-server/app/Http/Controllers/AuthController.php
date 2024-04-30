@@ -32,11 +32,18 @@ class AuthController extends Controller
                 'error' => 'Unauthorized',
             ], 401);
         }
+        
+        $role = Role::where('role', 'owner')->first();
+        
+        if (!$role) {
+            return response()->json(['error' => 'Role not found'], 404);
+        }
 
         $user = Auth::user();
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
+                'userType' => $role->role,
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',
@@ -83,6 +90,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'User created successfully',
             'user' => $user,
+            'userType' => $role->role,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',

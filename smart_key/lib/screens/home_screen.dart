@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
   bool isLoading = false;
+  String firstName = '';
 
   @override
   void initState() {
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
     preferences = await SharedPreferences.getInstance();
+    firstName = preferences.getString('name')!.split(' ')[0];
     setState(() {
       isLoading = false;
     });
@@ -45,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Hi, ${preferences.getString('name')!.split(' ')[0]}',
+                      'Hi, $firstName',
                       style: Theme.of(context).textTheme.headlineSmall,
-                    ),
+                    )
                   ],
                 ),
               ),
