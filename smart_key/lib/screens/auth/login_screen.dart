@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
       await preferences.setString('token', response['authorisation']['token']);
-      
+
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
     } else {
       final errorMessage = response['error'] == 'Unauthorized'
@@ -63,115 +63,128 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(top: 150.0),
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(40), topEnd: Radius.circular(40)),
-              color: Colors.white,
-            ),
-            width: double.infinity,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    padding: EdgeInsets.all(20),
-                    transform: Matrix4.translationValues(0, -40, 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 4,
-                          color: Colors.grey.shade400,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(40), topEnd: Radius.circular(40)),
+                color: Colors.white,
+              ),
+              width: screenWidth(context),
+              height: screenHeight(context) * 0.8,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Transform.translate(
+                      offset: Offset(0, -7),
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        padding: EdgeInsets.all(20),
+                        transform: Matrix4.translationValues(0, -40, 0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 4,
+                              color: Colors.grey.shade400,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Center(
-                        child: Image(
-                            image: AssetImage('assets/images/auth_logo.png'))),
-                  ),
-                  Text(
-                    'Log In',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  SizedBox(
-                    height: 80,
-                  ),
-                  EmailTextField(
-                    controller: _emailController,
-                    validator: (val) {
-                      if (val == null || val.isEmpty || !val.isValidEmail) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  PasswordTextField(
-                    name: 'Password',
-                    controller: _passwordController,
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'forgot password?',
-                      style: TextStyle(
-                        color: primaryColor,
-                        fontSize: 14,
+                        child: Center(
+                            child: Image(
+                                image:
+                                    AssetImage('assets/images/auth_logo.png'))),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  PrimaryButton(
-                    text: 'Log in',
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        loginUser();
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Don\'t have an account? ',
-                          style: TextStyle(color: secondaryColor),
-                        ),
-                        TextSpan(
-                          text: 'Sign up',
-                          style: TextStyle(color: primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.of(context).popAndPushNamed('/signup');
-                            },
-                        ),
-                      ],
+                    Transform.translate(
+                      offset: Offset(0, -15),
+                      child: Text(
+                        'Log In',
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: screenHeight(context) * 0.08,
+                    ),
+                    EmailTextField(
+                      label: 'E-mail',
+                      controller: _emailController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty || !val.isValidEmail) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                      textInputType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.025,
+                    ),
+                    PasswordTextField(
+                      name: 'Password',
+                      controller: _passwordController,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.01,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'forgot password?',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.06,
+                    ),
+                    PrimaryButton(
+                      text: 'Log in',
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          loginUser();
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.02,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Don\'t have an account? ',
+                            style: TextStyle(color: secondaryColor),
+                          ),
+                          TextSpan(
+                            text: 'Sign up',
+                            style: TextStyle(color: primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context)
+                                    .popAndPushNamed('/signup');
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

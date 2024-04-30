@@ -4,6 +4,7 @@ import 'package:smart_key/screens/auth/signup_screen.dart';
 import 'package:smart_key/screens/home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/widgets/navigation_menu.dart';
 
 void main() {
   runApp(const SmartKey());
@@ -50,7 +51,7 @@ class SmartKey extends StatelessWidget {
           } else if (snapshot.hasData) {
             final token = snapshot.data!.getString('token');
             if (token != null) {
-              return HomeScreen();
+              return NavigationMenu();
             } else {
               return LoginScreen();
             }
@@ -60,7 +61,6 @@ class SmartKey extends StatelessWidget {
         },
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
