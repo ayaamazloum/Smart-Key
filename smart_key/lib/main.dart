@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
+import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
@@ -56,7 +57,7 @@ class _SmartKeyState extends State<SmartKey> {
           bodyLarge: TextStyle(
             color: secondaryColor,
             fontFamily: 'Niramit',
-            fontSize: 20,
+            fontSize: 22,
           ),
           bodyMedium: TextStyle(
             color: secondaryColor,
@@ -72,6 +73,7 @@ class _SmartKeyState extends State<SmartKey> {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
         '/home': (context) => NavigationMenu(),
+        '/homeMembers': (context) => HomeMembersScreen(),
       },
     );
   }

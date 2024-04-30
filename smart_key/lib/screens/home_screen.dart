@@ -112,14 +112,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Expanded(
                                 flex: 2,
-                                  child: Icon(
-                                    Icons.notifications_none_outlined,
-                                    color: primaryColor,
-                                    size: screenWidth(context) * 0.08,
-                                  ),
+                                child: Icon(
+                                  Icons.notifications_none_outlined,
+                                  color: primaryColor,
+                                  size: screenWidth(context) * 0.08,
+                                ),
                               ),
                             ],
                           ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed('/homeMembers');
+                          },
+                          child: Expanded(
+                              flex: 1,
+                              child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    'Members at home',
+                                    style: TextStyle(color: primaryColor),
+                                  ))),
                         ),
                       ],
                     ),
