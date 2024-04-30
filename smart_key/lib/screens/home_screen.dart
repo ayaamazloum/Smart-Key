@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late Uint8List _videoFrame = Uint8List(0);
   late SharedPreferences preferences;
   bool isLoading = false;
   String? firstName;
@@ -18,10 +22,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final logger = Logger();
 
+  Future<void> _fetchVideoFrame() async {
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      setState(() {
+        _videoFrame = response.bodyBytes;
+      });
+    } else {
+      throw Exception('Failed to fetch video frame');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getUserData();
+
+    _fetchVideoFrame();
+
+    // Timer.periodic(Duration(milliseconds: 100), (timer) {
+    //   _fetchVideoFrame();
+    // });
   }
 
   void getUserData() async {
@@ -121,13 +142,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/homeMembers');
-                          },
-                          child: Expanded(
-                              flex: 1,
+                        Expanded(
+                          flex: 1,
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/homeMembers');
+                              },
                               child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Text(
@@ -135,6 +155,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(color: primaryColor),
                                   ))),
                         ),
+                        Expanded(
+                          flex: 10,
+                          child: SizedBox(
+                            width: screenWidth(context),
+                            child: _videoFrame.isNotEmpty
+                                ? Image.memory(_videoFrame)
+                                : CircularProgressIndicator(),
+                          ),
+                        )
                       ],
                     ),
                   ),
