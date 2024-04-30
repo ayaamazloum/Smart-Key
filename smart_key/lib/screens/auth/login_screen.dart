@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/methods/api.dart';
-import 'package:smart_key/widgets/email_text_field.dart';
-import 'package:smart_key/widgets/password_text_field.dart';
+import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
@@ -108,8 +107,9 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: screenHeight(context) * 0.08,
                     ),
-                    EmailTextField(
-                      label: 'E-mail',
+                    MyTextField(
+                      labelText: 'E-mail',
+                      hintText: 'example@example.com',
                       controller: _emailController,
                       validator: (val) {
                         if (val == null || val.isEmpty || !val.isValidEmail) {
@@ -122,15 +122,18 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: screenHeight(context) * 0.025,
                     ),
-                    PasswordTextField(
-                      name: 'Password',
+                    MyTextField(
+                      labelText: 'Password',
+                      hintText: '********',
                       controller: _passwordController,
                       validator: (val) {
-                        if (val == null || val.isEmpty) {
+                        if (val == null || val.isEmpty || !val.isValidPassword) {
                           return 'Please enter your password';
                         }
                         return null;
                       },
+                      showVisibilityIcon: true,
+                      textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(
                       height: screenHeight(context) * 0.01,

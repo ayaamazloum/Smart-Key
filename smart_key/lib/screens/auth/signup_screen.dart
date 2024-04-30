@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/methods/api.dart';
-import 'package:smart_key/widgets/email_text_field.dart';
-import 'package:smart_key/widgets/name_text_field.dart';
-import 'package:smart_key/widgets/password_text_field.dart';
+import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
@@ -122,8 +120,9 @@ class SignupScreen extends StatelessWidget {
                     SizedBox(
                       height: screenHeight(context) * 0.05,
                     ),
-                    NameTextField(
-                      name: 'Full Name',
+                    MyTextField(
+                      labelText: 'Full Name',
+                      hintText: 'John Doe',
                       controller: _nameController,
                       validator: (val) {
                         if (val == null || val.isEmpty || !val.isValidName) {
@@ -131,12 +130,14 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      textInputType: TextInputType.name,
                     ),
                     SizedBox(
                       height: screenHeight(context) * 0.025,
                     ),
-                    EmailTextField(
-                      label: 'E-mail',
+                    MyTextField(
+                      labelText: 'E-mail',
+                      hintText: 'example@example.com',
                       controller: _emailController,
                       validator: (val) {
                         if (val == null || val.isEmpty || !val.isValidEmail) {
@@ -149,8 +150,9 @@ class SignupScreen extends StatelessWidget {
                     SizedBox(
                       height: screenHeight(context) * 0.025,
                     ),
-                    PasswordTextField(
-                      name: 'Password',
+                    MyTextField(
+                      labelText: 'Password',
+                      hintText: '********',
                       controller: _passwordController,
                       validator: (val) {
                         if (val == null ||
@@ -160,12 +162,14 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(
                       height: screenHeight(context) * 0.025,
                     ),
-                    PasswordTextField(
-                      name: 'Confirm Password',
+                    MyTextField(
+                      labelText: 'Confirm Password',
+                      hintText: '********',
                       controller: _confirmPasswordController,
                       validator: (val) {
                         if (val == null || val.isEmpty) {
@@ -176,6 +180,7 @@ class SignupScreen extends StatelessWidget {
                         }
                         return null;
                       },
+                      textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(
                       height: screenHeight(context) * 0.05,
