@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\MembersAtHome;
 use App\Models\Arduino;
 
 class AuthController extends Controller
@@ -40,10 +41,14 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+
+        $isHome = MembersAtHome::where('user_id', $user->id)->first();
+
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
                 'userType' => $role->role,
+                'isHome' => !$isHome ? false : true,
                 'authorisation' => [
                     'token' => $token,
                     'type' => 'bearer',
@@ -91,6 +96,7 @@ class AuthController extends Controller
             'message' => 'User created successfully',
             'user' => $user,
             'userType' => $role->role,
+            'isHome' => false,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',

@@ -19,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = false;
   String? firstName;
   String? profilePicture;
+  String? userType;
+  bool isHome = false;
 
   final logger = Logger();
 
@@ -53,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       firstName = preferences.getString('name')!.split(' ')[0];
       profilePicture = preferences.getString('profilePicture');
+      userType = preferences.getString('userType');
+      isHome = preferences.getBool('isHome')!;
+      logger.i(profilePicture);
       isLoading = false;
     });
   }
@@ -86,41 +91,43 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: primaryColor,
-                                    width: 2,
+                            profilePicture == null
+                                ? SizedBox(width: 0)
+                                : Expanded(
+                                    flex: 2,
+                                    child: Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: primaryColor,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: ClipOval(
+                                        child: Image.network(
+                                          '$serverImagesUrl/${preferences.getString('profilePicture')}',
+                                          width: screenWidth(context) * 0.2,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    '$serverImagesUrl/${preferences.getString('profilePicture')}',
-                                    width: screenWidth(context) * 0.2,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      }
-                                      return CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: screenWidth(context) * 0.03),
                             Expanded(
                               flex: 12,
                               child: Text(
@@ -145,16 +152,42 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         SizedBox(height: screenHeight(context) * 0.05),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/homeMembers');
-                            },
-                            child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'Members at home',
-                                  style: TextStyle(color: primaryColor),
-                                ))),
+                        userType == 'owner'
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/homeMembers');
+                                },
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      'Members at home',
+                                      style: TextStyle(color: primaryColor),
+                                    )))
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'I\'m Home',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Transform.scale(
+                                    scale: 0.55,
+                                    child: Switch(
+                                      value: isHome,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          isHome = val;
+                                        });
+                                      },
+                                      activeColor: primaryColor,
+                                      inactiveThumbColor: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                         SizedBox(height: screenHeight(context) * 0.05),
                         SizedBox(
                           height: screenHeight(context) * 0.45,
@@ -178,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           (states) {
                                     if (states
                                         .contains(MaterialState.pressed)) {
-                                      return primaryColor.withOpacity(0.6);
+                                      return buttonPressColor;
                                     }
                                     return primaryColor;
                                   }),
@@ -228,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           (states) {
                                     if (states
                                         .contains(MaterialState.pressed)) {
-                                      return primaryColor.withOpacity(0.6);
+                                      return buttonPressColor;
                                     }
                                     return primaryColor;
                                   }),

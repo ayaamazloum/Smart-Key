@@ -34,6 +34,7 @@ class LoginScreen extends StatelessWidget {
       await preferences.setString('name', response['user']['name']);
       await preferences.setString('profilePicture', response['user']['profile_picture']);
       await preferences.setString('userType', response['userType']);
+      await preferences.setBool('isHome', response['isHome']);
       await preferences.setString('token', response['authorisation']['token']);
 
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
@@ -156,7 +157,7 @@ class LoginScreen extends StatelessWidget {
                       height: screenHeight(context) * 0.06,
                     ),
                     PrimaryButton(
-                      text: 'Log in',
+                      text: 'Login',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           loginUser();
@@ -174,7 +175,7 @@ class LoginScreen extends StatelessWidget {
                             style: TextStyle(color: secondaryColor),
                           ),
                           TextSpan(
-                            text: 'Sign up',
+                            text: 'Sign Up',
                             style: TextStyle(color: primaryColor),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {

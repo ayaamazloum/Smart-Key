@@ -36,6 +36,7 @@ class SignupScreen extends StatelessWidget {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
       await preferences.setString('userType', response['userType']);
+      await preferences.setBool('isHome', response['isHome']);
       await preferences.setString('token', response['authorisation']['token']);
 
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
@@ -191,7 +192,7 @@ class SignupScreen extends StatelessWidget {
                       height: screenHeight(context) * 0.05,
                     ),
                     PrimaryButton(
-                      text: 'Sign Up',
+                      text: 'Signup',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           registerUser();
@@ -209,7 +210,7 @@ class SignupScreen extends StatelessWidget {
                             style: TextStyle(color: secondaryColor),
                           ),
                           TextSpan(
-                            text: 'Log in',
+                            text: 'Log In',
                             style: TextStyle(color: primaryColor),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
