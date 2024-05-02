@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
-import 'dart:typed_data';
-import 'package:http/http.dart' as http;
-import 'dart:async';
+import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Uint8List _videoFrame = Uint8List(0);
   late SharedPreferences preferences;
   bool isLoading = false;
   String? firstName;
@@ -24,27 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final logger = Logger();
 
-  Future<void> _fetchVideoFrame() async {
-    final response = await http.get(Uri.parse(apiUrl));
-    if (response.statusCode == 200) {
-      setState(() {
-        _videoFrame = response.bodyBytes;
-      });
-    } else {
-      throw Exception('Failed to fetch video frame');
-    }
-  }
-
   @override
   void initState() {
     super.initState();
+
     getUserData();
-
-    _fetchVideoFrame();
-
-    // Timer.periodic(Duration(milliseconds: 100), (timer) {
-    //   _fetchVideoFrame();
-    // });
   }
 
   void getUserData() async {
@@ -192,9 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: screenHeight(context) * 0.45,
                           width: screenWidth(context),
-                          child: _videoFrame.isNotEmpty
-                              ? Image.memory(_videoFrame)
-                              : CircularProgressIndicator(),
+                          child: Mjpeg(stream: 'http://192.168.1.17:81/stream',isLive: true,)
                         ),
                         SizedBox(height: screenHeight(context) * 0.05),
                         Row(
