@@ -3,6 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
+
+const String mqttServer = 'test.mosquitto.org';
+const int mqttPort = 1883;
+const String doorControlTopic = 'door/control';
+const String doorStatusTopic = 'door/status';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,11 +20,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
+  late MqttServerClient client;
   bool isLoading = false;
   String? firstName;
   String? profilePicture;
   String? userType;
   bool isHome = false;
+  String doorStatus = "closed";
 
   final logger = Logger();
 
@@ -26,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     getUserData();
+    connectToMqttBroker();
   }
 
   void getUserData() async {
@@ -41,6 +51,104 @@ class _HomeScreenState extends State<HomeScreen> {
       logger.i(profilePicture);
       isLoading = false;
     });
+  }
+
+  Future<dynamic> connectToMqttBroker() async {
+    client = MqttServerClient.withPort(
+        'test.mosquitto.org', 'SmartKeyFlutterClient', 1883);
+    client.logging(on: true);
+    client.keepAlivePeriod = 30;
+    client.onDisconnected = () {
+      logger.e('Disconnected');
+    };
+    client.onConnected = () {
+      logger.i('MQTT Connected');
+    };
+    client.logging(on: true);
+    client.onConnected = () {
+      logger.i('MQTT_LOGS:: Connected');
+    };
+    client.onDisconnected = () {
+      logger.i('MQTT_LOGS:: Disconnected');
+    };
+    client.onUnsubscribed = (String? topic) {
+      logger.i('MQTT_LOGS:: Unsubscribed topic: $topic');
+    };
+    client.onSubscribed = (String topic) {
+      logger.i('MQTT_LOGS:: Subscribed topic: $topic');
+    };
+    client.onSubscribeFail = (String topic) {
+      logger.i('MQTT_LOGS:: Failed to subscribe $topic');
+    };
+    client.pongCallback = () {
+      logger.i('MQTT_LOGS:: Ping response client callback invoked');
+    };
+    client.keepAlivePeriod = 60;
+    client.logging(on: true);
+    client.setProtocolV311();
+
+    final connMess = MqttConnectMessage()
+        .withClientIdentifier('SKFlutterClient')
+        .withWillTopic('willtopic')
+        .withWillMessage('Will message')
+        .startClean()
+        .withWillQos(MqttQos.atLeastOnce);
+
+    logger.i('MQTT_LOGS::Mosquitto client connecting....');
+
+    client.connectionMessage = connMess;
+
+    try {
+      await client.connect();
+      logger.i('Connected to MQTT broker');
+    } catch (e) {
+      logger.e('Exception: $e');
+      client.disconnect();
+    }
+
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      logger.i('MQTT_LOGS::Mosquitto client connected');
+    } else {
+      logger.e(
+          'MQTT_LOGS::ERROR Mosquitto client connection failed - disconnecting, status is ${client.connectionStatus}');
+      client.disconnect();
+      return -1;
+    }
+
+    logger.i('MQTT_LOGS::Subscribing to the door/control topic');
+
+    client.subscribe(doorStatusTopic, MqttQos.atLeastOnce);
+    client.updates!.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
+      final String message =
+          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      setState(() {
+        doorStatus = message;
+      });
+    });
+
+    return client;
+  }
+
+  void publishMessage(String message) {
+    const pubTopic = doorControlTopic;
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+
+    if (client.connectionStatus?.state == MqttConnectionState.connected) {
+      client.publishMessage(pubTopic, MqttQos.atLeastOnce, builder.payload!);
+    }
+  }
+
+  void sendControlMessage(String message) {
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
+      builder.addString(message);
+      client.publishMessage(
+          doorControlTopic, MqttQos.atLeastOnce, builder.payload!);
+    } else {
+      logger.e('MQTT client is not connected. Cannot send control message.');
+    }
   }
 
   @override
@@ -171,10 +279,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                         SizedBox(height: screenHeight(context) * 0.05),
                         SizedBox(
-                          height: screenHeight(context) * 0.45,
-                          width: screenWidth(context),
-                          child: Mjpeg(stream: 'http://192.168.1.17:81/stream',isLive: true,)
-                        ),
+                            height: screenHeight(context) * 0.45,
+                            width: screenWidth(context),
+                            child: Mjpeg(
+                              stream: 'http://192.168.1.17:81/stream',
+                              isLive: true,
+                            )),
                         SizedBox(height: screenHeight(context) * 0.05),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -183,7 +293,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: screenWidth(context) * 0.25,
                               width: screenWidth(context) * 0.25,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  publishMessage(doorStatus == 'opened'
+                                      ? 'close'
+                                      : 'open');
+                                },
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.resolveWith<Color>(
@@ -192,7 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .contains(MaterialState.pressed)) {
                                       return buttonPressColor;
                                     }
-                                    return primaryColor;
+                                    return doorStatus == 'opened'
+                                          ? tertiaryColor
+                                          : primaryColor;
                                   }),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -209,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.sensor_door_outlined,
                                       color: Colors.white,
@@ -219,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: 8,
                                     ),
                                     Text(
-                                      'Open',
+                                      doorStatus == 'opened' ? 'close' : 'open',
                                       style: TextStyle(
                                           fontFamily: 'Niramit',
                                           color: Colors.white,
