@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Arduino;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Arduino;
 
 class AuthenticateArduino
 {
@@ -16,11 +16,11 @@ class AuthenticateArduino
      */
     public function handle(Request $request, Closure $next)
     {
-        $request_key = explode(" ", $request->header('Authorization'))[1];
-        $arduino_key = Arduino::where('key', $request_key)->first();
+        $request_key = explode(' ', $request->header('Authorization'))[1];
+        $arduino = Arduino::where('key', $request_key)->first();
 
-        if (!$arduino_key) {
-            return response()->json(['error' => 'Arduino not found'], 404);
+        if (!$arduino) {
+            return response()->json(['error' => 'Unauthorized'], 404);
         }
 
         return $next($request);

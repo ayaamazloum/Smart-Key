@@ -6,7 +6,7 @@ use App\Http\Controllers\ArduinoController;
 use App\Http\Controllers\AuthController;
 
 Route::controller(ArduinoController::class)->group(function () {
-    Route::get('test', 'test');
+    Route::get('knockPattern', 'getKnockPattern');
 });
 
 Route::controller(AuthController::class)->group(function () {
