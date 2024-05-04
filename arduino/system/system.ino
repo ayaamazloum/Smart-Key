@@ -9,11 +9,10 @@ const char* password = "81713264";
 // MQTT broker settings
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
-const char* mqtt_username = "rw";
-const char* mqtt_password = "SMARTKEY@123";
 const char* door_topic_control = "door/control";
 // const char* knock_topic_control = "knock/setup";
 // const char* passcode_topic_control = "passcode/setup";
+
 const char* door_topic_status = "door/status";
 
 WiFiClient espClient;
@@ -29,6 +28,8 @@ void setup() {
   client.setCallback(callback);
   servo.attach(servoPin);
   pinMode(D4, OUTPUT);
+  servo.write(0);
+  digitalWrite(D4, LOW);
 }
 
 void loop() {
@@ -36,10 +37,6 @@ void loop() {
     reconnect();
   }
   client.loop();
-  publishDoorStatus("opened");
-  delay(2000);
-  publishDoorStatus("closed");
-  delay(2000);
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -53,20 +50,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
       servo.write(180);
       digitalWrite(D4, HIGH);
       publishDoorStatus("opened");
+      Serial.println("Door opened");
     } else if (message.equals("close")) {
       servo.write(0);
-      digitalWrite(D4, HIGH);
-      publishDoorStatus("closed");
+      digitalWrite(D4, LOW);
+      Serial.println("Door closed");
     }
   }
 }
 
 void publishDoorStatus(String doorStatus) {
-  // Publish the door status to the MQTT topic
   if (client.publish(door_topic_status, doorStatus.c_str())) {
-    Serial.println("Publish successful!");
+    Serial.println("Publish door status successful!");
   } else {
-    Serial.println("Publish failed :(");
+    Serial.println("Publish door status failed :(");
   }
 }
 
