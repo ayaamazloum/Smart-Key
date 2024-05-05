@@ -90,6 +90,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'arduino_id' => $arduino->id,
             'role_id' => $role->id,
+            'start_date' => $invitation-> start_date,
+            'end_date' => $invitation-> end_date,
         ]);
 
         Invitation::where('email', $request->email)->delete();
