@@ -12,6 +12,7 @@ Route::middleware('jwt.auth')->group(function () {
 
     Route::middleware('role:FamilyMember')->group(function () {
     });
+    Route::post('invite', [OwnerController::class, 'sendInvitation']);
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('refresh', [AuthController::class, 'refresh']);
@@ -23,6 +24,3 @@ Route::middleware('arduino')->group(function () {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-
-
-Route::post('invite', [OwnerController::class, 'sendInvitation']);

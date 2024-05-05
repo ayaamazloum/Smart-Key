@@ -22,7 +22,7 @@ class OwnerController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['status' => 'error', 'message' => 'The email has already been invited.'], 422);
         }
-
+        
         $request->validate([
             'type' => 'required|string',
         ]);
@@ -51,7 +51,7 @@ class OwnerController extends Controller
                 $invitation->start_date = $request->start_date;
             }
             if($request->end_date) {
-                $invitation->end_date = $end_date;
+                $invitation->end_date = $request->$end_date;
             }
             $invitation->save();
 
