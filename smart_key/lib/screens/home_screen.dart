@@ -164,15 +164,15 @@ class _HomeScreenState extends State<HomeScreen> {
       if (result['isSuccess']) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Image saved to gallery successfully',
-            style: TextStyle(fontSize: 12, color: primaryColor),
-          ),
-          backgroundColor: Colors.grey.shade200,
-          elevation: 30,
-        ),
-      );
+            SnackBar(
+              content: Text(
+                'Image saved to gallery successfully',
+                style: TextStyle(fontSize: 12, color: primaryColor),
+              ),
+              backgroundColor: Colors.grey.shade200,
+              elevation: 30,
+            ),
+          );
         }
       } else {
         logger.i('Failed to save image');
@@ -317,9 +317,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                         SizedBox(height: screenHeight(context) * 0.05),
-                        SizedBox(
+                        Container(
                             height: screenHeight(context) * 0.45,
                             width: screenWidth(context),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             child: Screenshot(
                               controller: screenshotController,
                               child: Mjpeg(
@@ -328,7 +331,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 error: (BuildContext context, dynamic error,
                                     dynamic stackTrace) {
                                   return Container(
-                                    color: Colors.grey,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
                                     child: Center(
                                       child: Text(
                                         'No stream found',
