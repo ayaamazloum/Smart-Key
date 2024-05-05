@@ -4,14 +4,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArduinoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OwnerController;
 
-Route::controller(ArduinoController::class)->group(function () {
-    Route::get('knockPattern', 'getKnockPattern');
+Route::middleware('jwt.auth')->group(function () {
+    Route::middleware('role:Owner')->group(function () {
+    });
+
+    Route::middleware('role:FamilyMember')->group(function () {
+    });
+
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('refresh', [AuthController::class, 'refresh']);
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('register', 'register');
-    Route::get('logout', 'logout');
-    Route::get('refresh', 'refresh');
+Route::middleware('arduino')->group(function () {
+    Route::get('knockPattern', [ArduinoController::class, 'getKnockPattern']);
 });
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+
+
+Route::post('invite', [OwnerController::class, 'sendInvitation']);

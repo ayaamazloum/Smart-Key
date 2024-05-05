@@ -7,11 +7,6 @@ use App\Models\Arduino;
 
 class ArduinoController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('arduino');
-    }
-
     public function getKnockPattern(Request $request, Arduino $arduino)
     {
         $request_key = explode(' ', $request->header('Authorization'))[1];
