@@ -16,7 +16,8 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final logger = Logger();
 
@@ -117,7 +118,7 @@ class SignupScreen extends StatelessWidget {
                       offset: Offset(0, -15),
                       child: Text(
                         'Sign up',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
                     SizedBox(
@@ -127,8 +128,8 @@ class SignupScreen extends StatelessWidget {
                       labelText: 'Full Name',
                       hintText: 'John Doe',
                       controller: _nameController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || !val.isValidName) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty || !value.isValidName) {
                           return 'Please enter your full name';
                         }
                         return null;
@@ -143,8 +144,8 @@ class SignupScreen extends StatelessWidget {
                       labelText: 'E-mail',
                       hintText: 'example@example.com',
                       controller: _emailController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || !val.isValidEmail) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty || !value.isValidEmail) {
                           return 'Please enter a valid email';
                         }
                         return null;
@@ -159,10 +160,10 @@ class SignupScreen extends StatelessWidget {
                       labelText: 'Password',
                       hintText: '********',
                       controller: _passwordController,
-                      validator: (val) {
-                        if (val == null ||
-                            val.isEmpty ||
-                            !val.isValidPassword) {
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidPassword) {
                           return 'Password must be at least 8 characters long';
                         }
                         return null;
@@ -177,11 +178,11 @@ class SignupScreen extends StatelessWidget {
                       labelText: 'Confirm Password',
                       hintText: '********',
                       controller: _confirmPasswordController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
                           return 'Please confirm your password';
                         }
-                        if (val != _passwordController.text) {
+                        if (value != _passwordController.text) {
                           return 'Passwords don\'t match';
                         }
                         return null;

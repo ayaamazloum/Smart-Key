@@ -8,15 +8,15 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
-const String mqttServer = 'test.mosquitto.org';
-const int mqttPort = 1883;
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+const String mqttServer = 'test.mosquitto.org';
+const int mqttPort = 1883;
 
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
@@ -306,9 +306,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     scale: 0.55,
                                     child: Switch(
                                       value: isHome!,
-                                      onChanged: (val) {
+                                      onChanged: (value) {
                                         setState(() {
-                                          isHome = val;
+                                          isHome = value;
                                         });
                                       },
                                       activeColor: primaryColor,

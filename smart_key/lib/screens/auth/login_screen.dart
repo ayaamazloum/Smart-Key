@@ -105,7 +105,7 @@ class LoginScreen extends StatelessWidget {
                       offset: Offset(0, -15),
                       child: Text(
                         'Log In',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
                     SizedBox(
@@ -115,8 +115,8 @@ class LoginScreen extends StatelessWidget {
                       labelText: 'E-mail',
                       hintText: 'example@example.com',
                       controller: _emailController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || !val.isValidEmail) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty || !value.isValidEmail) {
                           return 'Please enter a valid email';
                         }
                         return null;
@@ -131,8 +131,10 @@ class LoginScreen extends StatelessWidget {
                       labelText: 'Password',
                       hintText: '********',
                       controller: _passwordController,
-                      validator: (val) {
-                        if (val == null || val.isEmpty || !val.isValidPassword) {
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidPassword) {
                           return 'Please enter your password';
                         }
                         return null;
