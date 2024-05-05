@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
             errorMessage,
             style: TextStyle(fontSize: 12, color: Colors.red.shade800),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade200,
           elevation: 30,
         ),
       );
