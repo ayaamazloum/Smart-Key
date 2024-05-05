@@ -23,6 +23,11 @@ class OwnerController extends Controller
             return response()->json(['status' => 'error', 'message' => 'The email has already been invited.'], 422);
         }
         
+        $existingUser = User::where('email', $request->email)->exists();
+        if ($existingUser) {
+            return response()->json(['status' => 'error', 'message' => 'The email has already been registered.'], 422);
+        }
+
         $request->validate([
             'type' => 'required|string',
         ]);
