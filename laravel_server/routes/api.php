@@ -6,7 +6,7 @@ use App\Http\Controllers\ArduinoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OwnerController;
 
-Route::middleware('jwt.auth')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::middleware('role:Owner')->group(function () {
     });
 

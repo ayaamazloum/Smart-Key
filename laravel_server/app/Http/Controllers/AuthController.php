@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Invitation;
 use App\Models\MembersAtHome;
 use App\Models\Arduino;
 
@@ -31,7 +32,7 @@ class AuthController extends Controller
         $role = Role::where('role', 'owner')->first();
         
         if (!$role) {
-            return response()->json(['error' => 'Role not found'], 404);
+            return response()->json(['error' => 'Role not found.'], 404);
         }
 
         $user = Auth::user();
@@ -55,25 +56,32 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'key' => 'required|string',
             'password' => 'required|string|min:8',
         ]);
         
-        $email = User::where('email', $request->email)->first();
-        
-        if ($email) {
-            return response()->json(['error' => 'Email already exists'], 404);
+        $existingUser = User::where('email', $request->email)->first();
+        if ($existingUser) {
+            return response()->json(['error' => 'The email is already registered.'], 422);
         }
         
-        $role = Role::where('role', 'owner')->first();
+        $invitation = Invitation::where('email', $request->email)->first();
+        if (!$invitation) {
+            return response()->json(['error' => 'The email is not invited.'], 422);
+        }
+
+        if($request->key != $invitation->key) {
+            return response()->json(['error' => 'Incorrect invitation key.'], 404);
+        }
         
+        $role = Role::where('role', $invitation->type)->first();
         if (!$role) {
-            return response()->json(['error' => 'Role not found'], 404);
+            return response()->json(['error' => 'Role not found.'], 404);
         }
 
-        $arduino = Arduino::where('id', 1)->first();
-
+        $arduino = Arduino::where('id', $invitation->arduino_id)->first();
         if (!$arduino) {
-            return response()->json(['error' => 'Arduino not found'], 404);
+            return response()->json(['error' => 'Arduino not found.'], 404);
         }
 
         $user = User::create([
@@ -84,10 +92,12 @@ class AuthController extends Controller
             'role_id' => $role->id,
         ]);
 
+        Invitation::where('email', $request->email)->delete();
+
         $token = Auth::login($user);
         return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
+            'message' => 'User created successfully.',
             'user' => $user,
             'userType' => $role->role,
             'isHome' => false,
