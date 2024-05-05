@@ -37,6 +37,7 @@ class SignupScreen extends StatelessWidget {
       await preferences.setString('name', response['user']['name']);
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
+      await preferences.setInt('arduinoId', response['user']['arduino_id']);
       await preferences.setString('token', response['authorisation']['token']);
 
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(

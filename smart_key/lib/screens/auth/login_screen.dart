@@ -35,6 +35,7 @@ class LoginScreen extends StatelessWidget {
       await preferences.setString('profilePicture', response['user']['profile_picture']);
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
+      await preferences.setInt('arduinoId', response['user']['arduino_id']);
       await preferences.setString('token', response['authorisation']['token']);
 
       Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');

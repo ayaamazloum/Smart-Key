@@ -10,8 +10,6 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 const String mqttServer = 'test.mosquitto.org';
 const int mqttPort = 1883;
-const String doorControlTopic = 'door/control';
-const String doorStatusTopic = 'door/status';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,8 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
   String? firstName;
   String? profilePicture;
   String? userType;
+  bool? isHome;
+  int? arduinoId;
 
-  bool isHome = false;
+  String doorControlTopic = 'temp';
+  String doorStatusTopic = 'temp';
 
   late MqttServerClient client;
   String doorStatus = "closed";
@@ -40,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
     getUserData();
     connectToMqttBroker();
   }
@@ -54,8 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
       firstName = preferences.getString('name')!.split(' ')[0];
       profilePicture = preferences.getString('profilePicture');
       userType = preferences.getString('userType');
-      isHome = preferences.getBool('isHome')!;
-      logger.i(profilePicture);
+      isHome = preferences.getBool('isHome');
+      arduinoId = preferences.getInt('arduinoId');
+      doorControlTopic = 'arduino${arduinoId}toString()door/control';
+      doorStatusTopic = 'arduino${arduinoId}door/status';
       isLoading = false;
     });
   }
@@ -137,8 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return client;
   }
 
-  void publishMessage(String message) {
-    const pubTopic = doorControlTopic;
+  void publishMessage(String message, String pubTopic) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
 
@@ -304,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Transform.scale(
                                     scale: 0.55,
                                     child: Switch(
-                                      value: isHome,
+                                      value: isHome!,
                                       onChanged: (val) {
                                         setState(() {
                                           isHome = val;
@@ -359,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onPressed: () {
                                   publishMessage(doorStatus == 'opened'
                                       ? 'close'
-                                      : 'open');
+                                      : 'open', doorControlTopic);
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
