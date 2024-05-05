@@ -71,6 +71,11 @@ class _SmartKeyState extends State<SmartKey> {
             fontFamily: 'Niramit',
             fontSize: 18,
           ),
+          bodySmall: TextStyle(
+            color: secondaryColor,
+            fontFamily: 'Niramit',
+            fontSize: 14,
+          ),
         ),
         useMaterial3: true,
       ),
