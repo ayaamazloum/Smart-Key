@@ -37,6 +37,8 @@ dependencies:
   logger: ^1.0.0
   flutter_mjpeg: 
   mqtt_client: ^10.2.1
+  screenshot: ^2.3.0
+  image_gallery_saver: ^2.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

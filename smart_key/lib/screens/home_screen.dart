@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 const String mqttServer = 'test.mosquitto.org';
 const int mqttPort = 1883;
@@ -20,13 +22,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
-  late MqttServerClient client;
+
   bool isLoading = false;
   String? firstName;
   String? profilePicture;
   String? userType;
+
   bool isHome = false;
+
+  late MqttServerClient client;
   String doorStatus = "closed";
+
+  ScreenshotController screenshotController = ScreenshotController();
 
   final logger = Logger();
 
@@ -151,6 +158,30 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void captureAndSaveImage() {
+    screenshotController.capture().then((image) async {
+      final result = await ImageGallerySaver.saveImage(image!);
+      if (result['isSuccess']) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Image saved to gallery successfully',
+            style: TextStyle(fontSize: 12, color: primaryColor),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+        }
+      } else {
+        logger.i('Failed to save image');
+      }
+    }).catchError((onError) {
+      logger.i(onError);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.only(
                         left: screenWidth(context) * 0.05,
                         right: screenWidth(context) * 0.05,
-                        top: screenHeight(context) * 0.05),
+                        top: screenHeight(context) * 0.04),
                     child: ListView(
                       children: [
                         Row(
@@ -211,6 +242,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       loadingProgress
                                                           .expectedTotalBytes!
                                                   : null,
+                                            );
+                                          },
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            // Return a fallback widget or message when image fails to load
+                                            return Icon(
+                                              Icons.person_2,
+                                              color: secondaryColor,
                                             );
                                           },
                                         ),
@@ -281,9 +320,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                             height: screenHeight(context) * 0.45,
                             width: screenWidth(context),
-                            child: Mjpeg(
-                              stream: 'http://192.168.1.17:81/stream',
-                              isLive: true,
+                            child: Screenshot(
+                              controller: screenshotController,
+                              child: Mjpeg(
+                                stream: 'http://192.168.1.17:81/stream',
+                                isLive: true,
+                                error: (BuildContext context, dynamic error,
+                                    dynamic stackTrace) {
+                                  return Container(
+                                    color: Colors.grey,
+                                    child: Center(
+                                      child: Text(
+                                        'No stream found',
+                                        style: TextStyle(
+                                          color: Colors
+                                              .white, // Example: Text color when error occurs
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             )),
                         SizedBox(height: screenHeight(context) * 0.05),
                         Row(
@@ -307,8 +364,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return buttonPressColor;
                                     }
                                     return doorStatus == 'opened'
-                                          ? tertiaryColor
-                                          : primaryColor;
+                                        ? tertiaryColor
+                                        : primaryColor;
                                   }),
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -349,7 +406,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: screenWidth(context) * 0.25,
                               width: screenWidth(context) * 0.25,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  captureAndSaveImage();
+                                },
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.resolveWith<Color>(
