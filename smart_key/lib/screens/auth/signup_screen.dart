@@ -15,6 +15,7 @@ class SignupScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _keyController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -25,10 +26,9 @@ class SignupScreen extends StatelessWidget {
     final data = {
       'name': _nameController.text.toString(),
       'email': _emailController.text.toString(),
+      'key': _keyController.text.toString(),
       'password': _passwordController.text.toString(),
     };
-
-    logger.i(data.toString());
 
     final result = await API().postRequest(route: '/register', data: data);
     final response = jsonDecode(result.body);
@@ -152,6 +152,22 @@ class SignupScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       textInputType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(
+                      height: screenHeight(context) * 0.025,
+                    ),
+                    MyTextField(
+                      labelText: 'Invitation Key',
+                      hintText: '--------',
+                      controller: _keyController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your key';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      textInputType: TextInputType.text,
                     ),
                     SizedBox(
                       height: screenHeight(context) * 0.025,

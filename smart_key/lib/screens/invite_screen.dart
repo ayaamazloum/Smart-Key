@@ -93,10 +93,10 @@ class _InviteScreenState extends State<InviteScreen> {
     final data = {
       'email': _emailController.text.toString(),
       'type': selectedType,
-      if(selectedType == 'guest')
+      if (selectedType == 'guest')
         'start_date':
             '${startDate.toString().substring(0, 10)} ${startTime.toString().substring(10, 15)}:00',
-      if(selectedType == 'guest')
+      if (selectedType == 'guest')
         'end_date':
             '${endDate.toString().substring(0, 10)} ${endTime.toString().substring(10, 15)}:00',
     };

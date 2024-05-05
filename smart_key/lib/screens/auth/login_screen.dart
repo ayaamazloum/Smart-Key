@@ -34,7 +34,10 @@ class LoginScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
-      await preferences.setString('profilePicture', response['user']['profile_picture']);
+      if (response['user']['profile_picture'] != null) {
+        await preferences.setString(
+            'profilePicture', response['user']['profile_picture']);
+      }
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
@@ -118,7 +121,9 @@ class LoginScreen extends StatelessWidget {
                       hintText: 'example@example.com',
                       controller: _emailController,
                       validator: (value) {
-                        if (value == null || value.isEmpty || !value.isValidEmail) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidEmail) {
                           return 'Please enter a valid email';
                         }
                         return null;
