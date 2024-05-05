@@ -9,11 +9,11 @@ const char* password = "81713264";
 // MQTT broker settings
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
-const char* door_topic_control = "door/control";
-// const char* knock_topic_control = "knock/setup";
-// const char* passcode_topic_control = "passcode/setup";
+const char* door_topic_control = "arduino1door/control";
+// const char* knock_topic_control = "arduino1knock/setup";
+// const char* passcode_topic_control = "arduino1passcode/setup";
 
-const char* door_topic_status = "door/status";
+const char* door_topic_status = "arduino1door/status";
 
 WiFiClient espClient;
 PubSubClient client(espClient); 
