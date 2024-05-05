@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/utils/constants.dart';
 import '../screens/home_screen.dart';
-import '../screens/invite_screen.dart';
-import '../screens/logs_screen.dart';
 import '../screens/settings_screen.dart';
 
-class NavigationMenu extends StatefulWidget {
-  const NavigationMenu({super.key});
+class GuestNavigationMenu extends StatefulWidget {
+  const GuestNavigationMenu({super.key});
 
   @override
-  State<NavigationMenu> createState() => NavigationMenuState();
+  State<GuestNavigationMenu> createState() => GuestNavigationMenuState();
 }
 
-class NavigationMenuState extends State<NavigationMenu> {
+class GuestNavigationMenuState extends State<GuestNavigationMenu> {
   int selectedIndex = 0;
 
   final List<Widget> screens = [
     HomeScreen(),
-    InviteScreen(),
-    LogsScreen(),
     SettingsScreen(),
   ];
 
@@ -58,10 +54,6 @@ class NavigationMenuState extends State<NavigationMenu> {
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined), label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.group_add_outlined), label: 'Invite'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list_alt_outlined), label: 'Logs'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.settings_outlined), label: 'Settings'),
             ],

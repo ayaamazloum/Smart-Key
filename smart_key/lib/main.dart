@@ -5,6 +5,7 @@ import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/widgets/guest_navigation_menu.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class SmartKey extends StatefulWidget {
 class _SmartKeyState extends State<SmartKey> {
   late SharedPreferences preferences;
   bool isLoading = false;
+  String? userType;
   bool isAuth = false;
 
   @override
@@ -32,6 +34,7 @@ class _SmartKeyState extends State<SmartKey> {
   void checkAuth() async {
     preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('token');
+    userType = preferences.getString('userType');
     setState(() {
       isAuth = token != null;
   });
@@ -79,12 +82,12 @@ class _SmartKeyState extends State<SmartKey> {
         ),
         useMaterial3: true,
       ),
-      home: isAuth ? NavigationMenu() : LoginScreen(),
+      home: isAuth ? userType == 'guest' ? GuestNavigationMenu() : NavigationMenu() : LoginScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
-        '/home': (context) => NavigationMenu(),
+        '/home': (context) => userType == 'guest' ? GuestNavigationMenu() : NavigationMenu(),
         '/notifications': (context) => NotificationsScreen(),
         '/homeMembers': (context) => HomeMembersScreen(),
       },
