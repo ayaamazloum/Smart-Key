@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('key');
             $table->foreignId('arduino_id')->constrained()->onDelete('cascade');
             $table->timestamps();
