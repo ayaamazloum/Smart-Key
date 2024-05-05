@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
 import 'package:smart_key/utils/input_methods.dart';
@@ -15,10 +19,11 @@ class InviteScreen extends StatefulWidget {
 List<String> invitationTypes = ['family_member', 'guest'];
 
 class _InviteScreenState extends State<InviteScreen> {
-  String selectedType = invitationTypes[0];
+  late SharedPreferences preferences;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  String selectedType = invitationTypes[0];
 
   final logger = Logger();
 
@@ -26,6 +31,11 @@ class _InviteScreenState extends State<InviteScreen> {
   TimeOfDay startTime = TimeOfDay.now();
   DateTime endDate = DateTime.now();
   TimeOfDay endTime = TimeOfDay.now();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> selectStartDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -79,7 +89,46 @@ class _InviteScreenState extends State<InviteScreen> {
     }
   }
 
-  void sendInvitation() {}
+  void sendInvitation() async {
+    final data = {
+      'email': _emailController.text.toString(),
+      'type': selectedType,
+      if(selectedType == 'guest')
+        'start_date':
+            '${startDate.toString().substring(0, 10)} ${startTime.toString().substring(10, 15)}:00',
+      if(selectedType == 'guest')
+        'end_date':
+            '${endDate.toString().substring(0, 10)} ${endTime.toString().substring(10, 15)}:00',
+    };
+
+    final result = await API().postRequest(route: '/invite', data: data);
+    final response = jsonDecode(result.body);
+
+    if (response['status'] == 'success') {
+      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Invitation sent successfully.',
+            style: TextStyle(fontSize: 12, color: primaryColor),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,62 +202,66 @@ class _InviteScreenState extends State<InviteScreen> {
                   ),
                 ),
                 SizedBox(height: screenHeight(context) * 0.03),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => selectStartDate(context),
-                      child: Text('Start Date'),
-                    ),
-                    SizedBox(width: screenWidth(context) * 0.05),
-                    Text(
-                      startDate.toString().substring(0, 10),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                SizedBox(height: screenHeight(context) * 0.005),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => selectStartTime(context),
-                      child: Text('Start Time'),
-                    ),
-                    SizedBox(width: screenWidth(context) * 0.05),
-                    Text(
-                      startTime.toString().substring(10, 15),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                SizedBox(height: screenHeight(context) * 0.005),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => selectEndDate(context),
-                      child: Text('End Date'),
-                    ),
-                    SizedBox(width: screenWidth(context) * 0.05),
-                    Text(
-                      endDate.toString().substring(0, 10),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                SizedBox(height: screenHeight(context) * 0.005),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => selectEndTime(context),
-                      child: Text('End Time'),
-                    ),
-                    SizedBox(width: screenWidth(context) * 0.05),
-                    Text(
-                      endTime.toString().substring(10, 15),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                SizedBox(height: screenHeight(context) * 0.05),
+                selectedType == 'family_member'
+                    ? SizedBox(height: 0)
+                    : Column(children: [
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => selectStartDate(context),
+                              child: Text('Start Date'),
+                            ),
+                            SizedBox(width: screenWidth(context) * 0.05),
+                            Text(
+                              startDate.toString().substring(0, 10),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(height: screenHeight(context) * 0.005),
+                            ElevatedButton(
+                              onPressed: () => selectStartTime(context),
+                              child: Text('Start Time'),
+                            ),
+                            SizedBox(width: screenWidth(context) * 0.05),
+                            Text(
+                              startTime.toString().substring(10, 15),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight(context) * 0.005),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => selectEndDate(context),
+                              child: Text('End Date'),
+                            ),
+                            SizedBox(width: screenWidth(context) * 0.05),
+                            Text(
+                              endDate.toString().substring(0, 10),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight(context) * 0.005),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => selectEndTime(context),
+                              child: Text('End Time'),
+                            ),
+                            SizedBox(width: screenWidth(context) * 0.05),
+                            Text(
+                              endTime.toString().substring(10, 15),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight(context) * 0.05),
+                      ]),
                 MyTextField(
                     labelText: 'E-mail',
                     hintText: 'example@example.com',

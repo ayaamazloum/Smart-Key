@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     connectToMqttBroker();
   }
 
-  void getUserData() async {
+  Future<dynamic> getUserData() async {
     setState(() {
       isLoading = true;
     });

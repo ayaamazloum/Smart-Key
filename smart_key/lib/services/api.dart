@@ -11,8 +11,7 @@ class API {
         'Accept': 'application/json',
       };
 
-  postRequest(
-      {required String route, required Map<String, dynamic> data}) async {
+  postRequest( {required String route, required Map<String, dynamic> data}) async {
     String url = apiUrl + route;
 
     try {

@@ -29,6 +29,8 @@ class LoginScreen extends StatelessWidget {
     final result = await API().postRequest(route: '/login', data: data);
     final response = jsonDecode(result.body);
 
+    logger.i(response);
+
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);

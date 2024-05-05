@@ -45,7 +45,7 @@ class SignupScreen extends StatelessWidget {
         SnackBar(
           content: Text(
             'Signed up successfully, welcome.',
-            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+            style: TextStyle(fontSize: 12, color: primaryColor),
           ),
           backgroundColor: Colors.grey.shade200,
           elevation: 30,
@@ -62,7 +62,7 @@ class SignupScreen extends StatelessWidget {
             errorMessage,
             style: TextStyle(fontSize: 12, color: Colors.red.shade800),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade200,
           elevation: 30,
         ),
       );
