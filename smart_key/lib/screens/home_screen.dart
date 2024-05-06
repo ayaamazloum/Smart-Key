@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       userType = preferences.getString('userType');
       isHome = preferences.getBool('isHome');
       arduinoId = preferences.getInt('arduinoId');
-      doorControlTopic = 'arduino${arduinoId}toString()door/control';
+      doorControlTopic = 'arduino${arduinoId}door/control';
       doorStatusTopic = 'arduino${arduinoId}door/status';
       isLoading = false;
     });
@@ -142,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void publishMessage(String message, String pubTopic) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-
     if (client.connectionStatus?.state == MqttConnectionState.connected) {
       client.publishMessage(pubTopic, MqttQos.atLeastOnce, builder.payload!);
     }
@@ -358,9 +357,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: screenWidth(context) * 0.25,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  publishMessage(doorStatus == 'opened'
-                                      ? 'close'
-                                      : 'open', doorControlTopic);
+                                  publishMessage(
+                                      doorStatus == 'opened' ? 'close' : 'open',
+                                      doorControlTopic);
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
