@@ -7,7 +7,7 @@
 
 > An IoT door lock system empowers homeowners to remotely control their property's door via a mobile app.
 >
-> It provides multiple secure methods for users to unlock the door, including knock pattern, fingerprint scanning, passcode authentication.
+> It provides multiple secure methods for users to unlock the door, including secret knock pattern, fingerprint scanning, passcode authentication.
 >
 > Additionally, users can conveniently operate the door from anywhere through the mobile app interface, as well as by accessing the associated camera on the door.
 >
