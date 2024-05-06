@@ -23,13 +23,15 @@ const int servoPin = D1;
 
 void setup() {
   Serial.begin(115200);
+
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
+  
   servo.attach(servoPin);
   pinMode(D4, OUTPUT);
-  servo.write(0);
-  digitalWrite(D4, LOW);
+  
+  closeDoor();
 }
 
 void loop() {
@@ -47,16 +49,25 @@ void callback(char* topic, byte* payload, unsigned int length) {
   
   if (strcmp(topic, door_topic_control) == 0) {
     if (message.equals("open")) {
-      servo.write(180);
-      digitalWrite(D4, HIGH);
-      publishDoorStatus("opened");
-      Serial.println("Door opened");
+      openDoor();
     } else if (message.equals("close")) {
-      servo.write(0);
-      digitalWrite(D4, LOW);
-      Serial.println("Door closed");
+      closeDoor();
     }
   }
+}
+
+void openDoor() {
+  servo.write(180);
+  digitalWrite(D4, HIGH);
+  publishDoorStatus("opened");
+  Serial.println("Door opened");
+}
+
+void closeDoor() {
+  servo.write(0);
+  digitalWrite(D4, LOW);
+  publishDoorStatus("closed");
+  Serial.println("Door closed");
 }
 
 void publishDoorStatus(String doorStatus) {
