@@ -2,11 +2,9 @@
 #include <PubSubClient.h>
 #include <Servo.h>
 
-// WiFi settings
 const char* ssid = "TP-Link_C1D0";
 const char* password = "81713264";
 
-// MQTT broker settings
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
 const char* door_topic_control = "arduino1door/control";
@@ -19,8 +17,10 @@ WiFiClient espClient;
 PubSubClient client(espClient); 
 
 Servo servo;
-const int servoPin = D1;
-#define lock D0
+const int servoPin = D4;
+#define lock D1
+#define bell D2
+#define bellButton D3
 
 void setup() {
   Serial.begin(115200);
@@ -30,8 +30,9 @@ void setup() {
   client.setCallback(callback);
   
   servo.attach(servoPin);
-  pinMode(D4, OUTPUT);
   pinMode(lock, OUTPUT);
+  pinMode(bell, OUTPUT);
+  pinMode(bellButton, INPUT_PULLUP);
   
   closeDoor();
 }
@@ -41,22 +42,34 @@ void loop() {
     reconnect();
   }
   client.loop();
+
+  if (digitalRead(bellButton) == LOW) {
+    ringBell();
+  }
+}
+
+void ringBell() {
+  tone(bell, 1500, 700);
 }
 
 void openDoor() {
-  digitalWrite(lock, LOW);
+  digitalWrite(lock, HIGH);
   servo.write(180);
   digitalWrite(D4, HIGH);
   publishDoorStatus("opened");
   Serial.println("Door opened");
+  tone(bell, 2500, 400);
+  delay(100);
+  tone(bell, 4500, 500);
 }
 
 void closeDoor() {
-  digitalWrite(lock, HIGH);
+  digitalWrite(lock, LOW);
   servo.write(0);
   digitalWrite(D4, LOW);
   publishDoorStatus("closed");
   Serial.println("Door closed");
+  tone(bell, 200, 400);
 }
 
 void publishDoorStatus(String doorStatus) {
