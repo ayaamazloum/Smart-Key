@@ -1,6 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <Servo.h>
+#include <Adafruit_Fingerprint.h>
 
 const char* ssid = "TP-Link_C1D0";
 const char* password = "81713264";
@@ -25,6 +26,9 @@ const int servoPin = D4;
 #define openDoorButton D5
 #define closeDoorButton D6
 
+SoftwareSerial mySerial(D7, D8);
+Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
+
 void setup() {
   Serial.begin(115200);
 
@@ -40,6 +44,7 @@ void setup() {
   pinMode(openDoorButton, INPUT_PULLUP);
   pinMode(closeDoorButton, INPUT_PULLUP);
   
+  setupFingerprintSensor();
   closeDoor();
 }
 
@@ -48,6 +53,8 @@ void loop() {
     reconnect();
   }
   client.loop();
+
+  getFingerprintID();
 
   if (digitalRead(bellButton) == LOW) {
     ringBell();
@@ -92,6 +99,37 @@ void publishDoorStatus(String doorStatus) {
   } else {
     Serial.println("Publish door status failed :(");
   }
+}
+
+void setupFingerprintSensor() {
+  finger.begin(57600);
+  delay(5);
+  if (finger.verifyPassword()) {
+    Serial.println("Found fingerprint sensor!");
+  }
+  else {
+    Serial.println("Did not find fingerprint sensor :(");
+    while (1) { delay(1); }
+  }
+  finger.getTemplateCount();
+  Serial.print("Sensor contains "); Serial.print(finger.templateCount); Serial.println(" templates");
+}
+
+int getFingerprintID() {
+  uint8_t p = finger.getImage();
+  if (p != FINGERPRINT_OK)  return -1;
+
+  p = finger.image2Tz();
+  if (p != FINGERPRINT_OK)  return -1;
+
+  p = finger.fingerFastSearch();
+  if (p != FINGERPRINT_OK)  return -1;
+
+  openDoor();
+  
+  Serial.print("Found ID #"); Serial.print(finger.fingerID); 
+  Serial.print(" with confidence of "); Serial.println(finger.confidence);
+  return finger.fingerID; 
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
