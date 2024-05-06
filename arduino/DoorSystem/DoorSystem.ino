@@ -25,6 +25,13 @@ const int servoPin = D4;
 #define bellButton D3
 #define openDoorButton D5
 #define closeDoorButton D6
+#define knockCheckButton D0
+#define knockSensor A0
+
+bool isOpened = false;
+int knockInputTime = 12000;
+int knockSensitivity = 75;
+String knockPattern = "11011011";
 
 SoftwareSerial mySerial(D7, D8);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
@@ -43,6 +50,8 @@ void setup() {
   pinMode(bellButton, INPUT_PULLUP);
   pinMode(openDoorButton, INPUT_PULLUP);
   pinMode(closeDoorButton, INPUT_PULLUP);
+  pinMode(knockCheckButton, INPUT_PULLUP);
+  pinMode(knockSensor, INPUT);
   
   setupFingerprintSensor();
   closeDoor();
@@ -55,18 +64,13 @@ void loop() {
   client.loop();
 
   getFingerprintID();
-
-  if (digitalRead(bellButton) == LOW) {
-    ringBell();
+  if(digitalRead(knockCheckButton) == LOW && !isOpened) {
+    checkKnock();
   }
 
-  if (digitalRead(openDoorButton) == LOW) {
-    openDoor();
-  }
-
-  if (digitalRead(closeDoorButton) == LOW) {
-    closeDoor();
-  }
+  if (digitalRead(bellButton) == LOW) {ringBell();}
+  if (digitalRead(openDoorButton) == LOW) {openDoor();}
+  if (digitalRead(closeDoorButton) == LOW) {closeDoor();}
 }
 
 void ringBell() {
@@ -78,6 +82,7 @@ void openDoor() {
   servo.write(180);
   digitalWrite(flashLed, LOW);
   publishDoorStatus("opened");
+  isOpened = true;
   Serial.println("Door opened");
   tone(bell, 2500, 400);
   delay(100);
@@ -89,6 +94,7 @@ void closeDoor() {
   servo.write(0);
   digitalWrite(flashLed, HIGH);
   publishDoorStatus("closed");
+  isOpened = false;
   Serial.println("Door closed");
   tone(bell, 200, 400);
 }
@@ -98,6 +104,48 @@ void publishDoorStatus(String doorStatus) {
     Serial.println("Publish door status successful!");
   } else {
     Serial.println("Publish door status failed :(");
+  }
+}
+
+void checkKnock() {
+  long startTime;
+  int sound;
+  int i = 0;
+  int knockLength = knockPattern.length();
+  long inputSlots[6];
+  String inputPattern = "";
+
+  Serial.println("Start Recording...");
+  startTime = millis();
+  while (millis() < (startTime + knockInputTime)) {
+    sound = analogRead(knockSensor);
+    if (sound > knockSensitivity) {
+      Serial.println(sound);
+      delay(10);
+      inputSlots[i] = millis() - startTime;
+      Serial.println(inputSlots[i]);
+      i++;
+      if (i >= 6)
+        break;
+    }
+  }
+  Serial.println("Stop");
+
+  inputPattern.concat("1");
+  for (int j = 0; j < 5; j++) {
+    if (inputSlots[j + 1] - inputSlots[j] < 1000)
+      inputPattern.concat("1");
+    else
+      inputPattern.concat("01");
+  }
+  delay(100);
+  Serial.print(inputPattern);
+
+  if (inputPattern == knockPattern) {
+    Serial.println("Valid knock!");
+    openDoor();
+  } else {
+    Serial.println("Invalid knock :(");
   }
 }
 
