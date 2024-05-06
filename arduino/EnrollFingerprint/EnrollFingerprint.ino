@@ -23,16 +23,6 @@ void setup()
   }
 }
 
-uint8_t readnumber(void) {
-  uint8_t num = 0;
-  
-  while (num == 0) {
-    while (! Serial.available());
-    num = Serial.parseInt();
-  }
-  return num;
-}
-
 void loop()                     
 {
   Serial.println("Ready to enroll a fingerprint!");
@@ -44,7 +34,17 @@ void loop()
   Serial.print("Enrolling ID #");
   Serial.println(id);
   
-  while (!  getFingerprintEnroll() );
+  while (!getFingerprintEnroll());
+}
+
+uint8_t readnumber(void) {
+  uint8_t num = 0;
+  
+  while (num == 0) {
+    while (! Serial.available());
+    num = Serial.parseInt();
+  }
+  return num;
 }
 
 uint8_t getFingerprintEnroll() {
@@ -169,6 +169,7 @@ uint8_t getFingerprintEnroll() {
   p = finger.storeModel(id);
   if (p == FINGERPRINT_OK) {
     Serial.println("Stored!");
+    return true;
   } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
     Serial.println("Communication error");
     return p;
@@ -182,6 +183,4 @@ uint8_t getFingerprintEnroll() {
     Serial.println("Unknown error");
     return p;
   }
-
-  return p;
 }
