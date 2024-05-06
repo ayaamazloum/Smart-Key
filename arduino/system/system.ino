@@ -20,6 +20,7 @@ PubSubClient client(espClient);
 
 Servo servo;
 const int servoPin = D1;
+#define lock D0
 
 void setup() {
   Serial.begin(115200);
@@ -30,6 +31,7 @@ void setup() {
   
   servo.attach(servoPin);
   pinMode(D4, OUTPUT);
+  pinMode(lock, OUTPUT);
   
   closeDoor();
 }
@@ -39,6 +41,30 @@ void loop() {
     reconnect();
   }
   client.loop();
+}
+
+void openDoor() {
+  digitalWrite(lock, LOW);
+  servo.write(180);
+  digitalWrite(D4, HIGH);
+  publishDoorStatus("opened");
+  Serial.println("Door opened");
+}
+
+void closeDoor() {
+  digitalWrite(lock, HIGH);
+  servo.write(0);
+  digitalWrite(D4, LOW);
+  publishDoorStatus("closed");
+  Serial.println("Door closed");
+}
+
+void publishDoorStatus(String doorStatus) {
+  if (client.publish(door_topic_status, doorStatus.c_str())) {
+    Serial.println("Publish door status successful!");
+  } else {
+    Serial.println("Publish door status failed :(");
+  }
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -53,28 +79,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
     } else if (message.equals("close")) {
       closeDoor();
     }
-  }
-}
-
-void openDoor() {
-  servo.write(180);
-  digitalWrite(D4, HIGH);
-  publishDoorStatus("opened");
-  Serial.println("Door opened");
-}
-
-void closeDoor() {
-  servo.write(0);
-  digitalWrite(D4, LOW);
-  publishDoorStatus("closed");
-  Serial.println("Door closed");
-}
-
-void publishDoorStatus(String doorStatus) {
-  if (client.publish(door_topic_status, doorStatus.c_str())) {
-    Serial.println("Publish door status successful!");
-  } else {
-    Serial.println("Publish door status failed :(");
   }
 }
 
