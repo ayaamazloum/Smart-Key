@@ -7,12 +7,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OwnerController;
 
 Route::middleware('auth')->group(function () {
-    Route::middleware('role:Owner')->group(function () {
+    Route::middleware('role:owner')->group(function () {
+        Route::post('invite', [OwnerController::class, 'sendInvitation']);
     });
 
-    Route::middleware('role:FamilyMember')->group(function () {
+    Route::middleware('role:family_member')->group(function () {
+        Route::post('invite', [OwnerController::class, 'sendInvitation']);
     });
-    Route::post('invite', [OwnerController::class, 'sendInvitation']);
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('refresh', [AuthController::class, 'refresh']);
