@@ -142,8 +142,37 @@ void checkKnock() {
     Serial.println("Valid knock!");
     openDoor();
   } else {
+    log("Invalid knock");
     Serial.println("Invalid knock :(");
   }
+}
+
+void log(String text) {
+  WiFiClient client;
+  HTTPClient http;
+  String apiUrl = serverUrl + "/arduinoLog";
+  
+  http.begin(client, apiUrl);
+  http.addHeader("Authorization", authorizationKey);
+  http.addHeader("Content-Type", "application/json");
+
+  const size_t capacity = JSON_OBJECT_SIZE(1);
+  DynamicJsonDocument jsonDoc(capacity);
+  jsonDoc["log"] = text;
+
+  String jsonString;
+  serializeJson(jsonDoc, jsonString);
+
+  int httpCode = http.POST(jsonString);
+
+  if (httpCode == HTTP_CODE_OK) {
+    String response = http.getString();
+    Serial.println(response);
+  } else {
+    Serial.printf("Error posting to API: %d\n", httpCode);
+  }
+
+  http.end();
 }
 
 void fetchKnockPattern() {
