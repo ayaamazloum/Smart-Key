@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
@@ -184,6 +187,45 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void markHome() async {
+    if (isHome!) {
+      return;
+    } else {
+      final result = await API(context: context)
+          .sendRequest(route: '/markHome', method: 'get');
+      final response = jsonDecode(result.body);
+
+      if (response['status'] == 'success') {
+        setState(() {
+          isHome = true;
+        });
+        await preferences.setBool('isHome', true);
+
+        showSnackbar('Marked as home successfully!', primaryColor);
+      } else {
+        logger.i(response);
+        final errorMessage = response['message'];
+        showSnackbar(errorMessage, Colors.red.shade800);
+      }
+    }
+  }
+
+  void showSnackbar(
+    text,
+    color,
+  ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: TextStyle(fontSize: 12, color: color),
+        ),
+        backgroundColor: Colors.grey.shade200,
+        elevation: 30,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -283,9 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Switch(
                                       value: isHome!,
                                       onChanged: (value) {
-                                        setState(() {
-                                          isHome = value;
-                                        });
+                                        markHome();
                                       },
                                       activeColor: primaryColor,
                                       inactiveThumbColor: Colors.grey,
