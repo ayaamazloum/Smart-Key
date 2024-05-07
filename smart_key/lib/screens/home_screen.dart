@@ -7,6 +7,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:smart_key/widgets/profile_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -225,34 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       child: ClipOval(
-                                        child: Image.network(
-                                          '$serverImagesUrl/${preferences.getString('profilePicture')}',
-                                          width: screenWidth(context) * 0.2,
-                                          loadingBuilder: (context, child,
-                                              loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return CircularProgressIndicator(
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            );
-                                          },
-                                          errorBuilder:
-                                              (context, error, stackTrace) {
-                                            // Return a fallback widget or message when image fails to load
-                                            return Icon(
-                                              Icons.person_2,
-                                              color: secondaryColor,
-                                            );
-                                          },
-                                        ),
+                                        child: ProfileImage(imageUrl: '$serverImagesUrl/${preferences.getString('profilePicture')}'),
                                       ),
                                     ),
                                   ),
@@ -326,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Screenshot(
                               controller: screenshotController,
                               child: Mjpeg(
-                                stream: 'http://192.168.1.17:81/stream',
+                                stream: 'http://192.168.1.5:81/stream',
                                 isLive: true,
                                 error: (BuildContext context, dynamic error,
                                     dynamic stackTrace) {
