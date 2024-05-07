@@ -144,11 +144,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return client;
   }
 
-  void publishMessage(String message, String pubTopic) {
+  void publishMessage(String message, String pubTopic) async {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
     if (client.connectionStatus?.state == MqttConnectionState.connected) {
       client.publishMessage(pubTopic, MqttQos.atLeastOnce, builder.payload!);
+
+      final data = {
+        'log': '${message}ed the door via app',
+      };
+      final result = await API(context: context)
+          .sendRequest(route: '/log', method: 'post', data: data);
+      final response = jsonDecode(result.body);
+      logger.i(response['message']);
     }
   }
 
