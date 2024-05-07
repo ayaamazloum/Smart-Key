@@ -29,12 +29,6 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
-        
-        $role = Role::where('role', 'owner')->first();
-        
-        if (!$role) {
-            return response()->json(['status' => 'error', 'message' => 'Role not found.'], 404);
-        }
 
         $user = Auth::user();
 
@@ -43,7 +37,7 @@ class AuthController extends Controller
         return response()->json([
                 'status' => 'success',
                 'user' => $user,
-                'userType' => $role->role,
+                'userType' => $user->role->role,
                 'isHome' => !$isHome ? false : true,
                 'authorisation' => [
                     'token' => $token,
