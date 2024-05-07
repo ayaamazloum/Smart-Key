@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class CheckAccountExpiry
 {
@@ -18,12 +20,13 @@ class CheckAccountExpiry
         $user = Auth::user();
         if($user->role->role === 'guest') {
             $now = Carbon::now();
+            $carbonEndDate = Carbon::parse($user->end_date);
 
-            if (!$user->end_date > $now) {
+            if($now->gt($carbonEndDate)) {
                 Auth::logout();
                 $user->delete();
 
-                return response()->json(['error' => 'Invitation expired.'], 401);
+                return response()->json(['status' => 'error', 'message' => 'Invitation expired.'], 401);
             }
         }
         return $next($request);

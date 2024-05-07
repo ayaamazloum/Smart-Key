@@ -26,14 +26,14 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Unauthorized',
+                'message' => 'Unauthorized',
             ], 401);
         }
         
         $role = Role::where('role', 'owner')->first();
         
         if (!$role) {
-            return response()->json(['error' => 'Role not found.'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Role not found.'], 404);
         }
 
         $user = Auth::user();
@@ -63,31 +63,31 @@ class AuthController extends Controller
         
         $existingUser = User::where('email', $request->email)->first();
         if ($existingUser) {
-            return response()->json(['error' => 'The email is already registered.'], 422);
+            return response()->json(['status' => 'error', 'message' => 'The email is already registered.'], 422);
         }
         
         $invitation = Invitation::where('email', $request->email)->first();
         if (!$invitation) {
-            return response()->json(['error' => 'The email is not invited.'], 422);
+            return response()->json(['status' => 'error', 'message' => 'The email is not invited.'], 422);
         }
 
         $now = Carbon::now();
         if($invitation->start_date > $now) {
-            return response()->json(['error' => 'Cannot register before invitation start date.'], 422);
+            return response()->json(['status' => 'error', 'message' => 'Cannot register before invitation start date.'], 422);
         }
 
         if($request->key != $invitation->key) {
-            return response()->json(['error' => 'Incorrect invitation key.'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Incorrect invitation key.'], 404);
         }
         
         $role = Role::where('role', $invitation->type)->first();
         if (!$role) {
-            return response()->json(['error' => 'Role not found.'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Role not found.'], 404);
         }
 
         $arduino = Arduino::where('id', $invitation->arduino_id)->first();
         if (!$arduino) {
-            return response()->json(['error' => 'Arduino not found.'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Arduino not found.'], 404);
         }
 
         $user = User::create([

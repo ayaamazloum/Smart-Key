@@ -20,7 +20,7 @@ class AuthenticateArduino
         $arduino = Arduino::where('key', $request_key)->first();
 
         if (!$arduino) {
-            return response()->json(['error' => 'Unauthorized'], 404);
+            return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 404);
         }
 
         return $next($request);
