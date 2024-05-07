@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
             Route::get('markNotHome', [HomeController::class, 'markNotHome']);
         });
         
+        Route::post('log', [HomeController::class, 'log']);
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('refresh', [AuthController::class, 'refresh']);
     });
