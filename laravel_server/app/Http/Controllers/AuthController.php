@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\Invitation;
 use App\Models\MembersAtHome;
 use App\Models\Arduino;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -68,6 +69,11 @@ class AuthController extends Controller
         $invitation = Invitation::where('email', $request->email)->first();
         if (!$invitation) {
             return response()->json(['error' => 'The email is not invited.'], 422);
+        }
+
+        $now = Carbon::now();
+        if($invitation->start_date > $now) {
+            return response()->json(['error' => 'Cannot register before invitation start date.'], 422);
         }
 
         if($request->key != $invitation->key) {
