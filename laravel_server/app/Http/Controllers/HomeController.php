@@ -22,4 +22,15 @@ class HomeController extends Controller
             'message' => 'Marked as home successfully.',
         ]);
     }
+
+    public function markNotHome(Request $request) {
+        $user = Auth::user();
+
+        MembersAtHome::where('user_id', $user->id)->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Marked as not home successfully.',
+        ]);
+    }
 }
