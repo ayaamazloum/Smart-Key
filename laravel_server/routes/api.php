@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('arduino')->group(function () {
     Route::get('knockPattern', [ArduinoController::class, 'getKnockPattern']);
+    Route::post('arduinoLog', [ArduinoController::class, 'log']);
 });
 
 Route::post('login', [AuthController::class, 'login']);
