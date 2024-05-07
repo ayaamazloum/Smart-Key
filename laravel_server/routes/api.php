@@ -4,12 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArduinoController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\InvitationController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
         Route::middleware('role:owner,family_member')->group(function () {
-            Route::post('invite', [OwnerController::class, 'sendInvitation']);
+            Route::post('invite', [InvitationController::class, 'sendInvitation']);
         });
 
         Route::get('logout', [AuthController::class, 'logout']);

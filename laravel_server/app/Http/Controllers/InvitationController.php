@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
-class OwnerController extends Controller
+class InvitationController extends Controller
 {
     public function sendInvitation(Request $request)
     {
