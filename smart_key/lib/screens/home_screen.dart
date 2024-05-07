@@ -189,7 +189,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void markHome() async {
     if (isHome!) {
-      return;
+      final result = await API(context: context)
+          .sendRequest(route: '/markNotHome', method: 'get');
+      final response = jsonDecode(result.body);
+
+      if (response['status'] == 'success') {
+        setState(() {
+          isHome = false;
+        });
+        await preferences.setBool('isHome', false);
+
+        showSnackbar('Marked as not home successfully!', primaryColor);
+      } else {
+        logger.i(response);
+        final errorMessage = response['message'];
+        showSnackbar(errorMessage, Colors.red.shade800);
+      }
     } else {
       final result = await API(context: context)
           .sendRequest(route: '/markHome', method: 'get');
