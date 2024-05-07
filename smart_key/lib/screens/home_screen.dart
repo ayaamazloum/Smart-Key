@@ -331,6 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SquaredButton(
                               text: doorStatus == 'opened' ? 'close' : 'open',
+                              icon: Icons.sensor_door_outlined,
                               onPressed: () {
                                 publishMessage(
                                     doorStatus == 'opened' ? 'close' : 'open',
@@ -342,6 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SquaredButton(
                                 text: 'Capture',
+                                icon: Icons.fit_screen_outlined,
                                 onPressed: () {
                                   captureAndSaveImage();
                                 },

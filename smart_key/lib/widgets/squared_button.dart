@@ -3,9 +3,14 @@ import 'package:smart_key/utils/constants.dart';
 
 class SquaredButton extends StatelessWidget {
   const SquaredButton(
-      {super.key, required this.text, required this.onPressed, required this.backgroundColor});
+      {super.key,
+      required this.text,
+      required this.icon,
+      required this.onPressed,
+      required this.backgroundColor});
 
   final String text;
+  final IconData icon;
   final Function() onPressed;
   final Color backgroundColor;
 
@@ -37,7 +42,7 @@ class SquaredButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.sensor_door_outlined,
+              icon,
               color: Colors.white,
               size: 35,
             ),
