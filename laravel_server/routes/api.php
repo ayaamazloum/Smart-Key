@@ -8,11 +8,7 @@ use App\Http\Controllers\OwnerController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
-        Route::middleware('role:owner')->group(function () {
-            Route::post('invite', [OwnerController::class, 'sendInvitation']);
-        });
-
-        Route::middleware('role:family_member')->group(function () {
+        Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [OwnerController::class, 'sendInvitation']);
         });
 
