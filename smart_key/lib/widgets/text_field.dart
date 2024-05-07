@@ -41,6 +41,7 @@ class _MyTextFieldState extends State<MyTextField> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide(color: Colors.grey.shade200),
         ),
         suffixIcon: widget.showVisibilityIcon!
             ? IconButton(

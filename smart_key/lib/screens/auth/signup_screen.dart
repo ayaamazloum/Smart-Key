@@ -117,14 +117,14 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     Transform.translate(
-                      offset: Offset(0, -25),
+                      offset: Offset(0, -35),
                       child: Text(
                         'Sign up',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
                     SizedBox(
-                      height: screenHeight(context) * 0.03,
+                      height: screenHeight(context) * 0.01,
                     ),
                     MyTextField(
                       labelText: 'Full Name',
@@ -209,7 +209,7 @@ class SignupScreen extends StatelessWidget {
                       textInputType: TextInputType.visiblePassword,
                     ),
                     SizedBox(
-                      height: screenHeight(context) * 0.05,
+                      height: screenHeight(context) * 0.04,
                     ),
                     PrimaryButton(
                       text: 'Signup',
@@ -220,7 +220,7 @@ class SignupScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(
-                      height: screenHeight(context) * 0.02,
+                      height: screenHeight(context) * 0.015,
                     ),
                     RichText(
                       text: TextSpan(
