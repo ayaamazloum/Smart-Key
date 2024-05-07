@@ -101,7 +101,7 @@ class _InviteScreenState extends State<InviteScreen> {
             '${endDate.toString().substring(0, 10)} ${endTime.toString().substring(10, 15)}:00',
     };
 
-    final result = await API(context: context).postRequest(route: '/invite', data: data);
+    final result = await API(context: context).sendRequest(route: '/invite', method: 'post', data: data);
     final response = jsonDecode(result.body);
     logger.i(response);
     

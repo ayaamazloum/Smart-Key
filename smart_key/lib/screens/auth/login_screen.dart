@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
     logger.i(data.toString());
 
     final result =
-        await API(context: context).postRequest(route: '/login', data: data);
+        await API(context: context).sendRequest(route: '/login', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     logger.i(response);

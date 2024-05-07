@@ -30,7 +30,7 @@ class SignupScreen extends StatelessWidget {
       'password': _passwordController.text.toString(),
     };
 
-    final result = await API(context: context).postRequest(route: '/register', data: data);
+    final result = await API(context: context).sendRequest(route: '/register', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {

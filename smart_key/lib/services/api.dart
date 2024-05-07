@@ -12,24 +12,36 @@ class API {
 
   API({required this.context});
 
-  postRequest(
-      {required String route, required Map<String, dynamic> data}) async {
+  sendRequest(
+      {required String route,
+      required String method,
+      Map<String, dynamic>? data}) async {
     String url = apiUrl + route;
     preferences = await SharedPreferences.getInstance();
     String token = preferences.getString('token') ?? '';
-    logger.i(token);
 
+    http.Response response;
     try {
-      http.Response response =
-          await http.post(Uri.parse(url), body: jsonEncode(data), headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      });
+      if (method == 'get') {
+        response =
+            await http.get(Uri.parse(url), headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+      } else {
+        response =
+            await http.post(Uri.parse(url), body: jsonEncode(data), headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        });
+      }
+
       logger.i(response);
-      
+
       Map<String, dynamic> res = jsonDecode(response.body);
-      
+
       if (res['message'] == 'Invitation expired.') {
         await preferences.clear();
         navigateToLoginScreen();
