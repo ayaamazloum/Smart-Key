@@ -57,7 +57,7 @@ class OwnerController extends Controller
                 $invitation->start_date = $request->start_date;
             }
             if($request->end_date) {
-                $invitation->end_date = $request->$end_date;
+                $invitation->end_date = $request->end_date;
             }
             $invitation->save();
 
