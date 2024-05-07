@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArduinoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\HomeController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
@@ -12,6 +13,10 @@ Route::middleware('auth')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
         });
 
+        Route::middleware('role:family_member,guest')->group(function () {
+            Route::get('markHome', [HomeController::class, 'markHome']);
+        });
+        
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('refresh', [AuthController::class, 'refresh']);
     });
