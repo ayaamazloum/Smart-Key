@@ -8,6 +8,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:smart_key/widgets/profile_image.dart';
+import 'package:smart_key/widgets/squared_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -226,7 +227,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       child: ClipOval(
-                                        child: ProfileImage(imageUrl: '$serverImagesUrl/${preferences.getString('profilePicture')}'),
+                                        child: ProfileImage(
+                                            imageUrl:
+                                                '$serverImagesUrl/${preferences.getString('profilePicture')}'),
                                       ),
                                     ),
                                   ),
@@ -326,114 +329,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(
-                              height: screenWidth(context) * 0.25,
-                              width: screenWidth(context) * 0.25,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  publishMessage(
-                                      doorStatus == 'opened' ? 'close' : 'open',
-                                      doorControlTopic);
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                          (states) {
-                                    if (states
-                                        .contains(MaterialState.pressed)) {
-                                      return buttonPressColor;
-                                    }
-                                    return doorStatus == 'opened'
-                                        ? tertiaryColor
-                                        : primaryColor;
-                                  }),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                  ),
-                                  textStyle:
-                                      MaterialStateProperty.all<TextStyle>(
-                                    TextStyle(fontSize: 16.0),
-                                  ),
-                                  elevation:
-                                      MaterialStateProperty.all<double>(4.0),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.sensor_door_outlined,
-                                      color: Colors.white,
-                                      size: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Text(
-                                      doorStatus == 'opened' ? 'close' : 'open',
-                                      style: TextStyle(
-                                          fontFamily: 'Niramit',
-                                          color: Colors.white,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            SquaredButton(
+                              text: doorStatus == 'opened' ? 'close' : 'open',
+                              onPressed: () {
+                                publishMessage(
+                                    doorStatus == 'opened' ? 'close' : 'open',
+                                    doorControlTopic);
+                              },
+                              backgroundColor: doorStatus == 'opened'
+                                  ? tertiaryColor
+                                  : primaryColor,
                             ),
-                            SizedBox(
-                              height: screenWidth(context) * 0.25,
-                              width: screenWidth(context) * 0.25,
-                              child: ElevatedButton(
+                            SquaredButton(
+                                text: 'Capture',
                                 onPressed: () {
                                   captureAndSaveImage();
                                 },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                          (states) {
-                                    if (states
-                                        .contains(MaterialState.pressed)) {
-                                      return buttonPressColor;
-                                    }
-                                    return primaryColor;
-                                  }),
-                                  shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                  ),
-                                  textStyle:
-                                      MaterialStateProperty.all<TextStyle>(
-                                    TextStyle(fontSize: 16.0),
-                                  ),
-                                  elevation:
-                                      MaterialStateProperty.all<double>(4.0),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(
-                                      Icons.fit_screen_outlined,
-                                      color: Colors.white,
-                                      size: 35,
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Text(
-                                      'Capture',
-                                      style: TextStyle(
-                                          fontFamily: 'Niramit',
-                                          color: Colors.white,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                backgroundColor: primaryColor),
                           ],
                         ),
                       ],
