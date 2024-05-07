@@ -1,10 +1,16 @@
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <WiFiClient.h>
+#include <ArduinoJson.h>
 #include <PubSubClient.h>
 #include <Servo.h>
 #include <Adafruit_Fingerprint.h>
 
-const char* ssid = "TP-Link_C1D0";
-const char* password = "81713264";
+const char* ssid = "NetPro_B48255";
+const char* password = "70053245";
+
+const String serverUrl = "http://192.168.0.104:8000/api";
+const char* authorizationKey = "Bearer yqquWzNXmS5WHSpLf6KF";
 
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
@@ -31,7 +37,7 @@ const int servoPin = D4;
 bool isOpened = false;
 int knockInputTime = 12000;
 int knockSensitivity = 75;
-String knockPattern = "11011011";
+String knockPattern;
 
 SoftwareSerial mySerial(D7, D8);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
@@ -52,7 +58,8 @@ void setup() {
   pinMode(closeDoorButton, INPUT_PULLUP);
   pinMode(knockCheckButton, INPUT_PULLUP);
   pinMode(knockSensor, INPUT);
-  
+
+  fetchKnockPattern();
   setupFingerprintSensor();
   closeDoor();
 }
@@ -74,7 +81,7 @@ void loop() {
 }
 
 void ringBell() {
-  tone(bell, 1500, 700);
+  tone(bell, 1500, 900);
 }
 
 void openDoor() {
@@ -147,6 +154,40 @@ void checkKnock() {
   } else {
     Serial.println("Invalid knock :(");
   }
+}
+
+void fetchKnockPattern() {
+  WiFiClient client;
+  HTTPClient http;
+  String apiUrl = serverUrl + "/knockPattern";
+  
+  http.begin(client, apiUrl);
+  http.addHeader("Authorization", authorizationKey);
+  
+  int httpCode = http.GET();
+
+  if (httpCode == HTTP_CODE_OK) {
+    String response = http.getString();
+    Serial.println(response);
+
+    StaticJsonDocument<200> doc;
+    DeserializationError error = deserializeJson(doc, response);
+
+    if (error) {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+      while (1) { delay(1); }
+      return;
+    }
+
+    String knockPattern = doc["knockPattern"];
+    Serial.println(knockPattern);
+  } else {
+    Serial.printf("Error fetching data from API: %d\n", httpCode);
+    while (1) { delay(1); }
+  }
+
+  http.end();
 }
 
 void setupFingerprintSensor() {
