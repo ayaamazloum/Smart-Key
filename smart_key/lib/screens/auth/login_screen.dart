@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
   final logger = Logger();
 
-  void loginUser() async {
+  void loginUser(BuildContext context) async {
     final data = {
       'email': _emailController.text.toString(),
       'password': _passwordController.text.toString(),
@@ -26,7 +26,8 @@ class LoginScreen extends StatelessWidget {
 
     logger.i(data.toString());
 
-    final result = await API().postRequest(route: '/login', data: data);
+    final result =
+        await API(context: context).postRequest(route: '/login', data: data);
     final response = jsonDecode(result.body);
 
     logger.i(response);
@@ -43,9 +44,11 @@ class LoginScreen extends StatelessWidget {
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
       await preferences.setString('token', response['authorisation']['token']);
 
-      Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
+      response['userType'] == 'guest'
+          ? Navigator.of(_formKey.currentContext!).popAndPushNamed('/guestNav')
+          : Navigator.of(_formKey.currentContext!).popAndPushNamed('/nav');
     } else {
-      final errorMessage = response['error'] == 'Unauthorized'
+      final errorMessage = response['message'] == 'Unauthorized'
           ? 'Incorrect credentials'
           : response['message'];
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
@@ -170,7 +173,7 @@ class LoginScreen extends StatelessWidget {
                       text: 'Login',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          loginUser();
+                          loginUser(context);
                         }
                       },
                     ),

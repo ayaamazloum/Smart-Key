@@ -316,8 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Text(
                                         'No stream found',
                                         style: TextStyle(
-                                          color: Colors
-                                              .white, // Example: Text color when error occurs
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),

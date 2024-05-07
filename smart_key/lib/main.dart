@@ -87,7 +87,8 @@ class _SmartKeyState extends State<SmartKey> {
       routes: {
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignupScreen(),
-        '/home': (context) => userType == 'guest' ? GuestNavigationMenu() : NavigationMenu(),
+        '/nav': (context) => NavigationMenu(),
+        '/guestNav': (context) => GuestNavigationMenu(),
         '/notifications': (context) => NotificationsScreen(),
         '/homeMembers': (context) => HomeMembersScreen(),
       },

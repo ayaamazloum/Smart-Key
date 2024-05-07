@@ -22,7 +22,7 @@ class SignupScreen extends StatelessWidget {
 
   final logger = Logger();
 
-  void registerUser() async {
+  void registerUser(BuildContext context) async {
     final data = {
       'name': _nameController.text.toString(),
       'email': _emailController.text.toString(),
@@ -30,7 +30,7 @@ class SignupScreen extends StatelessWidget {
       'password': _passwordController.text.toString(),
     };
 
-    final result = await API().postRequest(route: '/register', data: data);
+    final result = await API(context: context).postRequest(route: '/register', data: data);
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
@@ -52,10 +52,12 @@ class SignupScreen extends StatelessWidget {
         ),
       );
 
-      Navigator.of(_formKey.currentContext!).popAndPushNamed('/home');
+      response['userType'] == 'guest'
+          ? Navigator.of(_formKey.currentContext!).popAndPushNamed('/guestNav')
+          : Navigator.of(_formKey.currentContext!).popAndPushNamed('/nav');
     } else {
       logger.i(response);
-      final errorMessage = response['error'];
+      final errorMessage = response['message'];
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
@@ -115,14 +117,14 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     Transform.translate(
-                      offset: Offset(0, -15),
+                      offset: Offset(0, -25),
                       child: Text(
                         'Sign up',
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
                     SizedBox(
-                      height: screenHeight(context) * 0.05,
+                      height: screenHeight(context) * 0.03,
                     ),
                     MyTextField(
                       labelText: 'Full Name',
@@ -213,7 +215,7 @@ class SignupScreen extends StatelessWidget {
                       text: 'Signup',
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          registerUser();
+                          registerUser(context);
                         }
                       },
                     ),
