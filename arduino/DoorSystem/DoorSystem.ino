@@ -14,11 +14,9 @@ const char* authorizationKey = "Bearer yqquWzNXmS5WHSpLf6KF";
 
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
-const char* door_control_topic = "arduino1door/control";
-// const char* knock_control_topic = "arduino1knock/setup";
-// const char* passcode_control_topic = "arduino1passcode/setup";
-
-const char* door_status_topic = "arduino1door/status";
+const char* door_control_topic = "arduino7door/control";
+const char* door_status_topic = "arduino7door/status";
+const char* knock_change_topic = "arduino7knock/change";
 
 WiFiClient espClient;
 PubSubClient client(espClient); 
@@ -106,14 +104,6 @@ void closeDoor() {
   tone(bell, 200, 400);
 }
 
-void publishDoorStatus(String doorStatus) {
-  if (client.publish(door_status_topic, doorStatus.c_str())) {
-    Serial.println("Publish door status successful!");
-  } else {
-    Serial.println("Publish door status failed :(");
-  }
-}
-
 void checkKnock() {
   long startTime;
   int sound;
@@ -181,7 +171,6 @@ void fetchKnockPattern() {
     }
 
     String knockPattern = doc["knockPattern"];
-    Serial.println(knockPattern);
   } else {
     Serial.printf("Error fetching data from API: %d\n", httpCode);
     while (1) { delay(1); }
@@ -221,6 +210,14 @@ int getFingerprintID() {
   return finger.fingerID; 
 }
 
+void publishDoorStatus(String doorStatus) {
+  if (client.publish(door_status_topic, doorStatus.c_str())) {
+    Serial.println("Publish door status successful!");
+  } else {
+    Serial.println("Publish door status failed :(");
+  }
+}
+
 void callback(char* topic, byte* payload, unsigned int length) {
   String message;
   for (int i = 0; i < length; i++) {
@@ -233,6 +230,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     } else if (message.equals("close")) {
       closeDoor();
     }
+  }
+
+  if (strcmp(topic, knock_change_topic) == 0) {
+    knockPattern = message;
   }
 }
 
