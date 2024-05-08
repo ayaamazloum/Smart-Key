@@ -56,26 +56,27 @@ class SettingsScreenState extends State<SettingsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: screenHeight(context) * 0.1),
+                    SizedBox(height: screenHeight(context) * 0.12),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('General',
+                          if(userType == 'owner') ...[
+                            Text('General',
                               style: Theme.of(context).textTheme.bodyMedium),
-                          SizedBox(height: screenHeight(context) * 0.01),
-                          SettingsItem(
-                              icon: Icons.group_add_outlined,
-                              title: 'Invitations',
-                              route: ''),
-                          SettingsItem(
-                              icon: Icons.sensor_door_outlined,
-                              title: 'Knock pattern',
-                              route: ''),
-                          SettingsItem(
-                              icon: Icons.lock_open_outlined,
-                              title: 'Change passcode',
-                              route: ''),
-                          SizedBox(height: screenHeight(context) * 0.02),
+                            SizedBox(height: screenHeight(context) * 0.01),
+                            SettingsItem(
+                                icon: Icons.group_add_outlined,
+                                title: 'Invitations',
+                                route: ''),
+                            SettingsItem(
+                                icon: Icons.sensor_door_outlined,
+                                title: 'Knock pattern',
+                                route: ''),
+                            SettingsItem(
+                                icon: Icons.lock_open_outlined,
+                                title: 'Change passcode',
+                                route: ''),
+                            SizedBox(height: screenHeight(context) * 0.02)],
                           Text('Account',
                               style: Theme.of(context).textTheme.bodyMedium),
                           SizedBox(height: screenHeight(context) * 0.01),
@@ -95,7 +96,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               icon: Icons.privacy_tip_outlined,
                               title: 'Privacy policy',
                               route: ''),
-                          SizedBox(height: screenHeight(context) * 0.03),
+                          SizedBox(height: screenHeight(context) * 0.035),
                           GestureDetector(
                             onTap: () {
                               preferences.clear();
