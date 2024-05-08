@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
@@ -46,5 +48,30 @@ class PasswordController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'message' => $th->getMessage()]);
         }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'key' => 'required|string',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $lastKey = PasswordResetKey::latest()->where('email', $request->email)->where('key', $request->key)->first();
+
+        $createdAt = Carbon::parse($lastKey->created_at);
+        $now = Carbon::now();
+        $isBefore5Minutes = $createdAt->addMinutes(5)->lte($now);
+        
+        if($isBefore5Minutes) {
+            return response()->json(['status' => 'error', 'message' => 'The verification code must be used within 5 minutes maximum.'], 422);
+        }
+        
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Password reset successfully.']);
     }
 }
