@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/services/api.dart';
@@ -101,10 +100,11 @@ class _InviteScreenState extends State<InviteScreen> {
             '${endDate.toString().substring(0, 10)} ${endTime.toString().substring(10, 15)}:00',
     };
 
-    final result = await API(context: context).sendRequest(route: '/invite', method: 'post', data: data);
+    final result = await API(context: context)
+        .sendRequest(route: '/invite', method: 'post', data: data);
     final response = jsonDecode(result.body);
     logger.i(response);
-    
+
     if (response['status'] == 'success') {
       ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
         SnackBar(
@@ -161,132 +161,134 @@ class _InviteScreenState extends State<InviteScreen> {
                 top: screenHeight(context) * 0.04),
             child: Form(
               key: _formKey,
-              child: ListView(children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Invite a member',
-                    style: Theme.of(context).textTheme.headlineLarge,
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Invite a member',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
                   ),
-                ),
-                SizedBox(height: screenHeight(context) * 0.05),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    'Family member',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  SizedBox(height: screenHeight(context) * 0.05),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      'Family member',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    leading: Radio(
+                      value: invitationTypes[0],
+                      groupValue: selectedType,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedType = value.toString();
+                        });
+                      },
+                    ),
                   ),
-                  leading: Radio(
-                    value: invitationTypes[0],
-                    groupValue: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedType = value.toString();
-                      });
-                    },
+                  ListTile(
+                    contentPadding: EdgeInsets.all(-100),
+                    title: Text(
+                      'Guest',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    leading: Radio(
+                      value: invitationTypes[1],
+                      groupValue: selectedType,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedType = value.toString();
+                        });
+                      },
+                    ),
                   ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.all(-100),
-                  title: Text(
-                    'Guest',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  leading: Radio(
-                    value: invitationTypes[1],
-                    groupValue: selectedType,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedType = value.toString();
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: screenHeight(context) * 0.03),
-                selectedType == 'family_member'
-                    ? SizedBox(height: 0)
-                    : Column(children: [
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => selectStartDate(context),
-                              child: Text('Start Date'),
-                            ),
-                            SizedBox(width: screenWidth(context) * 0.05),
-                            Text(
-                              startDate.toString().substring(0, 10),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(height: screenHeight(context) * 0.005),
-                            ElevatedButton(
-                              onPressed: () => selectStartTime(context),
-                              child: Text('Start Time'),
-                            ),
-                            SizedBox(width: screenWidth(context) * 0.05),
-                            Text(
-                              startTime.toString().substring(10, 15),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenHeight(context) * 0.005),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => selectEndDate(context),
-                              child: Text('End Date'),
-                            ),
-                            SizedBox(width: screenWidth(context) * 0.05),
-                            Text(
-                              endDate.toString().substring(0, 10),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenHeight(context) * 0.005),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () => selectEndTime(context),
-                              child: Text('End Time'),
-                            ),
-                            SizedBox(width: screenWidth(context) * 0.05),
-                            Text(
-                              endTime.toString().substring(10, 15),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenHeight(context) * 0.05),
-                      ]),
-                MyTextField(
-                    labelText: 'E-mail',
-                    hintText: 'example@example.com',
-                    controller: _emailController,
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          !value.isValidEmail) {
-                        return 'Please enter a valid email';
+                  SizedBox(height: screenHeight(context) * 0.03),
+                  selectedType == 'family_member'
+                      ? SizedBox(height: 0)
+                      : Column(children: [
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => selectStartDate(context),
+                                child: Text('Start Date'),
+                              ),
+                              SizedBox(width: screenWidth(context) * 0.05),
+                              Text(
+                                startDate.toString().substring(0, 10),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(height: screenHeight(context) * 0.005),
+                              ElevatedButton(
+                                onPressed: () => selectStartTime(context),
+                                child: Text('Start Time'),
+                              ),
+                              SizedBox(width: screenWidth(context) * 0.05),
+                              Text(
+                                startTime.toString().substring(10, 15),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.005),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => selectEndDate(context),
+                                child: Text('End Date'),
+                              ),
+                              SizedBox(width: screenWidth(context) * 0.05),
+                              Text(
+                                endDate.toString().substring(0, 10),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.005),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => selectEndTime(context),
+                                child: Text('End Time'),
+                              ),
+                              SizedBox(width: screenWidth(context) * 0.05),
+                              Text(
+                                endTime.toString().substring(10, 15),
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.05),
+                        ]),
+                  MyTextField(
+                      labelText: 'E-mail',
+                      hintText: 'example@example.com',
+                      controller: _emailController,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidEmail) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      textInputType: TextInputType.emailAddress),
+                  SizedBox(height: screenHeight(context) * 0.05),
+                  PrimaryButton(
+                    text: 'Invite',
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        sendInvitation();
                       }
-                      return null;
                     },
-                    obscureText: false,
-                    textInputType: TextInputType.emailAddress),
-                SizedBox(height: screenHeight(context) * 0.05),
-                PrimaryButton(
-                  text: 'Invite',
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      sendInvitation();
-                    }
-                  },
-                ),
-              ]),
+                  ),
+                ]),
+              ),
             ),
           ),
         ]),
