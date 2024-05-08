@@ -4,6 +4,7 @@ import 'package:smart_key/screens/auth/signup_screen.dart';
 import 'package:smart_key/screens/forgot_password_screen.dart';
 import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
+import 'package:smart_key/screens/reset_password_screen.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/widgets/guest_navigation_menu.dart';
@@ -99,6 +100,7 @@ class _SmartKeyState extends State<SmartKey> {
         '/notifications': (context) => NotificationsScreen(),
         '/homeMembers': (context) => HomeMembersScreen(),
         '/forgotPassword': (context) => ForgotPassword(),
+        '/resetPassword': (context) => ResetPassword(),
       },
     );
   }

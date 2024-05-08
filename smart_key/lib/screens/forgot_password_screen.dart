@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/widgets/primary_button.dart';
@@ -13,7 +15,35 @@ class ForgotPassword extends StatelessWidget {
 
   final logger = Logger();
 
-  void forgotPassword(BuildContext context) {}
+  void forgotPassword(BuildContext context) async {
+    final data = {
+      'email': emailController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API(context: context)
+        .sendRequest(route: '/forgotPassword', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+
+    logger.i(response);
+
+    if (response['status'] == 'success') {
+      Navigator.of(formKey.currentContext!).popAndPushNamed('/resetPassword');
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +80,7 @@ class ForgotPassword extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Enter your email address to send you a password reset key.',
+                          'Enter your email address to send you a password reset verification code.',
                           style: Theme.of(context).textTheme.bodySmall,
                           textAlign: TextAlign.center,
                         ),
