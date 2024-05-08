@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/widgets/primary_button.dart';
+import 'package:smart_key/widgets/settings_item.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -47,22 +48,31 @@ class SettingsScreenState extends State<SettingsScreen> {
                   left: screenWidth(context) * 0.05,
                   right: screenWidth(context) * 0.05,
                   top: screenHeight(context) * 0.04),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      'Settings',
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                    SizedBox(height: screenHeight(context) * 0.04),
-                    PrimaryButton(
-                        text: 'Logout',
-                        onPressed: () {
-                          preferences.clear();
-                          Navigator.pushReplacementNamed(context, '/login');
-                        })
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: Text('Settings',
+                          style: Theme.of(context).textTheme.headlineLarge)),
+                  SizedBox(height: screenHeight(context) * 0.04),
+                  SingleChildScrollView(
+                      child: Column(children: [
+                    Text('General',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ])),
+                  SizedBox(height: screenHeight(context) * 0.015),
+                  SettingsItem(icon: Icons.group_add_outlined, title: 'Invitations'),
+                  SettingsItem(icon: Icons.sensor_door_outlined, title: 'Knock Pattern'),
+                  SettingsItem(icon: Icons.lock_open_outlined, title: 'Change Passcode'),
+                  SizedBox(height: screenHeight(context) * 0.03),
+                  PrimaryButton(
+                      text: 'Logout',
+                      onPressed: () {
+                        preferences.clear();
+                        Navigator.pushReplacementNamed(context, '/login');
+                      }),
+                ],
               ),
             ),
           ],
