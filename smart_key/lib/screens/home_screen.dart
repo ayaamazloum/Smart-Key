@@ -273,146 +273,148 @@ class _HomeScreenState extends State<HomeScreen> {
                         left: screenWidth(context) * 0.05,
                         right: screenWidth(context) * 0.05,
                         top: screenHeight(context) * 0.04),
-                    child: ListView(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            profilePicture == null
-                                ? SizedBox(width: 0)
-                                : Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: primaryColor,
-                                          width: 2,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              profilePicture == null
+                                  ? SizedBox(width: 0)
+                                  : Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: primaryColor,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        child: ClipOval(
+                                          child: ProfileImage(
+                                              imageUrl:
+                                                  '$serverImagesUrl/${preferences.getString('profilePicture')}'),
                                         ),
                                       ),
-                                      child: ClipOval(
-                                        child: ProfileImage(
-                                            imageUrl:
-                                                '$serverImagesUrl/${preferences.getString('profilePicture')}'),
-                                      ),
                                     ),
-                                  ),
-                            Expanded(
-                              flex: 12,
-                              child: Text(
-                                'Hi, $firstName',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/notifications');
-                                },
-                                child: Icon(
-                                  Icons.notifications_none_outlined,
-                                  color: primaryColor,
-                                  size: screenWidth(context) * 0.08,
+                              Expanded(
+                                flex: 12,
+                                child: Text(
+                                  'Hi, $firstName',
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: screenHeight(context) * 0.05),
-                        userType == 'owner'
-                            ? GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/homeMembers');
-                                },
-                                child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      'Members at home',
-                                      style: TextStyle(color: primaryColor),
-                                    )))
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'I\'m Home',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
+                              Expanded(
+                                flex: 2,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/notifications');
+                                  },
+                                  child: Icon(
+                                    Icons.notifications_none_outlined,
+                                    color: primaryColor,
+                                    size: screenWidth(context) * 0.08,
                                   ),
-                                  Transform.scale(
-                                    scale: 0.55,
-                                    child: Switch(
-                                      value: isHome!,
-                                      onChanged: (value) {
-                                        markHome();
-                                      },
-                                      activeColor: primaryColor,
-                                      inactiveThumbColor: Colors.grey,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                        SizedBox(height: screenHeight(context) * 0.05),
-                        Container(
-                            height: screenHeight(context) * 0.45,
-                            width: screenWidth(context),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: Screenshot(
-                              controller: screenshotController,
-                              child: Mjpeg(
-                                stream: 'http://192.168.1.5:81/stream',
-                                isLive: true,
-                                error: (BuildContext context, dynamic error,
-                                    dynamic stackTrace) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                    child: Center(
+                            ],
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.05),
+                          userType == 'owner'
+                              ? GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/homeMembers');
+                                  },
+                                  child: Align(
+                                      alignment: Alignment.centerRight,
                                       child: Text(
-                                        'No stream found',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
+                                        'Members at home',
+                                        style: TextStyle(color: primaryColor),
+                                      )))
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'I\'m Home',
+                                      style: TextStyle(
+                                        color: Colors.black,
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
-                            )),
-                        SizedBox(height: screenHeight(context) * 0.05),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SquaredButton(
-                              text: doorStatus == 'opened' ? 'close' : 'open',
-                              icon: Icons.sensor_door_outlined,
-                              onPressed: () {
-                                publishMessage(
-                                    doorStatus == 'opened' ? 'close' : 'open',
-                                    doorControlTopic);
-                              },
-                              backgroundColor: doorStatus == 'opened'
-                                  ? tertiaryColor
-                                  : primaryColor,
-                            ),
-                            SquaredButton(
-                                text: 'Capture',
-                                icon: Icons.fit_screen_outlined,
+                                    Transform.scale(
+                                      scale: 0.55,
+                                      child: Switch(
+                                        value: isHome!,
+                                        onChanged: (value) {
+                                          markHome();
+                                        },
+                                        activeColor: primaryColor,
+                                        inactiveThumbColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                          SizedBox(height: screenHeight(context) * 0.05),
+                          Container(
+                              height: screenHeight(context) * 0.45,
+                              width: screenWidth(context),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: Screenshot(
+                                controller: screenshotController,
+                                child: Mjpeg(
+                                  stream: 'http://192.168.1.5:81/stream',
+                                  isLive: true,
+                                  error: (BuildContext context, dynamic error,
+                                      dynamic stackTrace) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      child: Center(
+                                        child: Text(
+                                          'No stream found',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: screenHeight(context) * 0.05),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SquaredButton(
+                                text: doorStatus == 'opened' ? 'close' : 'open',
+                                icon: Icons.sensor_door_outlined,
                                 onPressed: () {
-                                  captureAndSaveImage();
+                                  publishMessage(
+                                      doorStatus == 'opened' ? 'close' : 'open',
+                                      doorControlTopic);
                                 },
-                                backgroundColor: primaryColor),
-                          ],
-                        ),
-                      ],
+                                backgroundColor: doorStatus == 'opened'
+                                    ? tertiaryColor
+                                    : primaryColor,
+                              ),
+                              SquaredButton(
+                                  text: 'Capture',
+                                  icon: Icons.fit_screen_outlined,
+                                  onPressed: () {
+                                    captureAndSaveImage();
+                                  },
+                                  backgroundColor: primaryColor),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
