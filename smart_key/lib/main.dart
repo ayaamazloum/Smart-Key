@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
+import 'package:smart_key/screens/forgot_password_screen.dart';
 import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
 import 'package:smart_key/utils/constants.dart';
@@ -91,6 +92,7 @@ class _SmartKeyState extends State<SmartKey> {
         '/guestNav': (context) => GuestNavigationMenu(),
         '/notifications': (context) => NotificationsScreen(),
         '/homeMembers': (context) => HomeMembersScreen(),
+        '/forgotPassword': (context) => ForgotPassword(),
       },
     );
   }
