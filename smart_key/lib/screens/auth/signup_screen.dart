@@ -30,7 +30,8 @@ class SignupScreen extends StatelessWidget {
       'password': _passwordController.text.toString(),
     };
 
-    final result = await API(context: context).sendRequest(route: '/register', method: 'post', data: data);
+    final result = await API(context: context)
+        .sendRequest(route: '/register', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
@@ -78,18 +79,18 @@ class SignupScreen extends StatelessWidget {
       body: SafeArea(
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(40), topEnd: Radius.circular(40)),
-                color: Colors.white,
-              ),
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.8,
-              child: Form(
-                key: _formKey,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(40), topEnd: Radius.circular(40)),
+              color: Colors.white,
+            ),
+            width: screenWidth(context),
+            height: screenHeight(context) * 0.8,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Transform.translate(
@@ -131,7 +132,9 @@ class SignupScreen extends StatelessWidget {
                       hintText: 'John Doe',
                       controller: _nameController,
                       validator: (value) {
-                        if (value == null || value.isEmpty || !value.isValidName) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidName) {
                           return 'Please enter your full name';
                         }
                         return null;
@@ -147,7 +150,9 @@ class SignupScreen extends StatelessWidget {
                       hintText: 'example@example.com',
                       controller: _emailController,
                       validator: (value) {
-                        if (value == null || value.isEmpty || !value.isValidEmail) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.isValidEmail) {
                           return 'Please enter a valid email';
                         }
                         return null;
