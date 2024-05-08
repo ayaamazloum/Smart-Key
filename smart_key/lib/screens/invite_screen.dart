@@ -154,6 +154,11 @@ class _InviteScreenState extends State<InviteScreen> {
               fit: BoxFit.contain,
             ),
           ),
+          Positioned(
+              top: screenHeight(context) * 0.04,
+              left: (screenWidth(context) - screenWidth(context) * 0.47) / 2,
+              child: Text('Invite Member',
+                  style: Theme.of(context).textTheme.headlineLarge)),
           Container(
             padding: EdgeInsets.only(
                 left: screenWidth(context) * 0.05,
@@ -163,13 +168,6 @@ class _InviteScreenState extends State<InviteScreen> {
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Invite a member',
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                  ),
                   SizedBox(height: screenHeight(context) * 0.05),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
