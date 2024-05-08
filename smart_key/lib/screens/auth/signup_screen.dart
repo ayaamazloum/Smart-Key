@@ -12,22 +12,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _keyController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController keyController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
       TextEditingController();
 
   final logger = Logger();
 
   void registerUser(BuildContext context) async {
     final data = {
-      'name': _nameController.text.toString(),
-      'email': _emailController.text.toString(),
-      'key': _keyController.text.toString(),
-      'password': _passwordController.text.toString(),
+      'name': nameController.text.toString(),
+      'email': emailController.text.toString(),
+      'key': keyController.text.toString(),
+      'password': passwordController.text.toString(),
     };
 
     final result = await API(context: context)
@@ -42,7 +42,7 @@ class SignupScreen extends StatelessWidget {
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
       await preferences.setString('token', response['authorisation']['token']);
 
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
             'Signed up successfully, welcome.',
@@ -54,12 +54,12 @@ class SignupScreen extends StatelessWidget {
       );
 
       response['userType'] == 'guest'
-          ? Navigator.of(_formKey.currentContext!).popAndPushNamed('/guestNav')
-          : Navigator.of(_formKey.currentContext!).popAndPushNamed('/nav');
+          ? Navigator.of(formKey.currentContext!).popAndPushNamed('/guestNav')
+          : Navigator.of(formKey.currentContext!).popAndPushNamed('/nav');
     } else {
       logger.i(response);
       final errorMessage = response['message'];
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
             errorMessage,
@@ -89,7 +89,7 @@ class SignupScreen extends StatelessWidget {
             width: screenWidth(context),
             height: screenHeight(context) * 0.8,
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -130,7 +130,7 @@ class SignupScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'Full Name',
                       hintText: 'John Doe',
-                      controller: _nameController,
+                      controller: nameController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -148,7 +148,7 @@ class SignupScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'E-mail',
                       hintText: 'example@example.com',
-                      controller: _emailController,
+                      controller: emailController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -166,7 +166,7 @@ class SignupScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'Invitation Key',
                       hintText: '--------',
-                      controller: _keyController,
+                      controller: keyController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your key';
@@ -182,7 +182,7 @@ class SignupScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'Password',
                       hintText: '********',
-                      controller: _passwordController,
+                      controller: passwordController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -200,12 +200,12 @@ class SignupScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'Confirm Password',
                       hintText: '********',
-                      controller: _confirmPasswordController,
+                      controller: confirmPasswordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please confirm your password';
                         }
-                        if (value != _passwordController.text) {
+                        if (value != passwordController.text) {
                           return 'Passwords don\'t match';
                         }
                         return null;
@@ -219,7 +219,7 @@ class SignupScreen extends StatelessWidget {
                     PrimaryButton(
                       text: 'Signup',
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           registerUser(context);
                         }
                       },

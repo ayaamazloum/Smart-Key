@@ -12,16 +12,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final logger = Logger();
 
   void loginUser(BuildContext context) async {
     final data = {
-      'email': _emailController.text.toString(),
-      'password': _passwordController.text.toString(),
+      'email': emailController.text.toString(),
+      'password': passwordController.text.toString(),
     };
 
     logger.i(data.toString());
@@ -45,13 +45,13 @@ class LoginScreen extends StatelessWidget {
       await preferences.setString('token', response['authorisation']['token']);
 
       response['userType'] == 'guest'
-          ? Navigator.of(_formKey.currentContext!).popAndPushNamed('/guestNav')
-          : Navigator.of(_formKey.currentContext!).popAndPushNamed('/nav');
+          ? Navigator.of(formKey.currentContext!).popAndPushNamed('/guestNav')
+          : Navigator.of(formKey.currentContext!).popAndPushNamed('/nav');
     } else {
       final errorMessage = response['message'] == 'Unauthorized'
           ? 'Incorrect credentials'
           : response['message'];
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
             errorMessage,
@@ -81,7 +81,7 @@ class LoginScreen extends StatelessWidget {
             width: screenWidth(context),
             height: screenHeight(context) * 0.8,
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -122,7 +122,7 @@ class LoginScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'E-mail',
                       hintText: 'example@example.com',
-                      controller: _emailController,
+                      controller: emailController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -140,7 +140,7 @@ class LoginScreen extends StatelessWidget {
                     MyTextField(
                       labelText: 'Password',
                       hintText: '********',
-                      controller: _passwordController,
+                      controller: passwordController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -158,11 +158,16 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        'forgot password?',
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 14,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/forgotPassword');
+                        },
+                        child: Text(
+                          'forgot password?',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -172,7 +177,7 @@ class LoginScreen extends StatelessWidget {
                     PrimaryButton(
                       text: 'Login',
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           loginUser(context);
                         }
                       },

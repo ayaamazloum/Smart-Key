@@ -326,8 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           userType == 'owner'
                               ? GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/homeMembers');
+                                    Navigator.of(context).pushNamed('/homeMembers');
                                   },
                                   child: Align(
                                       alignment: Alignment.centerRight,

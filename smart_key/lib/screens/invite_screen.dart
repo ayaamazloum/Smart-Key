@@ -20,8 +20,8 @@ List<String> invitationTypes = ['family_member', 'guest'];
 class _InviteScreenState extends State<InviteScreen> {
   late SharedPreferences preferences;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
   String selectedType = invitationTypes[0];
 
   final logger = Logger();
@@ -90,7 +90,7 @@ class _InviteScreenState extends State<InviteScreen> {
 
   void sendInvitation() async {
     final data = {
-      'email': _emailController.text.toString(),
+      'email': emailController.text.toString(),
       'type': selectedType,
       if (selectedType == 'guest')
         'start_date':
@@ -106,7 +106,7 @@ class _InviteScreenState extends State<InviteScreen> {
     logger.i(response);
 
     if (response['status'] == 'success') {
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
             'Invitation sent successfully.',
@@ -118,7 +118,7 @@ class _InviteScreenState extends State<InviteScreen> {
       );
     } else {
       final errorMessage = response['message'];
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
             errorMessage,
@@ -156,7 +156,7 @@ class _InviteScreenState extends State<InviteScreen> {
           ),
           Positioned(
               top: screenHeight(context) * 0.04,
-              left: (screenWidth(context) - screenWidth(context) * 0.47) / 2,
+              left: (screenWidth(context) - screenWidth(context) * 0.45) / 2,
               child: Text('Invite Member',
                   style: Theme.of(context).textTheme.headlineLarge)),
           Container(
@@ -165,7 +165,7 @@ class _InviteScreenState extends State<InviteScreen> {
                 right: screenWidth(context) * 0.05,
                 top: screenHeight(context) * 0.04),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: SingleChildScrollView(
                 child: Column(children: [
                   SizedBox(height: screenHeight(context) * 0.05),
@@ -265,7 +265,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   MyTextField(
                       labelText: 'E-mail',
                       hintText: 'example@example.com',
-                      controller: _emailController,
+                      controller: emailController,
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
@@ -280,7 +280,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   PrimaryButton(
                     text: 'Invite',
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         sendInvitation();
                       }
                     },
