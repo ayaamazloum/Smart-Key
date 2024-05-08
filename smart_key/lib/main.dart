@@ -79,12 +79,12 @@ class _SmartKeyState extends State<SmartKey> {
           bodyMedium: TextStyle(
             color: secondaryColor,
             fontFamily: 'Niramit',
-            fontSize: 17,
+            fontSize: 18,
           ),
           bodySmall: TextStyle(
             color: secondaryColor,
             fontFamily: 'Niramit',
-            fontSize: 14,
+            fontSize: 15,
           ),
         ),
         useMaterial3: true,
