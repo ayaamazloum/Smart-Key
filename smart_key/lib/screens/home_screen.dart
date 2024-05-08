@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 flex: 12,
                                 child: Text(
                                   'Hi, $firstName',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
                               Expanded(
