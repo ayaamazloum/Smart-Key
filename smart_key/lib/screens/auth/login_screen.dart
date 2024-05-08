@@ -26,8 +26,8 @@ class LoginScreen extends StatelessWidget {
 
     logger.i(data.toString());
 
-    final result =
-        await API(context: context).sendRequest(route: '/login', method: 'post', data: data);
+    final result = await API(context: context)
+        .sendRequest(route: '/login', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     logger.i(response);
@@ -71,18 +71,18 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(40), topEnd: Radius.circular(40)),
-                color: Colors.white,
-              ),
-              width: screenWidth(context),
-              height: screenHeight(context) * 0.8,
-              child: Form(
-                key: _formKey,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(40), topEnd: Radius.circular(40)),
+              color: Colors.white,
+            ),
+            width: screenWidth(context),
+            height: screenHeight(context) * 0.8,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Transform.translate(
