@@ -58,10 +58,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: screenHeight(context) * 0.1),
-                    Column(children: [
+                    Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                       Text('General',
                           style: Theme.of(context).textTheme.bodyMedium),
-                      SizedBox(height: screenHeight(context) * 0.002),
+                      SizedBox(height: screenHeight(context) * 0.01),
                       SettingsItem(
                           icon: Icons.group_add_outlined,
                           title: 'Invitations',
@@ -75,29 +76,23 @@ class SettingsScreenState extends State<SettingsScreen> {
                           title: 'Change passcode',
                           route: ''),
                       SizedBox(height: screenHeight(context) * 0.02),
-                      SingleChildScrollView(
-                          child: Column(children: [
                         Text('Account',
-                            style: Theme.of(context).textTheme.bodyMedium)
-                      ])),
-                      SizedBox(height: screenHeight(context) * 0.002),
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      SizedBox(height: screenHeight(context) * 0.01),
                       SettingsItem(
-                          icon: Icons.group_add_outlined,
+                          icon: Icons.person_outline_sharp,
                           title: 'Profile',
                           route: ''),
                       SettingsItem(
-                          icon: Icons.lock_open_outlined,
+                          icon: Icons.password_outlined,
                           title: 'Change password',
                           route: ''),
                       SizedBox(height: screenHeight(context) * 0.02),
-                      SingleChildScrollView(
-                          child: Column(children: [
                         Text('App',
-                            style: Theme.of(context).textTheme.bodyMedium)
-                      ])),
-                      SizedBox(height: screenHeight(context) * 0.002),
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      SizedBox(height: screenHeight(context) * 0.01),
                       SettingsItem(
-                          icon: Icons.group_add_outlined,
+                          icon: Icons.privacy_tip_outlined,
                           title: 'Privacy policy',
                           route: ''),
                       SizedBox(height: screenHeight(context) * 0.02),
