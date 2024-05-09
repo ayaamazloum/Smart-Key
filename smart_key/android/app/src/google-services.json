@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "40179194105",
+    "firebase_url": "https://smart-key-958ce-default-rtdb.firebaseio.com",
+    "project_id": "smart-key-958ce",
+    "storage_bucket": "smart-key-958ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40179194105:android:1d64359abee419728faa28",
+        "android_client_info": {
+          "package_name": "com.example.smartkey"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
