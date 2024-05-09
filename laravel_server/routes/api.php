@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\NotificationController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
@@ -34,3 +35,4 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forgotPassword', [PasswordController::class, 'forgotPassword']);
 Route::post('resetPassword', [PasswordController::class, 'resetPassword']);
+Route::get('sendNotification', [NotificationController::class, 'sendNotification']);
