@@ -1,17 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
-import 'package:smart_key/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Logger logger = Logger();
-
-Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  logger.i('Title ${message.notification?.title}');
-  logger.i('Body ${message.notification?.body}');
-  logger.i('Payload ${message.data}');
-}
 
 class FirebaseApi {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
@@ -26,7 +20,7 @@ class FirebaseApi {
   final localNotifications = FlutterLocalNotificationsPlugin();
 
   void handleMessage(RemoteMessage? message) {
-    Navigator.pushNamed(navigatorKey.currentContext!, '/notifications');
+    // Navigator.pushNamed(navigatorKey.currentContext!, '/notifications');
   }
 
   Future initLocalNotifications() async {
@@ -54,7 +48,6 @@ class FirebaseApi {
 
     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     FirebaseMessaging.onMessage.listen((message) {
       final notification = message.notification;
       if (notification == null) return;
@@ -76,7 +69,12 @@ class FirebaseApi {
     await firebaseMessaging.requestPermission();
     final fCMToken = await firebaseMessaging.getToken();
     logger.i('token: $fCMToken');
+    
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('fcmToken', fCMToken!);
+
     initPushNotifications();
     initLocalNotifications();
+    FirebaseMessaging.onMessage.listen(handleMessage);
   }
 }
