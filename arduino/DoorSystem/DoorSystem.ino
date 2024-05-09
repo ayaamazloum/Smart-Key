@@ -6,10 +6,10 @@
 #include <Servo.h>
 #include <Adafruit_Fingerprint.h>
 
-const char* ssid = "NetPro_B48255";
-const char* password = "70053245";
+const char* ssid = "netis_11BD83";
+const char* password = "password";
 
-const String serverUrl = "http://192.168.0.104:8000/api";
+const String serverUrl = "http://192.168.1.5:8000/api";
 const char* authorizationKey = "Bearer yqquWzNXmS5WHSpLf6KF";
 
 const char* mqtt_server = "test.mosquitto.org";
@@ -151,7 +151,7 @@ void checkKnock() {
 void sendNotification() {
   WiFiClient client;
   HTTPClient http;
-  String apiUrl = serverUrl + "/notify";
+  String apiUrl = serverUrl + "/sendNotification";
   
   http.begin(client, apiUrl);
   http.addHeader("Authorization", authorizationKey);
