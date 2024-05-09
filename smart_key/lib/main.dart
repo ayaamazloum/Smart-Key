@@ -12,6 +12,8 @@ import 'package:smart_key/widgets/guest_navigation_menu.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -117,6 +119,7 @@ class _SmartKeyState extends State<SmartKey> {
         '/forgotPassword': (context) => ForgotPassword(),
         '/resetPassword': (context) => ResetPassword(),
       },
+      navigatorKey: navigatorKey,
     );
   }
 }
