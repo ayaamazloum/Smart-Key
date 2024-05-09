@@ -60,7 +60,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if(userType == 'owner') ...[
+                          if(userType == 'owner' || userType == 'family_member') ...[
                             Text('General',
                               style: Theme.of(context).textTheme.bodyMedium),
                             SizedBox(height: screenHeight(context) * 0.01),
@@ -68,7 +68,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 icon: Icons.group_add_outlined,
                                 title: 'Invitations',
                                 route: ''),
-                            SettingsItem(
+                            if(userType == 'owner') ...[SettingsItem(
                                 icon: Icons.sensor_door_outlined,
                                 title: 'Knock pattern',
                                 route: ''),
@@ -76,7 +76,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 icon: Icons.lock_open_outlined,
                                 title: 'Change passcode',
                                 route: ''),
-                            SizedBox(height: screenHeight(context) * 0.02)],
+                            SizedBox(height: screenHeight(context) * 0.02)]],
                           Text('Account',
                               style: Theme.of(context).textTheme.bodyMedium),
                           SizedBox(height: screenHeight(context) * 0.01),
