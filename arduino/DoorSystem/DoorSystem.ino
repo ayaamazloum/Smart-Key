@@ -80,6 +80,7 @@ void loop() {
 
 void ringBell() {
   tone(bell, 1500, 900);
+  sendNotification();
 }
 
 void openDoor() {
@@ -145,6 +146,26 @@ void checkKnock() {
     log("Invalid knock");
     Serial.println("Invalid knock :(");
   }
+}
+
+void sendNotification() {
+  WiFiClient client;
+  HTTPClient http;
+  String apiUrl = serverUrl + "/notify";
+  
+  http.begin(client, apiUrl);
+  http.addHeader("Authorization", authorizationKey);
+  
+  int httpCode = http.GET();
+
+  if (httpCode == HTTP_CODE_OK) {
+    String response = http.getString();
+    Serial.println(response);
+  } else {
+    Serial.printf("Error posting to API: %d\n", httpCode);
+  }
+
+  http.end();
 }
 
 void log(String text) {
