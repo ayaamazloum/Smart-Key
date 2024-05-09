@@ -35,4 +35,5 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('forgotPassword', [PasswordController::class, 'forgotPassword']);
 Route::post('resetPassword', [PasswordController::class, 'resetPassword']);
+Route::post('addDevice', [NotificationController::class, 'addDevice']);
 Route::get('sendNotification', [NotificationController::class, 'sendNotification']);
