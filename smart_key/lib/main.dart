@@ -5,12 +5,23 @@ import 'package:smart_key/screens/forgot_password_screen.dart';
 import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
 import 'package:smart_key/screens/reset_password_screen.dart';
+import 'package:smart_key/services/firebase_api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/widgets/guest_navigation_menu.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
+      appId: '1:40179194105:android:88157615cd28dd168faa28',
+      messagingSenderId: '40179194105',
+      projectId: 'smart-key-958ce',
+  ));
+  await FirebaseApi().initNotifications();
   runApp(const SmartKey());
 }
 
@@ -39,7 +50,7 @@ class _SmartKeyState extends State<SmartKey> {
     userType = preferences.getString('userType');
     setState(() {
       isAuth = token != null;
-  });
+    });
   }
 
   @override
@@ -90,7 +101,11 @@ class _SmartKeyState extends State<SmartKey> {
         ),
         useMaterial3: true,
       ),
-      home: isAuth ? userType == 'guest' ? GuestNavigationMenu() : NavigationMenu() : LoginScreen(),
+      home: isAuth
+          ? userType == 'guest'
+              ? GuestNavigationMenu()
+              : NavigationMenu()
+          : LoginScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/login': (context) => LoginScreen(),
