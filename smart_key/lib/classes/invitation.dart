@@ -8,4 +8,12 @@ class Invitation {
     required this.email,
     required this.type,
   });
+
+  factory Invitation.fromJson(Map<String, dynamic> json) {
+    return Invitation(
+      id: json['id'],
+      email: json['email'],
+      type: json['type']
+    );
+  }
 }
