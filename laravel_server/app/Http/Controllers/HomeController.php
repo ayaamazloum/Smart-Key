@@ -54,9 +54,9 @@ class HomeController extends Controller
             'date' => 'required|string'
         ]);
 
-        // $arduino_id = Auth::user()->arduino_id;
+        $arduino_id = Auth::user()->arduino_id;
         
-        $logs = Log::whereDate('created_at', $request->date)->where('arduino_id', 1)->get();
+        $logs = Log::whereDate('created_at', $request->date)->where('arduino_id', $arduino_id)->get();
 
         return response()->json([
             'status' => 'success',
