@@ -77,6 +77,14 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
                 ),
               ),
               Positioned(
+                top: screenHeight(context) * 0.04,
+                left: (screenWidth(context) - screenWidth(context) * 0.56) / 2,
+                child: Text(
+                  'Members At Home',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+              ),
+              Positioned(
                 bottom: -40,
                 right: 0,
                 child: Image.asset(
@@ -87,10 +95,13 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
               ),
               Positioned(
                 top: screenHeight(context) * 0.04,
-                left: (screenWidth(context) - screenWidth(context) * 0.56) / 2,
-                child: Text(
-                  'Members At Home',
-                  style: Theme.of(context).textTheme.headlineLarge,
+                left: 10,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(
+                        context); // Navigate back to the previous screen
+                  },
                 ),
               ),
               Container(
