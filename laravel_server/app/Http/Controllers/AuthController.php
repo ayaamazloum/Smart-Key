@@ -94,8 +94,6 @@ class AuthController extends Controller
             'end_date' => $invitation-> end_date,
         ]);
 
-        Invitation::where('email', $request->email)->delete();
-
         $token = Auth::login($user);
         return response()->json([
             'status' => 'success',
