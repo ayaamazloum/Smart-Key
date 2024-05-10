@@ -25,6 +25,36 @@ class InvitationsScreenState extends State<InvitationsScreen> {
     setState(() {
       isLoading = true;
     });
+    fetchInvitations();
+  }
+
+  void fetchInvitations() async {
+    final result = await API(context: navigatorKey.currentContext!)
+        .sendRequest(route: '/invitations', method: 'get');
+    final response = jsonDecode(result.body);
+    logger.i(response);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['status'] == 'success') {
+      setState(() {
+        invitations = parseInvitations(result.body);
+      });
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
   }
 
   List<Invitation> parseInvitations(String responseBody) {
