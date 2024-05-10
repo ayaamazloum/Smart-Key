@@ -69,13 +69,26 @@ class InvitationController extends Controller
     }
 
     public function getAllInvitations(Request $request) {
-        // $arduino_id = Auth::user()->arduino_id;
+        $arduino_id = Auth::user()->arduino_id;
 
-        $invitations = Invitation::where('arduino_id',1)->get();
+        $invitations = Invitation::where('arduino_id', $arduino_id)->get();
 
         return response()->json([
             'status' => 'success',
             'invitations' => $invitations,
         ]);
     }
+    
+    public function deleteInvitation(Request $request) {
+        $request->validate([
+            'id' => ['required', 'numeric', 'exists:invitations,id']
+        ]);
+
+        $invitation = Invitation::findOrFail($request->id);
+
+        $invitation->delete();
+
+        return response()->json(['status' => 'success', 'message' => 'Invitation deleted successfully']);
+    }
+
 }
