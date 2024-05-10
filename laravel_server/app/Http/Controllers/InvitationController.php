@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class InvitationController extends Controller
 {
@@ -65,5 +66,16 @@ class InvitationController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error', 'message' => $th->getMessage()]);
         }
+    }
+
+    public function getAllInvitations(Request $request) {
+        // $arduino_id = Auth::user()->arduino_id;
+
+        $invitations = Invitation::where('arduino_id',1)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'invitations' => $invitations,
+        ]);
     }
 }
