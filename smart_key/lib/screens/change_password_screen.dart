@@ -100,13 +100,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: screenHeight(context) * 0.15),
-                      Text(
-                        'We have sent you a verification code on your email address.',
-                        style: Theme.of(context).textTheme.bodySmall,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: screenHeight(context) * 0.06),
+                      SizedBox(height: screenHeight(context) * 0.25),
                       MyTextField(
                         labelText: 'Current Password',
                         hintText: '********',
