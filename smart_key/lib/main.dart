@@ -17,11 +17,11 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
-      appId: '1:40179194105:android:88157615cd28dd168faa28',
-      messagingSenderId: '40179194105',
-      projectId: 'smart-key-958ce',
+      options: const FirebaseOptions(
+    apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
+    appId: '1:40179194105:android:88157615cd28dd168faa28',
+    messagingSenderId: '40179194105',
+    projectId: 'smart-key-958ce',
   ));
   await FirebaseApi().initNotifications();
   runApp(const SmartKey());
@@ -31,10 +31,10 @@ class SmartKey extends StatefulWidget {
   const SmartKey({super.key});
 
   @override
-  State<SmartKey> createState() => _SmartKeyState();
+  State<SmartKey> createState() => SmartKeyState();
 }
 
-class _SmartKeyState extends State<SmartKey> {
+class SmartKeyState extends State<SmartKey> {
   late SharedPreferences preferences;
   bool isLoading = false;
   String? userType;
