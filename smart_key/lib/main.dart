@@ -119,6 +119,7 @@ class SmartKeyState extends State<SmartKey> {
         '/homeMembers': (context) => HomeMembersScreen(),
         '/forgotPassword': (context) => ForgotPasswordScreen(),
         '/resetPassword': (context) => ResetPasswordScreen(),
+        '/invitations': (context) => InvitationsScreen(),
       },
       navigatorKey: navigatorKey,
     );
