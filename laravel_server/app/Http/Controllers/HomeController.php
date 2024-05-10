@@ -6,10 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MembersAtHome;
 use App\Models\Arduino;
+use App\Models\User;
 use App\Models\Log;
 
 class HomeController extends Controller
 {
+    public function getMembersAtHome(Request $request) {
+        $arduino_id = Auth::user()->arduino_id;
+
+        $userIds = MembersAtHome::where('arduino_id', $arduino_id)->pluck('user_id')->toArray();
+        $members = User::whereIn('id', $userIds)->pluck('name')->toArray();
+
+        return response()->json([
+            'status' => 'success',
+            'members' => $members,
+        ]);
+    }
+
     public function markHome(Request $request) {
         $user = Auth::user();
 
