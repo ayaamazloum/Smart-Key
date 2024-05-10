@@ -62,7 +62,32 @@ class InvitationsScreenState extends State<InvitationsScreen> {
                   'Invitations',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
-              ),],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth(context) * 0.05,
+                  vertical: screenHeight(context) * 0.04,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: screenHeight(context) * 0.12),
+                    Expanded(
+                      child: isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : invitations.isEmpty
+                              ? Center(child: Text('No logs available.'))
+                              : ListView.builder(
+                                  itemCount: invitations.length,
+                                  itemBuilder: (context, index) {
+                                    return InvitationItem(invitation: invitations[index]);
+                                  },
+                                ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
