@@ -31,7 +31,7 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
 
   void fetchMembers() async {
     final result = await API(context: navigatorKey.currentContext!)
-        .sendRequest(route: '/membersAtHome', method: 'get' );
+        .sendRequest(route: '/membersAtHome', method: 'get');
     final response = jsonDecode(result.body);
     logger.i(response);
 
@@ -93,7 +93,6 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ),
-                    SizedBox(height: screenHeight(context) * 0.09),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: screenWidth(context) * 0.05,
@@ -102,6 +101,7 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: screenHeight(context) * 0.12),
                     Expanded(
                       child: isLoading
                           ? Center(child: CircularProgressIndicator())
@@ -110,7 +110,19 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
                               : ListView.builder(
                                   itemCount: members.length,
                                   itemBuilder: (context, index) {
-                                    return Text(members[index]);
+                                    return Container(
+                                        padding: EdgeInsets.all(10),
+                                        margin: EdgeInsets.only(bottom: 20),
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey.shade300,
+                                                  width: 1)),
+                                        ),
+                                        child: Text(members[index],
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium));
                                   },
                                 ),
                     ),
