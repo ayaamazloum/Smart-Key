@@ -18,6 +18,22 @@ class ChangePasswordScreen extends StatelessWidget {
 
   final logger = Logger();
 
+  void changePassword(BuildContext context) async {
+    final data = {
+      'currentPassword': currentPasswordController.text.toString(),
+      'newPassword': newPasswordController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API(context: context)
+        .sendRequest(route: '/changePassword', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+
+    logger.i(response);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +141,9 @@ class ChangePasswordScreen extends StatelessWidget {
                       PrimaryButton(
                         text: 'Reset Password',
                         onPressed: () {
-                          
+                          if (formKey.currentState!.validate()) {
+                            changePassword(context);
+                          }
                         },
                       ),
                     ],
