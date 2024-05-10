@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:smart_key/main.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/services/api.dart';
@@ -19,21 +20,24 @@ class LoginScreen extends StatelessWidget {
   final logger = Logger();
 
   void loginUser(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final fcmToken = preferences.getString('fcmToken');
+
     final data = {
       'email': emailController.text.toString(),
       'password': passwordController.text.toString(),
+      'fcmToken':fcmToken,
     };
 
     logger.i(data.toString());
 
-    final result = await API(context: context)
+    final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/login', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     logger.i(response);
 
     if (response['status'] == 'success') {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
       if (response['user']['profile_picture'] != null) {
         await preferences.setString(

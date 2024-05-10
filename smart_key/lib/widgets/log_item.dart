@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smart_key/widgets/log.dart';
+import 'package:smart_key/classes/log.dart';
 
-class LogCard extends StatelessWidget {
+class LogItem extends StatelessWidget {
   final Log log;
 
-  const LogCard({super.key, required this.log});
+  const LogItem({super.key, required this.log});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class LogCard extends StatelessWidget {
         children: [
           Expanded(
               flex: 12,
-              child: Text(log.log,
-                  style: Theme.of(context).textTheme.bodySmall)),
+              child:
+                  Text(log.log, style: Theme.of(context).textTheme.bodySmall)),
           Expanded(child: Container()),
           Expanded(
               flex: 4,

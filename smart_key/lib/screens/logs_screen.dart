@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
-import 'package:smart_key/widgets/log.dart';
+import 'package:smart_key/classes/log.dart';
 import 'package:smart_key/widgets/log_item.dart';
 import 'package:logger/logger.dart';
 
@@ -67,7 +67,8 @@ class LogsScreenState extends State<LogsScreen> {
   }
 
   List<Log> parseLogs(String responseBody) {
-    final parsed = jsonDecode(responseBody)['logs'].cast<Map<String, dynamic>>();
+    final parsed =
+        jsonDecode(responseBody)['logs'].cast<Map<String, dynamic>>();
     return parsed.map<Log>((json) => Log.fromJson(json)).toList();
   }
 
@@ -175,7 +176,7 @@ class LogsScreenState extends State<LogsScreen> {
                               : ListView.builder(
                                   itemCount: logs.length,
                                   itemBuilder: (context, index) {
-                                    return LogCard(log: logs[index]);
+                                    return LogItem(log: logs[index]);
                                   },
                                 ),
                     ),
