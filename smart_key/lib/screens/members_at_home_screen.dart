@@ -26,6 +26,37 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
     setState(() {
       isLoading = true;
     });
+    fetchMembers();
+  }
+
+  void fetchMembers() async {
+    final result = await API(context: navigatorKey.currentContext!)
+        .sendRequest(route: '/membersAtHome', method: 'get' );
+    final response = jsonDecode(result.body);
+    logger.i(response);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['status'] == 'success') {
+      setState(() {
+        members = List<String>.from(response['members']);
+        logger.i(members);
+      });
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
   }
 
   @override
