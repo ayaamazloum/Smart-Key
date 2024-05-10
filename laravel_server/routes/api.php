@@ -13,8 +13,9 @@ Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
         Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
+            Route::post('logs', [HomeController::class, 'getLogs']);
         });
-        
+
         Route::middleware('role:family_member,guest')->group(function () {
             Route::get('markHome', [HomeController::class, 'markHome']);
             Route::get('markNotHome', [HomeController::class, 'markNotHome']);
@@ -25,7 +26,6 @@ Route::middleware('auth')->group(function () {
         Route::get('refresh', [AuthController::class, 'refresh']);
     });
 });
-Route::post('logs', [HomeController::class, 'getLogs']);
 
 Route::middleware('arduino')->group(function () {
     Route::get('knockPattern', [ArduinoController::class, 'getKnockPattern']);
