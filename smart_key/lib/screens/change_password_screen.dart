@@ -32,6 +32,31 @@ class ChangePasswordScreen extends StatelessWidget {
 
     logger.i(response);
 
+    if (response['status'] == 'success') {
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Password changed successfully.',
+            style: TextStyle(fontSize: 12, color: primaryColor),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+      Navigator.pop(formKey.currentContext!);
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
   }
 
   @override
