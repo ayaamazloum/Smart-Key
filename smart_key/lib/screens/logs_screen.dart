@@ -21,6 +21,18 @@ class LogsScreenState extends State<LogsScreen> {
     return dateTime.toString().split(" ")[0];
   }
 
+  Future<void> selectDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2050),
+    );
+    if (picked != null && picked != DateTime.now()) {
+      dateController.text = _formatDate(picked);
+    }
+  }
+
   List<List<String>> listsData = [
     ['Aya Mazloum opened the door via app', '2025-17-23'],
     ['Aya Mazloum opened the door via app', '2025-17-23'],
@@ -81,6 +93,7 @@ class LogsScreenState extends State<LogsScreen> {
                         Expanded(
                           flex: 7,
                           child: TextField(
+                            onTap: selectDate,
                             readOnly: true,
                             controller: dateController,
                             style: TextStyle(
@@ -96,7 +109,8 @@ class LogsScreenState extends State<LogsScreen> {
                                 borderSide: BorderSide(color: primaryColor),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: primaryColor),
+                                borderSide: BorderSide(
+                                    color: primaryColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: primaryColor),
