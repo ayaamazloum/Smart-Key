@@ -11,6 +11,9 @@ use App\Http\Controllers\NotificationController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
+        Route::middleware('role:owner')->group(function () {
+            Route::get('membersAtHome', [HomeController::class, 'getMembersAtHome']);
+        });
         Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
             Route::post('logs', [HomeController::class, 'getLogs']);
