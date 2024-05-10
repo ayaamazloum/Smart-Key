@@ -48,4 +48,19 @@ class HomeController extends Controller
             'message' => 'Log added successfully.',
         ]);
     }
+
+    public function getLogs(Request $request) {
+        $request->validate([
+            'date' => 'required|string'
+        ]);
+
+        // $arduino_id = Auth::user()->arduino_id;
+        
+        $logs = Log::whereDate('created_at', $request->date)->where('arduino_id', 1)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'logs' => $logs,
+        ]);
+    }
 }
