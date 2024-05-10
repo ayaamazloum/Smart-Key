@@ -7,8 +7,8 @@ import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:logger/logger.dart';
 
-class ForgotPassword extends StatelessWidget {
-  ForgotPassword({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({super.key});
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -60,14 +60,16 @@ class ForgotPassword extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-              Positioned(
-                top: screenHeight(context) * 0.04,
-                left: (screenWidth(context) - screenWidth(context) * 0.56) / 2,
-                child: Text(
-                  'Members At Home',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
+            Positioned(
+              top: screenHeight(context) * 0.04,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
+            ),
             Positioned(
                 top: screenHeight(context) * 0.04,
                 left: (screenWidth(context) - screenWidth(context) * 0.53) / 2,

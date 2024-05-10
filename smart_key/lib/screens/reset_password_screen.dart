@@ -7,8 +7,8 @@ import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:logger/logger.dart';
 
-class ResetPassword extends StatelessWidget {
-  ResetPassword({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  ResetPasswordScreen({super.key});
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -78,10 +78,12 @@ class ResetPassword extends StatelessWidget {
             ),
             Positioned(
               top: screenHeight(context) * 0.04,
-              left: (screenWidth(context) - screenWidth(context) * 0.56) / 2,
-              child: Text(
-                'Members At Home',
-                style: Theme.of(context).textTheme.headlineLarge,
+              left: 10,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
             Positioned(
