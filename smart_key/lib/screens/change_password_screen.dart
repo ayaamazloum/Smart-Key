@@ -87,7 +87,7 @@ class ChangePasswordScreen extends StatelessWidget {
             Positioned(
                 top: screenHeight(context) * 0.04,
                 left: (screenWidth(context) - screenWidth(context) * 0.53) / 2,
-                child: Text('Forgot Password',
+                child: Text('Change Password',
                     style: Theme.of(context).textTheme.headlineLarge)),
             Container(
               padding: EdgeInsets.only(
@@ -164,7 +164,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         height: screenHeight(context) * 0.05,
                       ),
                       PrimaryButton(
-                        text: 'Reset Password',
+                        text: 'Change Password',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             changePassword(context);
