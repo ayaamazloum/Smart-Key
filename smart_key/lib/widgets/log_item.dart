@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:smart_key/widgets/log.dart';
 
 class LogCard extends StatelessWidget {
-  final List<String> listData;
+  final Log log;
 
-  const LogCard({super.key, required this.listData});
+  const LogCard({super.key, required this.log});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +19,12 @@ class LogCard extends StatelessWidget {
         children: [
           Expanded(
               flex: 12,
-              child: Text(listData[0],
+              child: Text(log.log,
                   style: Theme.of(context).textTheme.bodySmall)),
           Expanded(child: Container()),
           Expanded(
               flex: 4,
-              child: Text(listData[1],
+              child: Text(log.date,
                   style: TextStyle(color: Colors.grey, fontSize: 12))),
         ],
       ),
