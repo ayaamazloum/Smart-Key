@@ -57,6 +57,36 @@ class InvitationsScreenState extends State<InvitationsScreen> {
     }
   }
 
+  void deleteInvitation(int id) async {
+    final data = {'id': id};
+    final result = await API(context: navigatorKey.currentContext!)
+        .sendRequest(route: '/deleteInvitation', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+    logger.i(response);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['status'] == 'success') {
+      setState(() {
+        invitations.removeWhere((invitation) => invitation.id == id);
+      });
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
+
   List<Invitation> parseInvitations(String responseBody) {
     final parsed =
         jsonDecode(responseBody)['invitations'].cast<Map<String, dynamic>>();
@@ -86,8 +116,7 @@ class InvitationsScreenState extends State<InvitationsScreen> {
                 child: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.pop(
-                        context);
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -116,7 +145,12 @@ class InvitationsScreenState extends State<InvitationsScreen> {
                               : ListView.builder(
                                   itemCount: invitations.length,
                                   itemBuilder: (context, index) {
-                                    return InvitationItem(invitation: invitations[index]);
+                                    return InvitationItem(
+                                      invitation: invitations[index],
+                                      onDeletePressed: () {
+                                        deleteInvitation(invitations[index].id);
+                                      },
+                                    );
                                   },
                                 ),
                     ),
