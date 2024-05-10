@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
@@ -165,6 +166,24 @@ class ChangePasswordScreen extends StatelessWidget {
                           }
                         },
                       ),
+                      SizedBox(
+                        height: screenHeight(context) * 0.015,
+                      ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(formKey.currentContext!).pushNamed('/forgotPassword');
+                        },
+                        child: Text(
+                          'forgot password?',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
                     ],
                   ),
                 ),
