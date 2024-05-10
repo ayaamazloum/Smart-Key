@@ -74,4 +74,23 @@ class PasswordController extends Controller
 
         return response()->json(['status' => 'success', 'message' => 'Password reset successfully.']);
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => 'required|string|min:8',
+            'newPassword' => 'required|string|min:8',
+        ]);
+
+        $user = auth()->user();
+
+        if(!Hash::check($request->currentPassword, $user->password)) {
+            return response()->json(['status' => 'error', 'message' => 'Incorrect provided current password.'], 422);
+        }
+        
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Password changed successfully.']);
+    }
 }
