@@ -67,7 +67,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                             SettingsItem(
                                 icon: Icons.group_add_outlined,
                                 title: 'Invitations',
-                                route: ''),
+                                route: '/invitations'),
                             if(userType == 'owner') ...[SettingsItem(
                                 icon: Icons.sensor_door_outlined,
                                 title: 'Knock pattern',
@@ -96,7 +96,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               icon: Icons.privacy_tip_outlined,
                               title: 'Privacy policy',
                               route: ''),
-                          SizedBox(height: screenHeight(context) * 0.035),
+                          SizedBox(height: screenHeight(context) * 0.05),
                           GestureDetector(
                             onTap: () {
                               preferences.clear();
