@@ -3,8 +3,9 @@ import 'package:smart_key/classes/invitation.dart';
 
 class InvitationItem extends StatelessWidget {
   final Invitation invitation;
+  final VoidCallback onDeletePressed;
 
-  const InvitationItem({super.key, required this.invitation});
+  const InvitationItem({super.key, required this.invitation, required this.onDeletePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +42,10 @@ class InvitationItem extends StatelessWidget {
           Expanded(child: Container()),
           Expanded(
               flex: 2,
-              child: Icon(
-                Icons.delete,
+              child: IconButton(
+                icon: Icon(Icons.delete),
                 color: Colors.red.shade800,
+                onPressed: onDeletePressed,
               )),
         ],
       ),
