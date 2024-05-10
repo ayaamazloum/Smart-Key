@@ -24,6 +24,7 @@ class CheckAccountExpiry
 
             if($now->gt($carbonEndDate)) {
                 Auth::logout();
+                Invitation::where('email', $user->email)->delete();
                 $user->delete();
 
                 return response()->json(['status' => 'error', 'message' => 'Invitation expired.'], 401);
