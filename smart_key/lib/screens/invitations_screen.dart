@@ -27,6 +27,12 @@ class InvitationsScreenState extends State<InvitationsScreen> {
     });
   }
 
+  List<Invitation> parseInvitations(String responseBody) {
+    final parsed =
+        jsonDecode(responseBody)['invitations'].cast<Map<String, dynamic>>();
+    return parsed.map<Invitation>((json) => Invitation.fromJson(json)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
