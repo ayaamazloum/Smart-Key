@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
             Route::post('logs', [HomeController::class, 'getLogs']);
             Route::get('invitations', [InvitationController::class, 'getAllInvitations']);
+            Route::post('deleteInvitation', [InvitationController::class, 'deleteInvitation']);
         });
 
         Route::middleware('role:family_member,guest')->group(function () {
