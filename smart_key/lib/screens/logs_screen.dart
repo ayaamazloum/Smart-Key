@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:smart_key/main.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
+import 'package:smart_key/widgets/log.dart';
 import 'package:smart_key/widgets/log_item.dart';
+import 'package:logger/logger.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
@@ -11,13 +17,61 @@ class LogsScreen extends StatefulWidget {
 
 class LogsScreenState extends State<LogsScreen> {
   late TextEditingController dateController;
+  List<Log> logs = [];
+  final logger = Logger();
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    dateController = TextEditingController(text: _formatDate(DateTime.now()));
+    dateController = TextEditingController(text: formatDate(DateTime.now()));
+    setState(() {
+      isLoading = true;
+    });
+    fetchLogs();
   }
 
-  String _formatDate(DateTime dateTime) {
+  void fetchLogs() async {
+    final data = {
+      'date': dateController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API(context: navigatorKey.currentContext!)
+        .sendRequest(route: '/logs', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+    logger.i(response);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['status'] == 'success') {
+      setState(() {
+        logs = parseLogs(result.body);
+      });
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
+
+  List<Log> parseLogs(String responseBody) {
+    final parsed = jsonDecode(responseBody)['logs'].cast<Map<String, dynamic>>();
+    return parsed.map<Log>((json) => Log.fromJson(json)).toList();
+  }
+
+  String formatDate(DateTime dateTime) {
     return dateTime.toString().split(" ")[0];
   }
 
@@ -29,17 +83,10 @@ class LogsScreenState extends State<LogsScreen> {
       lastDate: DateTime(2050),
     );
     if (picked != null && picked != DateTime.now()) {
-      dateController.text = _formatDate(picked);
+      dateController.text = formatDate(picked);
+      fetchLogs();
     }
   }
-
-  List<List<String>> listsData = [
-    ['Aya Mazloum opened the door via app', '2025-17-23'],
-    ['Aya Mazloum opened the door via app', '2025-17-23'],
-    ['Aya Mazloum opened the door via app', '2025-17-23'],
-    ['Aya Mazloum opened the door via app', '2025-17-23'],
-    ['Aya Mazloum opened the door via app', '2025-17-23'],
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +156,7 @@ class LogsScreenState extends State<LogsScreen> {
                                 borderSide: BorderSide(color: primaryColor),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: primaryColor),
+                                borderSide: BorderSide(color: primaryColor),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: primaryColor),
@@ -122,12 +168,16 @@ class LogsScreenState extends State<LogsScreen> {
                     ),
                     SizedBox(height: screenHeight(context) * 0.04),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: listsData.length,
-                        itemBuilder: (context, index) {
-                          return LogCard(listData: listsData[index]);
-                        },
-                      ),
+                      child: isLoading
+                          ? Center(child: CircularProgressIndicator())
+                          : logs.isEmpty
+                              ? Center(child: Text('No logs available.'))
+                              : ListView.builder(
+                                  itemCount: logs.length,
+                                  itemBuilder: (context, index) {
+                                    return LogCard(log: logs[index]);
+                                  },
+                                ),
                     ),
                   ],
                 ),
