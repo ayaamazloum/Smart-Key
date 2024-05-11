@@ -25,6 +25,9 @@ class KncockScreenState extends State<KncockScreen> {
   }
 
   void fetchSecretKnock() async {
+    setState(() {
+      isLoading = true;
+    });
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/knock', method: 'get');
     final response = jsonDecode(result.body);
@@ -91,7 +94,7 @@ class KncockScreenState extends State<KncockScreen> {
                 left: screenWidth(context) * 0.05,
                 right: screenWidth(context) * 0.05,
               ),
-              margin: EdgeInsets.only(top: screenHeight(context) * 0.17),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.19),
               child: isLoading
                   ? const Center(
                       child: CircularProgressIndicator(),
@@ -104,7 +107,24 @@ class KncockScreenState extends State<KncockScreen> {
                             style: Theme.of(context).textTheme.bodySmall,
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: screenHeight(context) * 0.06),
+                          SizedBox(height: screenHeight(context) * 0.08),
+                          Center(
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              children: secretKnock!.split('').map((char) {
+                                Color color =
+                                    char == '1' ? primaryColor : tertiaryColor;
+                                return Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor: color,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.08),
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pushNamed('/changeKnock');
