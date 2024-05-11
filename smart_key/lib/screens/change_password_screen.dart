@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
@@ -95,13 +94,13 @@ class ChangePasswordScreen extends StatelessWidget {
                 left: screenWidth(context) * 0.05,
                 right: screenWidth(context) * 0.05,
               ),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.25),
               child: SingleChildScrollView(
                 child: Form(
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: screenHeight(context) * 0.25),
                       MyTextField(
                         labelText: 'Current Password',
                         hintText: '********',
