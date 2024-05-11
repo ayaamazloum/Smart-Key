@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
+import 'package:smart_key/screens/change_passcode.dart';
 import 'package:smart_key/screens/change_password_screen.dart';
 import 'package:smart_key/screens/forgot_password_screen.dart';
 import 'package:smart_key/screens/invitations_screen.dart';
@@ -122,6 +123,7 @@ class SmartKeyState extends State<SmartKey> {
         '/resetPassword': (context) => ResetPasswordScreen(),
         '/invitations': (context) => InvitationsScreen(),
         '/changePassword': (context) => ChangePasswordScreen(),
+        '/changePasscode': (context) => ChangePasscodeScreen(),
       },
       navigatorKey: navigatorKey,
     );
