@@ -168,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Form(
                         key: formKey,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Stack(
                               children: [
