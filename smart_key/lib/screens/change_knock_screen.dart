@@ -97,6 +97,12 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
                           )),
                     ],
                   ),
+                  SizedBox(height: screenHeight(context) * 0.08),
+                  PrimaryButton(
+                    text: 'Save',
+                    onPressed: () {
+                    },
+                  ),
                 ],
               ),
             ),
