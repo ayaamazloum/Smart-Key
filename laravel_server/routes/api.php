@@ -8,6 +8,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
             Route::get('markNotHome', [HomeController::class, 'markNotHome']);
         });
                 
+        Route::post('updateProfile', [UserController::class, 'updateProfile']);
         Route::post('changePassword', [PasswordController::class, 'changePassword']);
         Route::post('log', [HomeController::class, 'log']);
         Route::get('logout', [AuthController::class, 'logout']);
