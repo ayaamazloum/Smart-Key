@@ -80,13 +80,13 @@ class ForgotPasswordScreen extends StatelessWidget {
                 left: screenWidth(context) * 0.05,
                 right: screenWidth(context) * 0.05,
               ),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.17),
               child: SingleChildScrollView(
                 child: Form(
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: screenHeight(context) * 0.15),
                       Align(
                         alignment: Alignment.center,
                         child: Text(
@@ -95,7 +95,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SizedBox(height: screenHeight(context) * 0.06),
+                      SizedBox(height: screenHeight(context) * 0.08),
                       MyTextField(
                         labelText: 'E-mail',
                         hintText: 'example@example.com',
