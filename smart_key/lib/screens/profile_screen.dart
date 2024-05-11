@@ -152,6 +152,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {},
                               ),
                             ),
+                            SizedBox(
+                              height: screenHeight(context) * 0.065,
+                            ),
                             MyTextField(
                               labelText: 'Full Name',
                               hintText: 'John Doe',
@@ -178,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               textInputType: TextInputType.text,
                             ),
                             SizedBox(
-                              height: screenHeight(context) * 0.05,
+                              height: screenHeight(context) * 0.06,
                             ),
                             PrimaryButton(
                               text: 'Save Changes',
