@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
+import 'package:smart_key/utils/select_image.dart';
 import 'package:smart_key/widgets/primary_button.dart';
-import 'package:smart_key/widgets/profile_image.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:logger/logger.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late SharedPreferences preferences;
-
+  Uint8List? newProfilePicture;
   bool isLoading = false;
   String profilePictureUrl = '';
 
@@ -54,6 +57,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       logger.e("Error fetching user data: $e");
     }
+  }
+
+  void pickNewProfilePicture() async {
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState(() {
+      newProfilePicture = image;
+    });
   }
 
   void editProfile(BuildContext context) async {
@@ -144,13 +154,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: screenWidth(context) * 0.23,
-                              backgroundImage: NetworkImage(profilePictureUrl),
-                              child: IconButton(
-                                icon: Icon(Icons.edit),
-                                onPressed: () {},
-                              ),
+                            Stack(
+                              children: [
+                                newProfilePicture != null
+                                    ? CircleAvatar(
+                                        radius: screenWidth(context) * 0.23,
+                                        backgroundImage:
+                                            MemoryImage(newProfilePicture!),
+                                      )
+                                    : CircleAvatar(
+                                        radius: screenWidth(context) * 0.23,
+                                        backgroundImage:
+                                            NetworkImage(profilePictureUrl),
+                                      ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.black.withOpacity(0.3),
+                                    ),
+                                    child: IconButton(
+                                      icon:
+                                          Icon(Icons.edit, color: Colors.white),
+                                      onPressed: () {
+                                        pickNewProfilePicture();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: screenHeight(context) * 0.065,
