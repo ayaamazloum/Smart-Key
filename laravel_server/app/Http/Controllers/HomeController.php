@@ -76,4 +76,25 @@ class HomeController extends Controller
             'logs' => $logs,
         ]);
     }
+
+    public function changePasscode(Request $request)
+    {
+        $request->validate([
+            'currentPasscode' => 'required|string|min:8',
+            'newPasscode' => 'required|string|min:8',
+        ]);
+
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::find($arduino_id);
+
+        if($request->currentPasscode != $arduino->passcode) {
+            return response()->json(['status' => 'error', 'message' => 'Incorrect provided current passcode.'], 422);
+        }
+        
+        $arduino->passcode = $request->newPasscode;
+        $arduino->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Passcode changed successfully.']);
+    }
 }
