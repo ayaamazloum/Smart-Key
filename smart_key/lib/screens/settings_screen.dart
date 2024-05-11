@@ -70,8 +70,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 route: '/invitations'),
                             if(userType == 'owner') ...[SettingsItem(
                                 icon: Icons.sensor_door_outlined,
-                                title: 'Knock pattern',
-                                route: ''),
+                                title: 'Secret Knock',
+                                route: '/knock'),
                             SettingsItem(
                                 icon: Icons.lock_open_outlined,
                                 title: 'Change passcode',
