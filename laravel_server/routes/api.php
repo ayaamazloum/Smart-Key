@@ -14,10 +14,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
         Route::middleware('role:owner')->group(function () {
             Route::get('membersAtHome', [HomeController::class, 'getMembersAtHome']);
-            Route::post('changePasscode', [HomeController::class, 'changePasscode']);
-            Route::get('knock', [HomeController::class, 'getKnock']);
-            Route::post('changeKnock', [HomeController::class, 'changeKnock']);
+            Route::post('changePasscode', [ArduinoController::class, 'changePasscode']);
+            Route::get('knock', [ArduinoController::class, 'getKnock']);
+            Route::post('changeKnock', [ArduinoController::class, 'changeKnock']);
         });
+        
         Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
             Route::post('logs', [HomeController::class, 'getLogs']);

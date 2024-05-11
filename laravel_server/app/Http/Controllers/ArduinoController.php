@@ -30,4 +30,50 @@ class ArduinoController extends Controller
             'message' => 'Log added successfully.',
         ]);
     }
+
+    public function changePasscode(Request $request)
+    {
+        $request->validate([
+            'currentPasscode' => 'required|string|min:8',
+            'newPasscode' => 'required|string|min:8',
+        ]);
+
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::find($arduino_id);
+
+        if($request->currentPasscode != $arduino->passcode) {
+            return response()->json(['status' => 'error', 'message' => 'Incorrect provided current passcode.'], 422);
+        }
+        
+        $arduino->passcode = $request->newPasscode;
+        $arduino->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Passcode changed successfully.']);
+    }
+
+    public function getKnock(Request $request)
+    {
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::findOrFail($arduino_id);
+
+        return response()->json(['status' => 'success', 'knock' => $arduino->knock_pattern]);
+    }
+
+    public function changeKnock(Request $request)
+    {
+        $request->validate([
+            'newPattern' => 'required|string',
+        ]);
+
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::find($arduino_id);
+        
+        $arduino->knock_pattern = $request->newPattern;
+        $arduino->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Knock changed successfully.']);
+    }
 }
