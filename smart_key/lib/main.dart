@@ -5,6 +5,7 @@ import 'package:smart_key/screens/change_passcode.dart';
 import 'package:smart_key/screens/change_password_screen.dart';
 import 'package:smart_key/screens/forgot_password_screen.dart';
 import 'package:smart_key/screens/invitations_screen.dart';
+import 'package:smart_key/screens/knock_screen.dart';
 import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
 import 'package:smart_key/screens/profile_screen.dart';
@@ -125,6 +126,7 @@ class SmartKeyState extends State<SmartKey> {
         '/invitations': (context) => InvitationsScreen(),
         '/changePassword': (context) => ChangePasswordScreen(),
         '/changePasscode': (context) => ChangePasscodeScreen(),
+        '/knock': (context) => KncockScreen(),
         '/profile': (context) => ProfileScreen(),
       },
       navigatorKey: navigatorKey,
