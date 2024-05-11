@@ -96,13 +96,14 @@ class ResetPasswordScreen extends StatelessWidget {
                 left: screenWidth(context) * 0.05,
                 right: screenWidth(context) * 0.05,
               ),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.25),
               child: SingleChildScrollView(
                 child: Form(
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: screenHeight(context) * 0.15),
+                      SizedBox(height: screenHeight(context) * 0.17),
                       Text(
                         'We have sent you a verification code on your email address.',
                         style: Theme.of(context).textTheme.bodySmall,
