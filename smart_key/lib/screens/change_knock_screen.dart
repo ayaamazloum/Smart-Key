@@ -62,6 +62,21 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: screenHeight(context) * 0.08),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    children: knockPattern.map((value) {
+                      return Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: value == 1 ? primaryColor : tertiaryColor,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: screenHeight(context) * 0.08),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -100,8 +115,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
                   SizedBox(height: screenHeight(context) * 0.08),
                   PrimaryButton(
                     text: 'Save',
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                   ),
                 ],
               ),
