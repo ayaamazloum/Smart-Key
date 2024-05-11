@@ -75,7 +75,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                             SettingsItem(
                                 icon: Icons.lock_open_outlined,
                                 title: 'Change passcode',
-                                route: ''),
+                                route: '/changePasscode'),
                             SizedBox(height: screenHeight(context) * 0.02)]],
                           Text('Account',
                               style: Theme.of(context).textTheme.bodyMedium),
