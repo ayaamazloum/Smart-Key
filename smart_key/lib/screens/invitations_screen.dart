@@ -141,7 +141,7 @@ class InvitationsScreenState extends State<InvitationsScreen> {
                       child: isLoading
                           ? Center(child: CircularProgressIndicator())
                           : invitations.isEmpty
-                              ? Center(child: Text('No logs available.'))
+                              ? Center(child: Text('No invitations.'))
                               : ListView.builder(
                                   itemCount: invitations.length,
                                   itemBuilder: (context, index) {
