@@ -109,10 +109,10 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
                   horizontal: screenWidth(context) * 0.05,
                   vertical: screenHeight(context) * 0.04,
                 ),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: screenHeight(context) * 0.12),
                     Expanded(
                       child: isLoading
                           ? Center(child: CircularProgressIndicator())
