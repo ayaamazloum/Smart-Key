@@ -17,6 +17,69 @@ class ChangeKnockScreen extends StatefulWidget {
 class ChangeKnockScreenState extends State<ChangeKnockScreen> {
   List<int> knockPattern = [];
   final logger = Logger();
+  void changeKnock(BuildContext context) async {
+    int countOnes = knockPattern.where((element) => element == 1).length;
+
+    if (countOnes < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Secret knock must have at least 6 knocks(green circles).',
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+      return;
+    }
+
+    String newPattern = knockPattern.join('');
+    newPattern = trimZeros(newPattern);
+
+    final data = {
+      'newPattern': newPattern,
+    };
+
+    logger.i(data.toString());
+
+    final result = await API(context: context)
+        .sendRequest(route: '/changeKnock', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+
+    logger.i(response);
+
+    if (response['status'] == 'success') {
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Secret knock updated successfully.',
+            style: TextStyle(fontSize: 12, color: primaryColor),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+      Navigator.pop(navigatorKey.currentContext!);
+      Navigator.pop(navigatorKey.currentContext!);
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
+
+  String trimZeros(String input) {
+    return input.replaceAll(RegExp('^0+|0+\$'), '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +178,9 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
                   SizedBox(height: screenHeight(context) * 0.08),
                   PrimaryButton(
                     text: 'Save',
-                    onPressed: () {},
+                    onPressed: () {
+                      changeKnock(context);
+                    },
                   ),
                 ],
               ),
