@@ -14,4 +14,10 @@ extension InputValidation on String {
     RegExp(r"^.{8,}$");
     return passwordRegExp.hasMatch(this);
   }
+
+  bool get isValidPasscode{
+  final passwordRegExp = 
+    RegExp(r"^[0-9A-D]+$");
+    return passwordRegExp.hasMatch(this);
+  }
 }
