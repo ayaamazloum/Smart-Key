@@ -106,4 +106,20 @@ class HomeController extends Controller
 
         return response()->json(['status' => 'success', 'knock' => $arduino->knock_pattern]);
     }
+
+    public function changeKnock(Request $request)
+    {
+        $request->validate([
+            'newPattern' => 'required|string',
+        ]);
+
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::find($arduino_id);
+        
+        $arduino->knock_pattern = $request->newPattern;
+        $arduino->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Knock changed successfully.']);
+    }
 }
