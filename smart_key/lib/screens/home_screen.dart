@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/services/api.dart';
@@ -33,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool? isHome;
   int? arduinoId;
 
-  String doorControlTopic = 'temp';
-  String doorStatusTopic = 'temp';
+  String doorControlTopic = '';
+  String doorStatusTopic = '';
 
   late MqttServerClient client;
   String doorStatus = "closed";
@@ -159,17 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
           .sendRequest(route: '/log', method: 'post', data: data);
       final response = jsonDecode(result.body);
       logger.i(response['message']);
-    }
-  }
-
-  void sendControlMessage(String message) {
-    if (client.connectionStatus!.state == MqttConnectionState.connected) {
-      final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
-      builder.addString(message);
-      client.publishMessage(
-          doorControlTopic, MqttQos.atLeastOnce, builder.payload!);
-    } else {
-      logger.e('MQTT client is not connected. Cannot send control message.');
     }
   }
 
