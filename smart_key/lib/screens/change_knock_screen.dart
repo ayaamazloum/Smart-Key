@@ -1,11 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/widgets/primary_button.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class ChangeKnockScreen extends StatefulWidget {
   const ChangeKnockScreen({super.key});
@@ -14,9 +16,111 @@ class ChangeKnockScreen extends StatefulWidget {
   ChangeKnockScreenState createState() => ChangeKnockScreenState();
 }
 
+const String mqttServer = 'test.mosquitto.org';
+const int mqttPort = 1883;
+
 class ChangeKnockScreenState extends State<ChangeKnockScreen> {
   List<int> knockPattern = [];
   final logger = Logger();
+  
+  late SharedPreferences preferences;
+  late MqttServerClient client;
+  String knockChangeTopic = '';
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    connectToMqttBroker();
+  }
+
+  Future<dynamic> getArduinoId() async {
+    setState(() {
+      isLoading = true;
+    });
+    preferences = await SharedPreferences.getInstance();
+    setState(() {
+      int arduinoId = preferences.getInt('arduinoId')!;
+      knockChangeTopic = 'arduino${arduinoId}knock/change';
+      isLoading = false;
+    });
+  }
+  
+  Future<dynamic> connectToMqttBroker() async {
+    client = MqttServerClient.withPort(
+        'test.mosquitto.org', 'SmartKeyFlutterClient', 1883);
+    client.logging(on: true);
+    client.keepAlivePeriod = 30;
+    client.onDisconnected = () {
+      logger.e('Disconnected');
+    };
+    client.onConnected = () {
+      logger.i('MQTT Connected');
+    };
+    client.logging(on: true);
+    client.onConnected = () {
+      logger.i('MQTT_LOGS:: Connected');
+    };
+    client.onDisconnected = () {
+      logger.i('MQTT_LOGS:: Disconnected');
+    };
+    client.onUnsubscribed = (String? topic) {
+      logger.i('MQTT_LOGS:: Unsubscribed topic: $topic');
+    };
+    client.onSubscribed = (String topic) {
+      logger.i('MQTT_LOGS:: Subscribed topic: $topic');
+    };
+    client.onSubscribeFail = (String topic) {
+      logger.i('MQTT_LOGS:: Failed to subscribe $topic');
+    };
+    client.pongCallback = () {
+      logger.i('MQTT_LOGS:: Ping response client callback invoked');
+    };
+    client.keepAlivePeriod = 60;
+    client.logging(on: true);
+    client.setProtocolV311();
+
+    final connMess = MqttConnectMessage()
+        .withClientIdentifier('SKFlutterClient')
+        .withWillTopic('willtopic')
+        .withWillMessage('Will message')
+        .startClean()
+        .withWillQos(MqttQos.atLeastOnce);
+
+    logger.i('MQTT_LOGS::Mosquitto client connecting....');
+
+    client.connectionMessage = connMess;
+
+    try {
+      await client.connect();
+      logger.i('Connected to MQTT broker');
+    } catch (e) {
+      logger.e('Exception: $e');
+      client.disconnect();
+    }
+
+    if (client.connectionStatus!.state == MqttConnectionState.connected) {
+      logger.i('MQTT_LOGS::Mosquitto client connected');
+    } else {
+      logger.e(
+          'MQTT_LOGS::ERROR Mosquitto client connection failed - disconnecting, status is ${client.connectionStatus}');
+      client.disconnect();
+      return -1;
+    }
+
+    logger.i('MQTT_LOGS::Subscribing to the door/control topic');
+
+    return client;
+  }
+
+  void publishMessage(String message, String pubTopic) async {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    if (client.connectionStatus?.state == MqttConnectionState.connected) {
+      client.publishMessage(pubTopic, MqttQos.atLeastOnce, builder.payload!);
+    }
+  }
+
   void changeKnock(BuildContext context) async {
     int countOnes = knockPattern.where((element) => element == 1).length;
 
