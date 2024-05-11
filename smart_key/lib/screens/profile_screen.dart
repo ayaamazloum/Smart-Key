@@ -31,6 +31,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    getUserData();
+  }
+
+  Future<dynamic> getUserData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      preferences = await SharedPreferences.getInstance();
+      setState(() {
+        nameController.text = preferences.getString('name') ?? '';
+        emailController.text = preferences.getString('email') ?? '';
+        profilePictureUrl = preferences.getString('profilePicture') == null
+            ? '$serverImagesUrl/default-profile-picture.jpg'
+            : '$serverImagesUrl/${preferences.getString('profilePicture')}';
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      logger.e("Error fetching user data: $e");
+    }
   }
 
   void editProfile(BuildContext context) async {
