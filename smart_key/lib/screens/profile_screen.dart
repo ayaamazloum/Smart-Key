@@ -144,15 +144,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // CircleAvatar(
-                            //   radius: 50,
-                            //   backgroundImage: NetworkImage(profilePictureUrl),
-                            //   child: IconButton(
-                            //     icon: Icon(Icons.edit),
-                            //     onPressed: () {},
-                            //   ),
-                            // ),
-                            ProfileImage(imageUrl: profilePictureUrl),
+                            CircleAvatar(
+                              radius: screenWidth(context) * 0.23,
+                              backgroundImage: NetworkImage(profilePictureUrl),
+                              child: IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {},
+                              ),
+                            ),
                             MyTextField(
                               labelText: 'Full Name',
                               hintText: 'John Doe',
