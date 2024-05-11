@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
             Route::get('membersAtHome', [HomeController::class, 'getMembersAtHome']);
             Route::post('changePasscode', [HomeController::class, 'changePasscode']);
             Route::get('knock', [HomeController::class, 'getKnock']);
+            Route::post('changeKnock', [HomeController::class, 'changeKnock']);
         });
         Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
