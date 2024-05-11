@@ -13,6 +13,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('account')->group(function () {
         Route::middleware('role:owner')->group(function () {
             Route::get('membersAtHome', [HomeController::class, 'getMembersAtHome']);
+            Route::post('changePasscode', [HomeController::class, 'changePasscode']);
         });
         Route::middleware('role:owner,family_member')->group(function () {
             Route::post('invite', [InvitationController::class, 'sendInvitation']);
