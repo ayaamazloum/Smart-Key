@@ -91,22 +91,37 @@ class KncockScreenState extends State<KncockScreen> {
                 left: screenWidth(context) * 0.05,
                 right: screenWidth(context) * 0.05,
               ),
-              margin: EdgeInsets.only(top: screenHeight(context) * 0.25),
-              child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'The green circle represents the knock while the yellow one represents the break point.',
-                        style: Theme.of(context).textTheme.bodySmall,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: screenHeight(context) * 0.06),
-                    ]),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.17),
+              child: isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                          Text(
+                            'The green circle represents the knock while the yellow one represents the break point.',
+                            style: Theme.of(context).textTheme.bodySmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: screenHeight(context) * 0.06),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/changeKnock');
+                            },
+                            child: Text(
+                              'Change the secret knock',
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ]),
             )
           ],
         ),
       ),
     );
-  
   }
 }
