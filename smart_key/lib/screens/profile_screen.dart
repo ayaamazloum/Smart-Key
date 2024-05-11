@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     logger.i(data.toString());
 
     final result = await API(context: context)
-        .sendRequest(route: '/editProfile', method: 'post', data: data);
+        .sendRequest(route: '/updateProfile', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     logger.i(response);
@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
-            'Profile info updated successfully.',
+            'Profile updated successfully.',
             style: TextStyle(fontSize: 12, color: primaryColor),
           ),
           backgroundColor: Colors.grey.shade200,
