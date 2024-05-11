@@ -37,6 +37,7 @@ class SignupScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
+      await preferences.setString('email', response['user']['email']);
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
