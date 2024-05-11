@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isLoading = false;
   String? firstName;
-  String? profilePicture;
+  String? profilePictureUrl;
   String? userType;
   bool? isHome;
   int? arduinoId;
@@ -57,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
     preferences = await SharedPreferences.getInstance();
     setState(() {
       firstName = preferences.getString('name')!.split(' ')[0];
-      profilePicture = preferences.getString('profilePicture');
+      profilePictureUrl = preferences.getString('profilePicture') == null
+          ? '$serverImagesUrl/default-profile-picture.jpg'
+          : '$serverImagesUrl/${preferences.getString('profilePicture')}';
       userType = preferences.getString('userType');
       isHome = preferences.getBool('isHome');
       arduinoId = preferences.getInt('arduinoId');
@@ -279,31 +281,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              profilePicture == null
-                                  ? SizedBox(width: 0)
-                                  : Expanded(
-                                      flex: 2,
-                                      child: Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: primaryColor,
-                                            width: 2,
-                                          ),
-                                        ),
-                                        child: ClipOval(
-                                          child: ProfileImage(
-                                              imageUrl:
-                                                  '$serverImagesUrl/${preferences.getString('profilePicture')}'),
-                                        ),
-                                      ),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: primaryColor,
+                                      width: 2,
                                     ),
+                                  ),
+                                  child: ClipOval(
+                                    child: ProfileImage(
+                                        imageUrl: profilePictureUrl!),
+                                  ),
+                                ),
+                              ),
                               Expanded(
                                 flex: 12,
                                 child: Text(
                                   'Hi, $firstName',
-                                  style: Theme.of(context).textTheme.headlineSmall,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
                               Expanded(
@@ -326,7 +326,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           userType == 'owner'
                               ? GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed('/homeMembers');
+                                    Navigator.of(context)
+                                        .pushNamed('/homeMembers');
                                   },
                                   child: Align(
                                       alignment: Alignment.centerRight,
