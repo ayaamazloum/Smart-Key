@@ -366,7 +366,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Screenshot(
                                 controller: screenshotController,
                                 child: Mjpeg(
-                                  stream: 'http://192.168.1.5:81/stream',
+                                  stream: 'http://192.168.0.107:81/stream',
                                   isLive: true,
                                   error: (BuildContext context, dynamic error,
                                       dynamic stackTrace) {

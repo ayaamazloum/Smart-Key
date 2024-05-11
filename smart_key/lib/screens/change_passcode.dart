@@ -18,6 +18,47 @@ class ChangePasscodeScreen extends StatelessWidget {
 
   final logger = Logger();
 
+  void changePasscode(BuildContext context) async {
+    final data = {
+      'currentPasscode': currentPasscodeController.text.toString(),
+      'newPasscode': newPasscodeController.text.toString(),
+    };
+
+    logger.i(data.toString());
+
+    final result = await API(context: context)
+        .sendRequest(route: '/changePasscode', method: 'post', data: data);
+    final response = jsonDecode(result.body);
+
+    logger.i(response);
+
+    if (response['status'] == 'success') {
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Passcode changed successfully.',
+            style: TextStyle(fontSize: 12, color: primaryColor),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+      Navigator.pop(formKey.currentContext!);
+    } else {
+      final errorMessage = response['message'];
+      ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(fontSize: 12, color: Colors.red.shade800),
+          ),
+          backgroundColor: Colors.grey.shade200,
+          elevation: 30,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +167,7 @@ class ChangePasscodeScreen extends StatelessWidget {
                         text: 'Change Passcode',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
+                            changePasscode(context);
                           }
                         },
                       ),
