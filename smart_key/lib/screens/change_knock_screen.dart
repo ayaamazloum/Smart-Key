@@ -22,7 +22,7 @@ const int mqttPort = 1883;
 class ChangeKnockScreenState extends State<ChangeKnockScreen> {
   List<int> knockPattern = [];
   final logger = Logger();
-  
+
   late SharedPreferences preferences;
   late MqttServerClient client;
   String knockChangeTopic = '';
@@ -45,7 +45,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
       isLoading = false;
     });
   }
-  
+
   Future<dynamic> connectToMqttBroker() async {
     client = MqttServerClient.withPort(
         'test.mosquitto.org', 'SmartKeyFlutterClient', 1883);
@@ -155,6 +155,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
     logger.i(response);
 
     if (response['status'] == 'success') {
+      publishMessage(newPattern, knockChangeTopic);
       ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
