@@ -6,6 +6,8 @@ class MyTextField extends StatefulWidget {
       {super.key,
       required this.labelText,
       required this.hintText,
+      this.isEnabled = true,
+      this.textColor,
       required this.controller,
       this.showVisibilityIcon = false,
       this.validator,
@@ -14,6 +16,8 @@ class MyTextField extends StatefulWidget {
 
   final String labelText;
   final String hintText;
+  final bool? isEnabled;
+  final Color? textColor;
   final bool? showVisibilityIcon;
   final TextEditingController controller;
   final String? Function(String?)? validator;
@@ -33,6 +37,7 @@ class _MyTextFieldState extends State<MyTextField> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.only(left: 20),
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        enabled: widget.isEnabled!,
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: TextStyle(
@@ -59,7 +64,7 @@ class _MyTextFieldState extends State<MyTextField> {
       ),
       style: TextStyle(
         fontSize: 14.0,
-        color: secondaryColor,
+        color: widget.textColor ?? secondaryColor,
       ),
       controller: widget.controller,
       validator: widget.validator,
