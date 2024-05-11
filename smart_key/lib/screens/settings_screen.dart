@@ -83,7 +83,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           SettingsItem(
                               icon: Icons.person_outline_sharp,
                               title: 'Profile',
-                              route: ''),
+                              route: '/profile'),
                           SettingsItem(
                               icon: Icons.password_outlined,
                               title: 'Change password',
