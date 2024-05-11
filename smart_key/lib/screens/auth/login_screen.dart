@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
     final data = {
       'email': emailController.text.toString(),
       'password': passwordController.text.toString(),
-      'fcmToken':fcmToken,
+      'fcmToken': fcmToken,
     };
 
     logger.i(data.toString());
@@ -39,6 +39,7 @@ class LoginScreen extends StatelessWidget {
 
     if (response['status'] == 'success') {
       await preferences.setString('name', response['user']['name']);
+      await preferences.setString('email', response['user']['email']);
       if (response['user']['profile_picture'] != null) {
         await preferences.setString(
             'profilePicture', response['user']['profile_picture']);
