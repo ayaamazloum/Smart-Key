@@ -21,6 +21,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late SharedPreferences preferences;
+  String? name;
   Uint8List? newProfilePicture;
   bool isLoading = false;
   String profilePictureUrl = '';
@@ -44,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       preferences = await SharedPreferences.getInstance();
       setState(() {
+        name = preferences.getString('name') ?? '';
         nameController.text = preferences.getString('name') ?? '';
         emailController.text = preferences.getString('email') ?? '';
         profilePictureUrl = preferences.getString('profilePicture') == null
@@ -67,8 +69,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void editProfile(BuildContext context) async {
+    bool isNameChanged = nameController.text.toString() != name;
+
+    if (!isNameChanged && newProfilePicture == null) {
+      return;
+    }
+
     final data = {
-      'name': nameController.text.toString(),
+      if (isNameChanged) 'name': nameController.text.toString(),
+      if (newProfilePicture != null)
+        'newProfilePicture': base64Encode(newProfilePicture!),
     };
 
     logger.i(data.toString());
@@ -80,6 +90,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     logger.i(response);
 
     if (response['status'] == 'success') {
+      if (isNameChanged) {
+        await preferences.setString('name', nameController.text.toString());
+      }
+      if (newProfilePicture != null) {
+        await preferences.setString('profilePicture', response['profilePicture']);
+      }
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
