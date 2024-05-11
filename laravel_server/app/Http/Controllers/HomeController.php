@@ -97,4 +97,13 @@ class HomeController extends Controller
 
         return response()->json(['status' => 'success', 'message' => 'Passcode changed successfully.']);
     }
+
+    public function getKnock(Request $request)
+    {
+        $arduino_id = auth()->user()->arduino_id;
+
+        $arduino = Arduino::findOrFail($arduino_id);
+
+        return response()->json(['status' => 'success', 'knock' => $arduino->knock_pattern]);
+    }
 }
