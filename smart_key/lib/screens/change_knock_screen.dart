@@ -36,6 +36,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
 
     String newPattern = knockPattern.join('');
     newPattern = trimZeros(newPattern);
+    newPattern = reduceConsecutiveZeros(newPattern);
 
     final data = {
       'newPattern': newPattern,
@@ -79,6 +80,10 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
 
   String trimZeros(String input) {
     return input.replaceAll(RegExp('^0+|0+\$'), '');
+  }
+
+  String reduceConsecutiveZeros(String input) {
+    return input.replaceAll(RegExp('0{2,}'), '0');
   }
 
   @override
