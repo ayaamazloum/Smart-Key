@@ -176,6 +176,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             MyTextField(
                               labelText: 'E-mail',
                               hintText: 'example@example.com',
+                              isEnabled: false,
+                              textColor: Colors.grey,
                               controller: emailController,
                               obscureText: false,
                               textInputType: TextInputType.text,
