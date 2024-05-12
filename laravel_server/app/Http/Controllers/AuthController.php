@@ -34,13 +34,14 @@ class AuthController extends Controller
         
         $user = Auth::user();
 
-        $existingDevice = Device::where('fcm_token', $request->fcmToken)->exists();
-        if(!$existingDevice) {
-            Device::create([
-                'fcm_token' => $request->fcmToken,
-                'arduino_id' => $user->arduino_id,
-            ]);
+        $device = Device::where('fcm_token', $request->fcmToken)->first();
+        if($device) {
+           $device->delete(); 
         }
+        Device::create([
+            'fcm_token' => $request->fcmToken,
+            'arduino_id' => $user->arduino_id,
+        ]);
 
         $isHome = MembersAtHome::where('user_id', $user->id)->first();
 
@@ -63,6 +64,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255',
             'key' => 'required|string',
             'password' => 'required|string|min:8',
+            'fcmToken' => 'required|string',
         ]);
         
         $existingUser = User::where('email', $request->email)->first();
@@ -102,6 +104,15 @@ class AuthController extends Controller
             'role_id' => $role->id,
             'start_date' => $invitation-> start_date,
             'end_date' => $invitation-> end_date,
+        ]);
+
+        $device = Device::where('fcm_token', $request->fcmToken)->first();
+        if($existingDevice) {
+            $device->delete();
+        }
+        Device::create([
+            'fcm_token' => $request->fcmToken,
+            'arduino_id' => $arduino_id,
         ]);
 
         $token = Auth::login($user);
