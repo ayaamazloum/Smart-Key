@@ -11,6 +11,7 @@ import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:logger/logger.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -44,9 +45,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     try {
       preferences = await SharedPreferences.getInstance();
+      FlutterSecureStorage storage = FlutterSecureStorage();
+
       setState(() {
         name = preferences.getString('name') ?? '';
         nameController.text = preferences.getString('name') ?? '';
+        emailController.text = storage.read(key: 'email').toString();
         emailController.text = preferences.getString('email') ?? '';
         profilePictureUrl = preferences.getString('profilePicture') == null
             ? '$serverImagesUrl/default-profile-picture.jpg'
