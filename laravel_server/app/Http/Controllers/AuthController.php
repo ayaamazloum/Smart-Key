@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\Invitation;
 use App\Models\MembersAtHome;
 use App\Models\Arduino;
+use App\Models\Device;
 use Carbon\Carbon;
 
 class AuthController extends Controller
@@ -19,9 +20,10 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+            'fcmToken' => 'required|string',
         ]);
-        $credentials = $request->only('email', 'password');
 
+        $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);
         if (!$token) {
             return response()->json([
@@ -29,8 +31,16 @@ class AuthController extends Controller
                 'message' => 'Unauthorized',
             ], 401);
         }
-
+        
         $user = Auth::user();
+
+        $existingDevice = Device::where('fcm_token', $request->fcmToken)->exists();
+        if(!$existingDevice) {
+            Device::create([
+                'fcm_token' => $request->fcmToken,
+                'arduino_id' => $user->arduino_id,
+            ]);
+        }
 
         $isHome = MembersAtHome::where('user_id', $user->id)->first();
 
