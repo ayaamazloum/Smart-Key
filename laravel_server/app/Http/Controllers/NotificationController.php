@@ -7,6 +7,7 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use App\Models\Device;
+use App\Models\Notification as AppNotification;
 use App\Models\Arduino;
 
 class NotificationController extends Controller
@@ -34,6 +35,17 @@ class NotificationController extends Controller
         }
 
         return response()->json(['message' => 'Notifications sent successfully']);
+    }
+
+    public function getNotifications(Request $request) {
+        $arduino_id = auth()->user()->arduino_id;
+        
+        $notifications = AppNotification::where('arduino_id', $arduino_id)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'notifications' => $notifications,
+        ]);
     }
 
     public function addDevice(Request $request) {
