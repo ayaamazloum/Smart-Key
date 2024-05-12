@@ -34,6 +34,12 @@ class NotificationController extends Controller
             $messaging->send($message);
         }
 
+        AppNotification::create([
+            'text' => $body,
+            'read' => false,
+            'arduino_id' => $arduino->id,
+        ]);
+
         return response()->json(['message' => 'Notifications sent successfully']);
     }
 
@@ -41,7 +47,7 @@ class NotificationController extends Controller
         $arduino_id = auth()->user()->arduino_id;
         
         $notifications = AppNotification::where('arduino_id', $arduino_id)->get();
-
+        
         return response()->json([
             'status' => 'success',
             'notifications' => $notifications,
