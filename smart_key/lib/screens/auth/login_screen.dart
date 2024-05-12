@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:smart_key/main.dart';
+import 'package:smart_key/services/firebase_api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/services/api.dart';
@@ -8,8 +9,8 @@ import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -17,12 +18,11 @@ class LoginScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
   final logger = Logger();
 
   void loginUser(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    final fcmToken = preferences.getString('fcmToken');
+    FirebaseApi firebaseApi = FirebaseApi();
+    String? fcmToken = await firebaseApi.getFcmToken();
 
     final data = {
       'email': emailController.text.toString(),
@@ -41,8 +41,10 @@ class LoginScreen extends StatelessWidget {
     if (response['status'] == 'success') {
       FlutterSecureStorage storage = FlutterSecureStorage();
       await storage.write(key: 'email', value: response['user']['email']);
-      await storage.write(key: 'token', value: response['authorisation']['token']);
-      
+      await storage.write(
+          key: 'token', value: response['authorisation']['token']);
+
+      SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
       if (response['user']['profile_picture'] != null) {
         await preferences.setString(
