@@ -3,7 +3,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Logger logger = Logger();
 
@@ -67,14 +66,15 @@ class FirebaseApi {
 
   Future<void> initNotifications() async {
     await firebaseMessaging.requestPermission();
-    final fCMToken = await firebaseMessaging.getToken();
-    logger.i('token: $fCMToken');
-    
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('fcmToken', fCMToken!);
+    final fcmToken = await firebaseMessaging.getToken();
+    logger.i('token: $fcmToken');
 
     initPushNotifications();
     initLocalNotifications();
     FirebaseMessaging.onMessage.listen(handleMessage);
+  }
+
+  Future<String?> getFcmToken() async {
+    return await firebaseMessaging.getToken();
   }
 }
