@@ -9,6 +9,7 @@ import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:smart_key/services/firebase_api.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
@@ -24,21 +25,28 @@ class SignupScreen extends StatelessWidget {
   final logger = Logger();
 
   void registerUser(BuildContext context) async {
+    FirebaseApi firebaseApi = FirebaseApi();
+    String? fcmToken = await firebaseApi.getFcmToken();
+
     final data = {
       'name': nameController.text.toString(),
       'email': emailController.text.toString(),
       'key': keyController.text.toString(),
       'password': passwordController.text.toString(),
+      'fcmToken': fcmToken,
     };
 
-    final result = await API(context: context)
+    logger.i(fcmToken);
+
+    final result = await API(context: formKey.currentContext!)
         .sendRequest(route: '/register', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
       FlutterSecureStorage storage = FlutterSecureStorage();
       await storage.write(key: 'email', value: response['user']['email']);
-      await storage.write(key: 'token', value: response['authorisation']['token']);
+      await storage.write(
+          key: 'token', value: response['authorisation']['token']);
 
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
