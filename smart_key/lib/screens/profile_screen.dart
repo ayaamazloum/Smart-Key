@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/main.dart';
+import 'package:smart_key/providers/user_data.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
@@ -26,17 +29,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Uint8List? newProfilePicture;
   bool isLoading = false;
   String profilePictureUrl = '';
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-
+  final userData =
+      Provider.of<UserData>(navigatorKey.currentContext!, listen: true);
   final logger = Logger();
 
   @override
   void initState() {
     super.initState();
     getUserData();
+    logger.i(userData.name);
   }
 
   Future<dynamic> getUserData() async {
@@ -48,8 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       FlutterSecureStorage storage = FlutterSecureStorage();
 
       setState(() {
-        name = preferences.getString('name') ?? '';
-        nameController.text = preferences.getString('name') ?? '';
+        name = userData.name;
+        nameController.text = userData.name;
+        logger.i(userData.name);
         emailController.text = storage.read(key: 'email').toString();
         emailController.text = preferences.getString('email') ?? '';
         profilePictureUrl = preferences.getString('profilePicture') == null
@@ -95,10 +100,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     if (response['status'] == 'success') {
       if (isNameChanged) {
-        await preferences.setString('name', nameController.text.toString());
+        userData.setName(nameController.text.toString());
       }
       if (newProfilePicture != null) {
-        await preferences.setString('profilePicture', response['profilePicture']);
+        await preferences.setString(
+            'profilePicture', response['profilePicture']);
       }
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
