@@ -9,6 +9,7 @@ import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -38,8 +39,11 @@ class LoginScreen extends StatelessWidget {
     logger.i(response);
 
     if (response['status'] == 'success') {
+      FlutterSecureStorage storage = FlutterSecureStorage();
+      await storage.write(key: 'email', value: response['user']['email']);
+      await storage.write(key: 'token', value: response['authorisation']['token']);
+      
       await preferences.setString('name', response['user']['name']);
-      await preferences.setString('email', response['user']['email']);
       if (response['user']['profile_picture'] != null) {
         await preferences.setString(
             'profilePicture', response['user']['profile_picture']);
@@ -47,7 +51,6 @@ class LoginScreen extends StatelessWidget {
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
-      await preferences.setString('token', response['authorisation']['token']);
 
       response['userType'] == 'guest'
           ? Navigator.of(formKey.currentContext!).popAndPushNamed('/guestNav')
