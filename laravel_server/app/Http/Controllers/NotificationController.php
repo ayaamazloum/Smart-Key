@@ -47,7 +47,13 @@ class NotificationController extends Controller
         $arduino_id = auth()->user()->arduino_id;
         
         $notifications = AppNotification::where('arduino_id', $arduino_id)->get();
-        
+        $unreadNotifications = AppNotification::where('arduino_id', $arduino_id)->where('read', false)->get();
+
+        foreach ($unreadNotifications as $notification) {
+            $notification->read = true;
+            $notification->save();
+        }
+
         return response()->json([
             'status' => 'success',
             'notifications' => $notifications,
