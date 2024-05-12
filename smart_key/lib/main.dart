@@ -25,11 +25,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-    apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
-    appId: '1:40179194105:android:88157615cd28dd168faa28',
-    messagingSenderId: '40179194105',
-    projectId: 'smart-key-958ce',
-  ));
+        apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
+        appId: '1:40179194105:android:88157615cd28dd168faa28',
+        messagingSenderId: '40179194105',
+        projectId: 'smart-key-958ce',
+      ));
   await FirebaseApi().initNotifications();
   runApp(const SmartKey());
 }
