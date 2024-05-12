@@ -8,6 +8,7 @@ import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
@@ -35,13 +36,15 @@ class SignupScreen extends StatelessWidget {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
+      FlutterSecureStorage storage = FlutterSecureStorage();
+      await storage.write(key: 'email', value: response['user']['email']);
+      await storage.write(key: 'token', value: response['authorisation']['token']);
+
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await preferences.setString('name', response['user']['name']);
-      await preferences.setString('email', response['user']['email']);
       await preferences.setString('userType', response['userType']);
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
-      await preferences.setString('token', response['authorisation']['token']);
 
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
