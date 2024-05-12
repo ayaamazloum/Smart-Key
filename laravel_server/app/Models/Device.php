@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Device extends Model
 {
     use HasFactory;
-    protected $fillable = ['fcm_token'];
+    protected $fillable = ['fcm_token', 'arduino_id'];
 }
