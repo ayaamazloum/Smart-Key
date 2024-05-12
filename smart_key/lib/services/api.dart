@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class API {
   final logger = Logger();
@@ -17,8 +18,8 @@ class API {
       required String method,
       Map<String, dynamic>? data}) async {
     String url = apiUrl + route;
-    preferences = await SharedPreferences.getInstance();
-    String token = preferences.getString('token') ?? '';
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'token');
 
     http.Response response;
     try {
