@@ -294,20 +294,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
-                              Expanded(
-                                flex: 2,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/notifications');
-                                  },
-                                  child: Icon(
-                                    Icons.notifications_none_outlined,
-                                    color: primaryColor,
-                                    size: screenWidth(context) * 0.08,
+                              if(userType == 'owner' || userType == 'family_member') 
+                                Expanded(
+                                  flex: 2,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/notifications');
+                                    },
+                                    child: Icon(
+                                      Icons.notifications_none_outlined,
+                                      color: primaryColor,
+                                      size: screenWidth(context) * 0.08,
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                           SizedBox(height: screenHeight(context) * 0.05),
