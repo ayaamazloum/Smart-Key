@@ -7,15 +7,19 @@ use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 use App\Models\Device;
+use App\Models\Arduino;
 
 class NotificationController extends Controller
 {
-    public function sendNotification()
+    public function sendNotification(Request $request)
     {
-        $title = 'Visitor Notification';
+        $title = 'Visitor Notice';
         $body = 'Someone is at your door, ringing the bell';
 
-        $tokens = Device::all()->pluck('fcm_token')->toArray();
+        $request_key = explode(' ', $request->header('Authorization'))[1];
+        $arduino = Arduino::where('key', $request_key)->first();
+
+        $tokens = Device::where('arduino_id', $arduino->id)->pluck('fcm_token')->toArray();
 
         $firebase = (new Factory())
         ->withServiceAccount(__DIR__.'/../../../config/firebase_credentials.json');
