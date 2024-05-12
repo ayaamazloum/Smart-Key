@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smart_key/providers/user_data.dart';
 import 'package:smart_key/screens/auth/login_screen.dart';
 import 'package:smart_key/screens/auth/signup_screen.dart';
 import 'package:smart_key/screens/change_knock_screen.dart';
@@ -25,13 +27,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
-        appId: '1:40179194105:android:88157615cd28dd168faa28',
-        messagingSenderId: '40179194105',
-        projectId: 'smart-key-958ce',
-      ));
+    apiKey: 'AIzaSyB9UJ4ug5w0NRXlOdQ_e6pbJEodtX57dFE',
+    appId: '1:40179194105:android:88157615cd28dd168faa28',
+    messagingSenderId: '40179194105',
+    projectId: 'smart-key-958ce',
+  ));
   await FirebaseApi().initNotifications();
-  runApp(const SmartKey());
+  runApp(ChangeNotifierProvider(create: (_) => UserData(), child: SmartKey()));
 }
 
 class SmartKey extends StatefulWidget {
