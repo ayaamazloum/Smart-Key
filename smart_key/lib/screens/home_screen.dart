@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/providers/user_data.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:logger/logger.dart';
@@ -55,7 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     preferences = await SharedPreferences.getInstance();
     setState(() {
-      firstName = preferences.getString('name')!.split(' ')[0];
       profilePictureUrl = preferences.getString('profilePicture') == null
           ? '$serverImagesUrl/default-profile-picture.jpg'
           : '$serverImagesUrl/${preferences.getString('profilePicture')}';
@@ -288,13 +289,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Expanded(
                                 flex: 12,
-                                child: Text(
-                                  'Hi, $firstName',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                                child: Consumer<UserData>(
+                                  builder: (context, userData, _) {
+                                    return Text(
+                                      'Hi, ${userData.name.split(' ')[0]}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    );
+                                  },
                                 ),
                               ),
-                              if(userType == 'owner' || userType == 'family_member') 
+                              if (userType == 'owner' ||
+                                  userType == 'family_member')
                                 Expanded(
                                   flex: 2,
                                   child: GestureDetector(
