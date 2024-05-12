@@ -38,10 +38,12 @@ class AuthController extends Controller
         if($device) {
            $device->delete(); 
         }
-        Device::create([
-            'fcm_token' => $request->fcmToken,
-            'arduino_id' => $user->arduino_id,
-        ]);
+        if($user->role->role == 'owner' || $user->role->role == 'family_member') {
+            Device::create([
+                'fcm_token' => $request->fcmToken,
+                'arduino_id' => $user->arduino_id,
+            ]);
+        }
 
         $isHome = MembersAtHome::where('user_id', $user->id)->first();
 
@@ -110,10 +112,12 @@ class AuthController extends Controller
         if($existingDevice) {
             $device->delete();
         }
-        Device::create([
-            'fcm_token' => $request->fcmToken,
-            'arduino_id' => $arduino_id,
-        ]);
+        if($role->role == 'owner' || $user->role->role == 'family_member') {
+            Device::create([
+                'fcm_token' => $request->fcmToken,
+                'arduino_id' => $arduino_id,
+            ]);
+        }
 
         $token = Auth::login($user);
         return response()->json([
