@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_key/main.dart';
+import 'package:smart_key/providers/user_data.dart';
 import 'package:smart_key/services/firebase_api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
@@ -44,8 +46,11 @@ class LoginScreen extends StatelessWidget {
       await storage.write(
           key: 'token', value: response['authorisation']['token']);
 
+      final userData =
+          Provider.of<UserData>(navigatorKey.currentContext!, listen: false);
+      userData.setName(response['user']['name']);
+
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.setString('name', response['user']['name']);
       if (response['user']['profile_picture'] != null) {
         await preferences.setString(
             'profilePicture', response['user']['profile_picture']);
