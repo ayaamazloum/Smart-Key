@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/widgets/guest_navigation_menu.dart';
 import 'package:smart_key/widgets/navigation_menu.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -54,7 +55,8 @@ class SmartKeyState extends State<SmartKey> {
 
   void checkAuth() async {
     preferences = await SharedPreferences.getInstance();
-    final token = preferences.getString('token');
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    final token = await storage.read(key: 'token');
     userType = preferences.getString('userType');
     setState(() {
       isAuth = token != null;
