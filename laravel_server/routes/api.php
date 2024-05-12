@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
             Route::post('logs', [HomeController::class, 'getLogs']);
             Route::get('invitations', [InvitationController::class, 'getAllInvitations']);
             Route::post('deleteInvitation', [InvitationController::class, 'deleteInvitation']);
+            Route::get('notifications', [NotificationController::class, 'getNotifications']);
         });
 
         Route::middleware('role:family_member,guest')->group(function () {
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('arduino')->group(function () {
     Route::get('knockPattern', [ArduinoController::class, 'getKnockPattern']);
     Route::post('arduinoLog', [ArduinoController::class, 'log']);
+    Route::get('sendNotification', [NotificationController::class, 'sendNotification']);
 });
 
 Route::post('login', [AuthController::class, 'login']);
@@ -49,4 +51,3 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('forgotPassword', [PasswordController::class, 'forgotPassword']);
 Route::post('resetPassword', [PasswordController::class, 'resetPassword']);
 Route::post('addDevice', [NotificationController::class, 'addDevice']);
-Route::get('sendNotification', [NotificationController::class, 'sendNotification']);
