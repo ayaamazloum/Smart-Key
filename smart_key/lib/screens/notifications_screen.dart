@@ -4,7 +4,6 @@ import 'package:smart_key/classes/notification.dart';
 import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
-import 'package:logger/logger.dart';
 import 'package:smart_key/widgets/notification_item.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -16,7 +15,6 @@ class NotificationsScreen extends StatefulWidget {
 
 class NotificationsScreenState extends State<NotificationsScreen> {
   List<MyNotification> notifications = [];
-  final logger = Logger();
   bool isLoading = false;
 
   @override
@@ -32,7 +30,6 @@ class NotificationsScreenState extends State<NotificationsScreen> {
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/notifications', method: 'get');
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     setState(() {
       isLoading = false;
@@ -40,7 +37,6 @@ class NotificationsScreenState extends State<NotificationsScreen> {
 
     if (response['status'] == 'success') {
       setState(() {
-        logger.i(parseNotifications(result.body));
         notifications = parseNotifications(result.body);
       });
     } else {
