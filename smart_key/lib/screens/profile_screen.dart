@@ -12,7 +12,6 @@ import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/utils/select_image.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
-import 'package:logger/logger.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -34,13 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController emailController = TextEditingController();
   final userData =
       Provider.of<UserData>(navigatorKey.currentContext!, listen: true);
-  final logger = Logger();
 
   @override
   void initState() {
     super.initState();
     getUserData();
-    logger.i(userData.name);
   }
 
   Future<dynamic> getUserData() async {
@@ -54,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         name = userData.name;
         nameController.text = userData.name;
-        logger.i(userData.name);
         emailController.text = storage.read(key: 'email').toString();
         emailController.text = preferences.getString('email') ?? '';
         profilePictureUrl = preferences.getString('profilePicture') == null
@@ -66,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         isLoading = false;
       });
-      logger.e("Error fetching user data: $e");
+      print("Error fetching user data: $e");
     }
   }
 
@@ -90,13 +86,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'newProfilePicture': base64Encode(newProfilePicture!),
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: context)
         .sendRequest(route: '/updateProfile', method: 'post', data: data);
     final response = jsonDecode(result.body);
-
-    logger.i(response);
 
     if (response['status'] == 'success') {
       if (isNameChanged) {
