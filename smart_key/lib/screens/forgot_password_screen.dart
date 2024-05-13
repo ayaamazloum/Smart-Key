@@ -5,7 +5,6 @@ import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
-import 'package:logger/logger.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -13,20 +12,14 @@ class ForgotPasswordScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
-  final logger = Logger();
-
   void forgotPassword(BuildContext context) async {
     final data = {
       'email': emailController.text.toString(),
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: context)
         .sendRequest(route: '/forgotPassword', method: 'post', data: data);
     final response = jsonDecode(result.body);
-
-    logger.i(response);
 
     if (response['status'] == 'success') {
       Navigator.of(formKey.currentContext!).popAndPushNamed('/resetPassword');
