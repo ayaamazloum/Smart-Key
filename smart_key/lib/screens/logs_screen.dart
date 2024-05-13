@@ -6,7 +6,6 @@ import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/classes/log.dart';
 import 'package:smart_key/widgets/log_item.dart';
-import 'package:logger/logger.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
@@ -18,7 +17,6 @@ class LogsScreen extends StatefulWidget {
 class LogsScreenState extends State<LogsScreen> {
   late TextEditingController dateController;
   List<Log> logs = [];
-  final logger = Logger();
   bool isLoading = false;
 
   @override
@@ -36,12 +34,9 @@ class LogsScreenState extends State<LogsScreen> {
       'date': dateController.text.toString(),
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/logs', method: 'post', data: data);
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     setState(() {
       isLoading = false;
