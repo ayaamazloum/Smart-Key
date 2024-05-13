@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
@@ -15,9 +13,6 @@ class HomeMembersScreen extends StatefulWidget {
 
 class _HomeMembersScreenState extends State<HomeMembersScreen> {
   List<String> members = [];
-
-  final logger = Logger();
-
   bool isLoading = false;
 
   @override
@@ -33,7 +28,6 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/membersAtHome', method: 'get');
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     setState(() {
       isLoading = false;
@@ -42,7 +36,6 @@ class _HomeMembersScreenState extends State<HomeMembersScreen> {
     if (response['status'] == 'success') {
       setState(() {
         members = List<String>.from(response['members']);
-        logger.i(members);
       });
     } else {
       final errorMessage = response['message'];
