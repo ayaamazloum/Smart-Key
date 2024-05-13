@@ -26,20 +26,16 @@ const int mqttPort = 1883;
 
 class _HomeScreenState extends State<HomeScreen> {
   late SharedPreferences preferences;
-
   bool isLoading = false;
   String? firstName;
   String? profilePictureUrl;
   String? userType;
   bool? isHome;
   int? arduinoId;
-
   String doorControlTopic = '';
   String doorStatusTopic = '';
-
   late MqttServerClient client;
   String doorStatus = "closed";
-
   ScreenshotController screenshotController = ScreenshotController();
 
   final logger = Logger();
