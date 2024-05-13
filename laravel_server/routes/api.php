@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
             Route::get('markNotHome', [HomeController::class, 'markNotHome']);
         });
                 
+        Route::get('validateUser', [UserController::class, 'validateUser']);
         Route::post('updateProfile', [UserController::class, 'updateProfile']);
         Route::post('changePassword', [PasswordController::class, 'changePassword']);
         Route::post('log', [HomeController::class, 'log']);
