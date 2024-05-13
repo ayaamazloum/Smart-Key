@@ -10,7 +10,6 @@ import 'package:smart_key/services/api.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
-import 'package:logger/logger.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +19,6 @@ class LoginScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final logger = Logger();
 
   void loginUser(BuildContext context) async {
     FirebaseApi firebaseApi = FirebaseApi();
@@ -32,13 +30,9 @@ class LoginScreen extends StatelessWidget {
       'fcmToken': fcmToken,
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/login', method: 'post', data: data);
     final response = jsonDecode(result.body);
-
-    logger.i(response);
 
     if (response['status'] == 'success') {
       FlutterSecureStorage storage = FlutterSecureStorage();
