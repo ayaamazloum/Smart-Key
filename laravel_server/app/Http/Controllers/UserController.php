@@ -8,7 +8,15 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function updateProfile(Request $request)
+    public function validateUser(Request $request)
+    {
+        return response()->json([
+            'status' => 'success', 
+            'message' => 'User validation was successful.',
+        ]); 
+    }
+
+        public function updateProfile(Request $request)
     {
         $user = auth()->user();
 
