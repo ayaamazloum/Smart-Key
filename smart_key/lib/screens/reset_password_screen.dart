@@ -5,7 +5,6 @@ import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
-import 'package:logger/logger.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
@@ -17,8 +16,6 @@ class ResetPasswordScreen extends StatelessWidget {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  final logger = Logger();
-
   void resetPassword(BuildContext context) async {
     final data = {
       'email': emailController.text.toString(),
@@ -26,13 +23,9 @@ class ResetPasswordScreen extends StatelessWidget {
       'password': passwordController.text.toString(),
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: context)
         .sendRequest(route: '/resetPassword', method: 'post', data: data);
     final response = jsonDecode(result.body);
-
-    logger.i(response);
 
     if (response['status'] == 'success') {
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
