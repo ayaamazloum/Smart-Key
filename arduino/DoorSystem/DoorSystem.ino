@@ -23,7 +23,6 @@ PubSubClient client(espClient);
 
 Servo servo;
 const int servoPin = D4;
-#define flashLed D0
 #define lock D1
 #define bell D2
 #define bellButton D3
@@ -48,7 +47,6 @@ void setup() {
   client.setCallback(callback);
   
   servo.attach(servoPin);
-  pinMode(flashLed, OUTPUT);
   pinMode(lock, OUTPUT);
   pinMode(bell, OUTPUT);
   pinMode(bellButton, INPUT_PULLUP);
@@ -86,7 +84,6 @@ void ringBell() {
 void openDoor() {
   digitalWrite(lock, HIGH);
   servo.write(180);
-  digitalWrite(flashLed, LOW);
   publishDoorStatus("opened");
   isOpened = true;
   Serial.println("Door opened");
@@ -98,7 +95,6 @@ void openDoor() {
 void closeDoor() {
   digitalWrite(lock, LOW);
   servo.write(0);
-  digitalWrite(flashLed, HIGH);
   publishDoorStatus("closed");
   isOpened = false;
   Serial.println("Door closed");
@@ -237,7 +233,7 @@ void setupFingerprintSensor() {
   }
   else {
     Serial.println("Did not find fingerprint sensor :(");
-    while (1) { delay(1); }
+    // while (1) { delay(1); }
   }
   finger.getTemplateCount();
   Serial.print("Sensor contains "); Serial.print(finger.templateCount); Serial.println(" templates");
