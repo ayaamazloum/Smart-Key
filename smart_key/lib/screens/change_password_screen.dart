@@ -5,7 +5,6 @@ import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
-import 'package:logger/logger.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
   ChangePasswordScreen({super.key});
@@ -13,10 +12,7 @@ class ChangePasswordScreen extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController currentPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  final logger = Logger();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   void changePassword(BuildContext context) async {
     final data = {
@@ -24,13 +20,9 @@ class ChangePasswordScreen extends StatelessWidget {
       'newPassword': newPasswordController.text.toString(),
     };
 
-    logger.i(data.toString());
-
     final result = await API(context: context)
         .sendRequest(route: '/changePassword', method: 'post', data: data);
     final response = jsonDecode(result.body);
-
-    logger.i(response);
 
     if (response['status'] == 'success') {
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
