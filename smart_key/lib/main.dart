@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_key/providers/user_data.dart';
@@ -13,6 +15,7 @@ import 'package:smart_key/screens/members_at_home_screen.dart';
 import 'package:smart_key/screens/notifications_screen.dart';
 import 'package:smart_key/screens/profile_screen.dart';
 import 'package:smart_key/screens/reset_password_screen.dart';
+import 'package:smart_key/services/api.dart';
 import 'package:smart_key/services/firebase_api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,10 +62,34 @@ class SmartKeyState extends State<SmartKey> {
     preferences = await SharedPreferences.getInstance();
     FlutterSecureStorage storage = FlutterSecureStorage();
     final token = await storage.read(key: 'token');
-    userType = preferences.getString('userType');
-    setState(() {
-      isAuth = token != null;
-    });
+    if (token != null && token.isNotEmpty) {
+      validateUser();
+    } else {
+      setState(() {
+        isAuth = false;
+      });
+    }
+  }
+
+  void validateUser() async {
+    final result = await API(context: context)
+        .sendRequest(route: '/validateUser', method: 'get');
+    final response = jsonDecode(result.body);
+
+    if (response['status'] == 'success') {
+      print(response);
+      final userData =
+          Provider.of<UserData>(navigatorKey.currentContext!, listen: false);
+      setState(() {
+        userData.setName(response['name']);
+        userType = preferences.getString('userType');
+        isAuth = true;
+      });
+    } else {
+      setState(() {
+        isAuth = true;
+      });
+    }
   }
 
   @override
