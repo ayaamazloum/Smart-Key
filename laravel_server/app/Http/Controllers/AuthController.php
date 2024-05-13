@@ -109,7 +109,7 @@ class AuthController extends Controller
         ]);
 
         $device = Device::where('fcm_token', $request->fcmToken)->first();
-        if($existingDevice) {
+        if($device) {
             $device->delete();
         }
         if($role->role == 'owner' || $user->role->role == 'family_member') {
