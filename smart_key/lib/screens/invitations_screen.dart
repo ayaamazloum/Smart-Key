@@ -5,7 +5,6 @@ import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
 import 'package:smart_key/widgets/invitaion_item.dart';
-import 'package:logger/logger.dart';
 
 class InvitationsScreen extends StatefulWidget {
   const InvitationsScreen({super.key});
@@ -16,7 +15,6 @@ class InvitationsScreen extends StatefulWidget {
 
 class InvitationsScreenState extends State<InvitationsScreen> {
   List<Invitation> invitations = [];
-  final logger = Logger();
   bool isLoading = false;
 
   @override
@@ -32,7 +30,6 @@ class InvitationsScreenState extends State<InvitationsScreen> {
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/invitations', method: 'get');
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     setState(() {
       isLoading = false;
@@ -62,7 +59,6 @@ class InvitationsScreenState extends State<InvitationsScreen> {
     final result = await API(context: navigatorKey.currentContext!)
         .sendRequest(route: '/deleteInvitation', method: 'post', data: data);
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     setState(() {
       isLoading = false;
