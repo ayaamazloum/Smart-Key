@@ -13,6 +13,7 @@ class UserController extends Controller
         return response()->json([
             'status' => 'success', 
             'message' => 'User validation was successful.',
+            'name' => auth()->user()->name,
         ]); 
     }
 
