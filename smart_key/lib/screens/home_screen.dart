@@ -293,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Consumer<UserData>(
                                   builder: (context, userData, _) {
                                     return Text(
-                                      'Hi, ${userData.name.split(' ')[0]}',
+                                      'Hi, $firstName',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall,
