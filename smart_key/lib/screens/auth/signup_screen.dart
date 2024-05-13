@@ -9,7 +9,6 @@ import 'package:smart_key/services/api.dart';
 import 'package:smart_key/widgets/text_field.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:flutter/gestures.dart';
-import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smart_key/services/firebase_api.dart';
@@ -24,8 +23,6 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-
-  final logger = Logger();
 
   void registerUser(BuildContext context) async {
     FirebaseApi firebaseApi = FirebaseApi();
