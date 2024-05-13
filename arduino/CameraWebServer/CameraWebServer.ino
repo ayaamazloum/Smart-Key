@@ -5,8 +5,8 @@
 
 #include "camera_pins.h"
 
-const char* ssid = "TP-Link_C1D0";
-const char* password = "81713264";
+const char* ssid = "netis_11BD83";
+const char* password = "password";
 
 void startCameraServer();
 void setupLedFlash(int pin);
