@@ -14,9 +14,9 @@ const char* authorizationKey = "Bearer yqquWzNXmS5WHSpLf6KF";
 
 const char* mqtt_server = "test.mosquitto.org";
 const int mqtt_port = 1883;
-const char* door_control_topic = "arduino7door/control";
-const char* door_status_topic = "arduino7door/status";
-const char* knock_change_topic = "arduino7knock/change";
+const char* door_control_topic = "arduino1door/control";
+const char* door_status_topic = "arduino1door/status";
+const char* knock_change_topic = "arduino1knock/change";
 
 WiFiClient espClient;
 PubSubClient client(espClient); 
