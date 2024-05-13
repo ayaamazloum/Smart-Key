@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
-import 'package:logger/logger.dart';
 import 'package:smart_key/utils/input_methods.dart';
 import 'package:smart_key/widgets/primary_button.dart';
 import 'package:smart_key/widgets/text_field.dart';
@@ -19,13 +18,9 @@ List<String> invitationTypes = ['family_member', 'guest'];
 
 class _InviteScreenState extends State<InviteScreen> {
   late SharedPreferences preferences;
-
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   String selectedType = invitationTypes[0];
-
-  final logger = Logger();
-
   DateTime startDate = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
   DateTime endDate = DateTime.now();
@@ -103,7 +98,6 @@ class _InviteScreenState extends State<InviteScreen> {
     final result = await API(context: context)
         .sendRequest(route: '/invite', method: 'post', data: data);
     final response = jsonDecode(result.body);
-    logger.i(response);
 
     if (response['status'] == 'success') {
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
