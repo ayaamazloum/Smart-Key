@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_key/main.dart';
 import 'package:smart_key/providers/user_data.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
@@ -51,8 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
+    final userData =
+        Provider.of<UserData>(navigatorKey.currentContext!, listen: true);
     preferences = await SharedPreferences.getInstance();
+    logger.i(userData.name);
     setState(() {
+      firstName = userData.name.split(' ')[0];
       profilePictureUrl = preferences.getString('profilePicture') == null
           ? '$serverImagesUrl/default-profile-picture.jpg'
           : '$serverImagesUrl/${preferences.getString('profilePicture')}';
@@ -359,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Screenshot(
                                 controller: screenshotController,
                                 child: Mjpeg(
-                                  stream: 'http://192.168.0.107:81/stream',
+                                  stream: 'http://192.168.1.5:81/stream',
                                   isLive: true,
                                   error: (BuildContext context, dynamic error,
                                       dynamic stackTrace) {
