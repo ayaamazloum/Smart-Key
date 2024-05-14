@@ -106,6 +106,7 @@ void checkKnock() {
   int sound;
   int i = 0;
   int knockLength = knockPattern.length();
+  int numKnocks = countOnes(knockPattern);
   long inputSlots[6];
   String inputPattern = "";
 
