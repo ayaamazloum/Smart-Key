@@ -109,6 +109,7 @@ void checkKnock() {
   int i = 0;
   int knockLength = knockPattern.length();
   int numKnocks = countOnes(knockPattern);
+  Serial.println(knockPattern);
   Serial.println(numKnocks);
   long inputSlots[numKnocks];
   String inputPattern = "";
@@ -231,7 +232,7 @@ void fetchKnockPattern() {
       return;
     }
 
-    String knockPattern = doc["knockPattern"];
+    knockPattern = doc["knockPattern"];
   } else {
     Serial.printf("Error fetching data from API: %d\n", httpCode);
     while (1) { delay(1); }
