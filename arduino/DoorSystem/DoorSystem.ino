@@ -116,11 +116,11 @@ void checkKnock() {
   startTime = millis();
   while (millis() < (startTime + knockInputTime)) {
     sound = analogRead(knockSensor);
-    if (sound > knockSensitivity) {
+    if (sound > 80) {
       Serial.println(sound);
       delay(10);
       inputSlots[i] = millis() - startTime;
-      Serial.println(inputSlots[i]);
+      Serial.println(sound);
       i++;
       if (i >= numKnocks)
         break;
