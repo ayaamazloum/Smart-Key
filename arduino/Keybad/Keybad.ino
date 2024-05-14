@@ -1,7 +1,7 @@
 #include <Keypad.h>
 #include <Password.h>
 
-Password password = Password( "AB123CD" );
+Password password = Password( "1234AB" );
 
 const byte ROWS = 4;
 const byte COLS = 4;
