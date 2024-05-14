@@ -122,7 +122,6 @@ void checkKnock() {
       Serial.println(sound);
       delay(10);
       inputSlots[i] = millis() - startTime;
-      Serial.println(sound);
       i++;
       if (i >= numKnocks)
         break;
