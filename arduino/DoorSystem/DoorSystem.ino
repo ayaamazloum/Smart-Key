@@ -95,6 +95,7 @@ void openDoor() {
 
 void closeDoor() {
   digitalWrite(lock, LOW);
+  delay(200);
   servo.write(0);
   publishDoorStatus("closed");
   isOpened = false;
