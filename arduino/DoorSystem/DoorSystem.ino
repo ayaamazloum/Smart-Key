@@ -131,7 +131,7 @@ void checkKnock() {
   Serial.println("Stop");
 
   inputPattern.concat("1");
-  for (int j = 0; j < numKnocks; j++) {
+  for (int j = 0; j < numKnocks - 1; j++) {
     if (inputSlots[j + 1] - inputSlots[j] < 1000)
       inputPattern.concat("1");
     else
