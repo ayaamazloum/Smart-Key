@@ -26,7 +26,7 @@ const int servoPin = D4;
 #define lock D1
 #define bell D2
 #define bellButton D3
-#define openDoorButton D5
+// #define openDoorButton D5
 #define closeDoorButton D6
 #define knockCheckButton D0
 #define knockSensor A0
