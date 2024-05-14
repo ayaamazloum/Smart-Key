@@ -83,6 +83,7 @@ void ringBell() {
 
 void openDoor() {
   digitalWrite(lock, HIGH);
+  delay(200);
   servo.write(180);
   publishDoorStatus("opened");
   isOpened = true;
