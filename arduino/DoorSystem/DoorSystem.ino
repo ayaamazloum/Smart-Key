@@ -122,7 +122,7 @@ void checkKnock() {
       inputSlots[i] = millis() - startTime;
       Serial.println(inputSlots[i]);
       i++;
-      if (i >= 6)
+      if (i >= numKnocks)
         break;
     }
   }
