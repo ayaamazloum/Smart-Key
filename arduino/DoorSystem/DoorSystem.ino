@@ -26,9 +26,9 @@ const int servoPin = D4;
 #define lock D1
 #define bell D2
 #define bellButton D3
-// #define openDoorButton D5
+// #define openDoorButton D0
 #define closeDoorButton D6
-#define knockCheckButton D0
+#define knockCheckButton D5
 #define knockSensor A0
 
 bool isOpened = false;
@@ -50,7 +50,7 @@ void setup() {
   pinMode(lock, OUTPUT);
   pinMode(bell, OUTPUT);
   pinMode(bellButton, INPUT_PULLUP);
-  pinMode(openDoorButton, INPUT_PULLUP);
+  // pinMode(openDoorButton, INPUT_PULLUP);
   pinMode(closeDoorButton, INPUT_PULLUP);
   pinMode(knockCheckButton, INPUT_PULLUP);
   pinMode(knockSensor, INPUT);
@@ -72,7 +72,7 @@ void loop() {
   }
 
   if (digitalRead(bellButton) == LOW) {ringBell();}
-  if (digitalRead(openDoorButton) == LOW) {openDoor();}
+  // if (digitalRead(openDoorButton) == LOW) {openDoor();}
   if (digitalRead(closeDoorButton) == LOW) {closeDoor();}
 }
 
