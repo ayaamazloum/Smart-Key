@@ -131,7 +131,7 @@ void checkKnock() {
   Serial.println("Stop");
 
   inputPattern.concat("1");
-  for (int j = 0; j < 5; j++) {
+  for (int j = 0; j < numKnocks; j++) {
     if (inputSlots[j + 1] - inputSlots[j] < 1000)
       inputPattern.concat("1");
     else
@@ -148,7 +148,7 @@ void checkKnock() {
     Serial.println("Invalid knock :(");
   }
 }
-
+ 
 int countOnes(String str) {
   int count = 0;
   for (int i = 0; i < str.length(); i++) {
@@ -233,6 +233,7 @@ void fetchKnockPattern() {
     }
 
     knockPattern = doc["knockPattern"].as<String>();
+    Serial.println(knockPattern);
   } else {
     Serial.printf("Error fetching data from API: %d\n", httpCode);
     while (1) { delay(1); }
