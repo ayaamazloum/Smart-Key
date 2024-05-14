@@ -232,7 +232,7 @@ void fetchKnockPattern() {
       return;
     }
 
-    knockPattern = doc["knockPattern"];
+    knockPattern = doc["knockPattern"].as<String>();
   } else {
     Serial.printf("Error fetching data from API: %d\n", httpCode);
     while (1) { delay(1); }
