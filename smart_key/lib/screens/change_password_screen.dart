@@ -92,7 +92,11 @@ class ChangePasswordScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    
                     children: [
+                      SizedBox(
+                        height: screenHeight(context) * 0.025,
+                      ),
                       MyTextField(
                         labelText: 'Current Password',
                         hintText: '********',
