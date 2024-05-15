@@ -124,11 +124,11 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
   void changeKnock(BuildContext context) async {
     int countOnes = knockPattern.where((element) => element == 1).length;
 
-    if (countOnes < 6) {
+    if (countOnes < 4) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Secret knock must have at least 6 knocks(green circles).',
+            'Secret knock must have at least 4 knocks(green circles).',
             style: TextStyle(fontSize: 12, color: Colors.red.shade800),
           ),
           backgroundColor: Colors.grey.shade200,
@@ -230,7 +230,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
               child: Column(
                 children: [
                   Text(
-                    'The green circle represents the knock while the yellow one represents the break point. Press on the green or yellow circle to define the pattern. Add 6 knocks at least. Break points added at the beginning or the end are ignored. Consecutive break points are considered as one',
+                    'The green circle represents the knock while the yellow one represents the break point. Press on the green or yellow circle to define the pattern. Add 4 knocks at least. Break points added at the beginning or the end are ignored. Consecutive break points are considered as one',
                     style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
