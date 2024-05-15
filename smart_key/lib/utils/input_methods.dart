@@ -17,7 +17,7 @@ extension InputValidation on String {
 
   bool get isValidPasscode{
   final passwordRegExp = 
-    RegExp(r"^[0-9A-D]+$");
+    RegExp(r"^[0-9A-D]{6,}$");
     return passwordRegExp.hasMatch(this);
   }
 }
