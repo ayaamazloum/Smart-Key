@@ -38,6 +38,7 @@ class NotificationsScreenState extends State<NotificationsScreen> {
     if (response['status'] == 'success') {
       setState(() {
         notifications = parseNotifications(result.body);
+        notifications = notifications.reversed.toList();
       });
     } else {
       final errorMessage = response['message'];
