@@ -24,11 +24,11 @@ class NotificationItem extends StatelessWidget {
                   Text(notification.text, style: TextStyle(fontSize: 15, color: notification.read ? secondaryColor : primaryColor))),
           Expanded(child: Container()),
           Expanded(
-                flex: 7,
+                flex: 6,
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(notification.date,
-                      style: TextStyle(color: Colors.grey, fontSize: 12)),
+                      style: TextStyle(color: Colors.grey, fontSize: 10)),
                 )),
         ],
       ),
