@@ -60,23 +60,27 @@ class SettingsScreenState extends State<SettingsScreen> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if(userType == 'owner' || userType == 'family_member') ...[
+                          if (userType == 'owner' ||
+                              userType == 'family_member') ...[
                             Text('General',
-                              style: Theme.of(context).textTheme.bodyMedium),
+                                style: Theme.of(context).textTheme.bodyMedium),
                             SizedBox(height: screenHeight(context) * 0.01),
                             SettingsItem(
                                 icon: Icons.group_add_outlined,
                                 title: 'Invitations',
                                 route: '/invitations'),
-                            if(userType == 'owner') ...[SettingsItem(
-                                icon: Icons.sensor_door_outlined,
-                                title: 'Secret Knock',
-                                route: '/knock'),
-                            SettingsItem(
-                                icon: Icons.lock_open_outlined,
-                                title: 'Change passcode',
-                                route: '/changePasscode'),
-                            SizedBox(height: screenHeight(context) * 0.02)]],
+                            if (userType == 'owner') ...[
+                              SettingsItem(
+                                  icon: Icons.sensor_door_outlined,
+                                  title: 'Secret Knock',
+                                  route: '/knock'),
+                              SettingsItem(
+                                  icon: Icons.lock_open_outlined,
+                                  title: 'Change passcode',
+                                  route: '/changePasscode'),
+                              SizedBox(height: screenHeight(context) * 0.02)
+                            ]
+                          ],
                           Text('Account',
                               style: Theme.of(context).textTheme.bodyMedium),
                           SizedBox(height: screenHeight(context) * 0.01),
@@ -96,7 +100,9 @@ class SettingsScreenState extends State<SettingsScreen> {
                               icon: Icons.privacy_tip_outlined,
                               title: 'Privacy policy',
                               route: ''),
-                          SizedBox(height: screenHeight(context) * 0.05),
+                          userType == 'guest'
+                              ? SizedBox(height: screenHeight(context) * 0.2)
+                              : SizedBox(height: screenHeight(context) * 0.05),
                           GestureDetector(
                             onTap: () {
                               preferences.clear();
@@ -119,7 +125,9 @@ class SettingsScreenState extends State<SettingsScreen> {
                             alignment: Alignment.center,
                             child: Text(
                               'Version 0.0.1\nAll rights reserved.',
-                              style: TextStyle(color: Colors.grey, fontSize: 12), textAlign: TextAlign.center,
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                              textAlign: TextAlign.center,
                             ),
                           )
                         ]),
