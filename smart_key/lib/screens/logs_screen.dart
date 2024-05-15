@@ -30,6 +30,10 @@ class LogsScreenState extends State<LogsScreen> {
   }
 
   void fetchLogs() async {
+    setState(() {
+      isLoading = true;
+    });
+
     final data = {
       'date': dateController.text.toString(),
     };
@@ -38,13 +42,10 @@ class LogsScreenState extends State<LogsScreen> {
         .sendRequest(route: '/logs', method: 'post', data: data);
     final response = jsonDecode(result.body);
 
-    setState(() {
-      isLoading = false;
-    });
-
     if (response['status'] == 'success') {
       setState(() {
         logs = parseLogs(result.body);
+        logs = logs.reversed.toList();
       });
     } else {
       final errorMessage = response['message'];
@@ -59,6 +60,10 @@ class LogsScreenState extends State<LogsScreen> {
         ),
       );
     }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   List<Log> parseLogs(String responseBody) {
