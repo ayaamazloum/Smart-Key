@@ -4,7 +4,7 @@ import 'package:smart_key/classes/invitation.dart';
 import 'package:smart_key/main.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
-import 'package:smart_key/widgets/invitaion_item.dart';
+import 'package:smart_key/widgets/invitation_item.dart';
 
 class InvitationsScreen extends StatefulWidget {
   const InvitationsScreen({super.key});
