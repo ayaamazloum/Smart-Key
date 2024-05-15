@@ -34,8 +34,8 @@ class ArduinoController extends Controller
     public function changePasscode(Request $request)
     {
         $request->validate([
-            'currentPasscode' => 'required|string|min:8',
-            'newPasscode' => 'required|string|min:8',
+            'currentPasscode' => 'required|string|min:6',
+            'newPasscode' => 'required|string|min:6',
         ]);
 
         $arduino_id = auth()->user()->arduino_id;
