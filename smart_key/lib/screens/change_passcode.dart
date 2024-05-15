@@ -94,7 +94,7 @@ class ChangePasscodeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Passcode must is at least 8 characters long and can contain only digits and uppercase letters A-D.',
+                        'Passcode must be at least 6 characters long and can contain only digits and uppercase letters A-D.',
                         style: Theme.of(context).textTheme.bodySmall,
                         textAlign: TextAlign.center,
                       ),
