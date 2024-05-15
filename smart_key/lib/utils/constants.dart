@@ -6,8 +6,8 @@ Color secondaryColor = HexColor('#373737');
 Color tertiaryColor = HexColor('#FEDF57');
 Color buttonPressColor = HexColor('#265849');
 
-String apiUrl = 'http://192.168.1.5:8000/api';
-String serverImagesUrl = 'http://192.168.1.5:8000/profile_pictures';
+String apiUrl = 'http://192.168.0.107:8000/api';
+String serverImagesUrl = 'http://192.168.0.107:8000/profile_pictures';
 String streamUrl = 'http://192.168.1.17:81/stream';
 
 double screenHeight(BuildContext context) {
