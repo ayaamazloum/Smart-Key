@@ -53,9 +53,11 @@ class LoginScreen extends StatelessWidget {
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
 
-      response['userType'] == 'guest'
-          ? Navigator.of(formKey.currentContext!).popAndPushNamed('/guestNav')
-          : Navigator.of(formKey.currentContext!).popAndPushNamed('/nav');
+      if (response['userType'] == 'guest') {
+        Navigator.of(context).popAndPushNamed('/guestNav');
+      } else {
+        Navigator.of(context).popAndPushNamed('/nav');
+      }
     } else {
       final errorMessage = response['message'] == 'Unauthorized'
           ? 'Incorrect credentials'
