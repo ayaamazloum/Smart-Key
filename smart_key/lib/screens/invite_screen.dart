@@ -158,13 +158,12 @@ class _InviteScreenState extends State<InviteScreen> {
             Container(
               padding: EdgeInsets.only(
                   left: screenWidth(context) * 0.05,
-                  right: screenWidth(context) * 0.05,
-                  top: screenHeight(context) * 0.04),
+                  right: screenWidth(context) * 0.05),
+              margin: EdgeInsets.only(top: screenHeight(context) * 0.14),
               child: Form(
                 key: formKey,
                 child: SingleChildScrollView(
                   child: Column(children: [
-                    SizedBox(height: screenHeight(context) * 0.1),
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(
