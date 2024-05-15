@@ -67,9 +67,11 @@ class SignupScreen extends StatelessWidget {
         ),
       );
 
-      response['userType'] == 'guest'
-          ? Navigator.of(formKey.currentContext!).popAndPushNamed('/guestNav')
-          : Navigator.of(formKey.currentContext!).popAndPushNamed('/nav');
+      if (response['userType'] == 'guest') {
+        Navigator.of(context).popAndPushNamed('/guestNav');
+      } else {
+        Navigator.of(context).popAndPushNamed('/nav');
+      }
     } else {
       logger.i(response);
       final errorMessage = response['message'];
