@@ -80,7 +80,8 @@ class AuthController extends Controller
         }
 
         $now = Carbon::now();
-        if($invitation->start_date > $now) {
+        $invitationStartDate = Carbon::parse($invitation->start_date);
+        if($invitationStartDate->gt($now)) {
             return response()->json(['status' => 'error', 'message' => 'Cannot register before invitation start date.'], 422);
         }
 
