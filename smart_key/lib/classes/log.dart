@@ -13,7 +13,7 @@ class Log {
     return Log(
       id: json['id'],
       log: json['log'],
-      date: DateTime.parse(json['created_at']).toString().split(" ")[0],
+      date: DateTime.parse(json['created_at']).toString().substring(0, 16),
     );
   }
 }
