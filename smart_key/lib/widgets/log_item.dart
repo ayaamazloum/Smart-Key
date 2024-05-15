@@ -23,9 +23,12 @@ class LogItem extends StatelessWidget {
                   Text(log.log, style: Theme.of(context).textTheme.bodySmall)),
           Expanded(child: Container()),
           Expanded(
-              flex: 4,
-              child: Text(log.date,
-                  style: TextStyle(color: Colors.grey, fontSize: 12))),
+              flex: 5,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(log.date,
+                    style: TextStyle(color: Colors.grey, fontSize: 10,)),
+              )),
         ],
       ),
     );
