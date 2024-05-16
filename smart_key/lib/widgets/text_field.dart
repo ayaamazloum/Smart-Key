@@ -33,43 +33,51 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(left: 20),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        enabled: widget.isEnabled!,
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        hintStyle: TextStyle(
-          color: Colors.grey.shade400,
-          fontWeight: FontWeight.w300,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(color: Colors.grey.shade200),
-        ),
-        suffixIcon: widget.showVisibilityIcon!
-            ? IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                ),
-                color: primaryColor,
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
-              )
-            : null,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white, // Background color
+        borderRadius: BorderRadius.circular(30),
       ),
-      style: TextStyle(
-        fontSize: 14.0,
-        color: widget.textColor ?? secondaryColor,
+      child: TextFormField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(left: 20),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          enabled: widget.isEnabled!,
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontWeight: FontWeight.w300,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(color: Colors.grey.shade200),
+          ),
+          suffixIcon: widget.showVisibilityIcon!
+              ? IconButton(
+                  icon: Icon(
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                  color: primaryColor,
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                )
+              : null,
+        ),
+        style: TextStyle(
+          fontSize: 14.0,
+          color: widget.textColor ?? secondaryColor,
+        ),
+        controller: widget.controller,
+        validator: widget.validator,
+        obscureText: widget.obscureText && !_isPasswordVisible,
+        keyboardType: widget.textInputType,
       ),
-      controller: widget.controller,
-      validator: widget.validator,
-      obscureText: widget.obscureText && !_isPasswordVisible,
-      keyboardType: widget.textInputType,
     );
   }
 }
