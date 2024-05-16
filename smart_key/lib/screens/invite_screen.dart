@@ -182,7 +182,7 @@ class _InviteScreenState extends State<InviteScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: screenHeight(context) * 0.03),
+                    SizedBox(height: screenHeight(context) * 0.07),
                     selectedType == 'family_member'
                         ? SizedBox(height: 0)
                         : Column(children: [
@@ -269,7 +269,7 @@ class _InviteScreenState extends State<InviteScreen> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: screenHeight(context) * 0.05),
+                            SizedBox(height: screenHeight(context) * 0.09),
                           ]),
                     MyTextField(
                         labelText: 'E-mail',
