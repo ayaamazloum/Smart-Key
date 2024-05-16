@@ -56,6 +56,13 @@ class SignupScreen extends StatelessWidget {
       await preferences.setBool('isHome', response['isHome']);
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
 
+
+      if (response['userType'] == 'guest') {
+        Navigator.of(navigatorKey.currentContext!).popAndPushNamed('/guestNav');
+      } else {
+        Navigator.of(navigatorKey.currentContext!).popAndPushNamed('/nav');
+      }
+      
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
           content: Text(
@@ -66,12 +73,6 @@ class SignupScreen extends StatelessWidget {
           elevation: 30,
         ),
       );
-
-      if (response['userType'] == 'guest') {
-        Navigator.of(context).popAndPushNamed('/guestNav');
-      } else {
-        Navigator.of(context).popAndPushNamed('/nav');
-      }
     } else {
       logger.i(response);
       final errorMessage = response['message'];
