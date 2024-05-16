@@ -54,9 +54,9 @@ class LoginScreen extends StatelessWidget {
       await preferences.setInt('arduinoId', response['user']['arduino_id']);
 
       if (response['userType'] == 'guest') {
-        Navigator.of(context).popAndPushNamed('/guestNav');
+        Navigator.of(navigatorKey.currentContext!).popAndPushNamed('/guestNav');
       } else {
-        Navigator.of(context).popAndPushNamed('/nav');
+        Navigator.of(navigatorKey.currentContext!).popAndPushNamed('/nav');
       }
     } else {
       final errorMessage = response['message'] == 'Unauthorized'
@@ -174,7 +174,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.of(context).pushNamed('/forgotPassword');
                         },
                         child: Text(
-                          'forgot password?',
+                          'Forgot password?',
                           style: TextStyle(
                             color: primaryColor,
                             fontSize: 14,
