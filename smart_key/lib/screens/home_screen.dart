@@ -154,7 +154,10 @@ class _HomeScreenState extends State<HomeScreen> {
       client.publishMessage(pubTopic, MqttQos.atLeastOnce, builder.payload!);
 
       final data = {
-        'log': '${message}ed the door via app',
+        if (message == 'close')
+          'log': 'closed the door via app'
+        else
+          'log': 'opened the door via app',
       };
       final result = await API(context: context)
           .sendRequest(route: '/log', method: 'post', data: data);
