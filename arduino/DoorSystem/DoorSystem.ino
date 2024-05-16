@@ -6,10 +6,10 @@
 #include <Servo.h>
 #include <Adafruit_Fingerprint.h>
 
-const char* ssid = "netis_11BD83";
-const char* password = "password";
+const char* ssid = "SE Factory";
+const char* password = "SE-F@tory1243%";
 
-const String serverUrl = "http://192.168.1.5:8000/api";
+const String serverUrl = "http://192.168.44.181:8000/api";
 const char* authorizationKey = "Bearer yqquWzNXmS5WHSpLf6KF";
 
 const char* mqtt_server = "test.mosquitto.org";
@@ -131,7 +131,7 @@ void checkKnock() {
 
   inputPattern.concat("1");
   for (int j = 0; j < numKnocks - 1; j++) {
-    if (inputSlots[j + 1] - inputSlots[j] < 1000)
+    if (inputSlots[j + 1] - inputSlots[j] < 800)
       inputPattern.concat("1");
     else
       inputPattern.concat("01");
