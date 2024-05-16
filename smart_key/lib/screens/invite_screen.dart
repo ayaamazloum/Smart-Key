@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/services/api.dart';
 import 'package:smart_key/utils/constants.dart';
@@ -21,80 +23,64 @@ class _InviteScreenState extends State<InviteScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   String selectedType = invitationTypes[0];
-  DateTime startDate = DateTime.now();
-  TimeOfDay startTime = TimeOfDay.now();
-  DateTime endDate = DateTime.now();
-  TimeOfDay endTime = TimeOfDay.now();
+  late TextEditingController startDateController =
+      TextEditingController(text: formatDate(DateTime.now()));
+  late TextEditingController endDateController =
+      TextEditingController(text: formatDate(DateTime.now()));
+  Logger logger = Logger();
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> selectStartDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: startDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
-    );
-    if (pickedDate != null && pickedDate != startDate) {
-      setState(() {
-        startDate = pickedDate;
-      });
-    }
+  String formatDate(DateTime dateTime) {
+    return dateTime.toString().substring(0, 16);
   }
 
-  Future<void> selectStartTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
+  Future<DateTime?> selectDateTime(BuildContext context) async {
+    return await showOmniDateTimePicker(
       context: context,
-      initialTime: startTime,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1600).subtract(const Duration(days: 3652)),
+      lastDate: DateTime.now().add(
+        const Duration(days: 3652),
+      ),
+      is24HourMode: false,
+      isShowSeconds: false,
+      minutesInterval: 1,
+      secondsInterval: 1,
+      isForce2Digits: true,
+      borderRadius: const BorderRadius.all(Radius.circular(16)),
+      constraints: const BoxConstraints(
+        maxWidth: 350,
+        maxHeight: 650,
+      ),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return FadeTransition(
+          opacity: anim1.drive(
+            Tween(
+              begin: 0,
+              end: 1,
+            ),
+          ),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 200),
+      barrierDismissible: true,
     );
-    if (pickedTime != null && pickedTime != startTime) {
-      setState(() {
-        startTime = pickedTime;
-      });
-    }
-  }
-
-  Future<void> selectEndDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: endDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2025),
-    );
-    if (pickedDate != null && pickedDate != endDate) {
-      setState(() {
-        endDate = pickedDate;
-      });
-    }
-  }
-
-  Future<void> selectEndTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: endTime,
-    );
-    if (pickedTime != null && pickedTime != endTime) {
-      setState(() {
-        endTime = pickedTime;
-      });
-    }
   }
 
   void sendInvitation() async {
     final data = {
       'email': emailController.text.toString(),
       'type': selectedType,
-      if (selectedType == 'guest')
-        'start_date':
-            '${startDate.toString().substring(0, 10)} ${startTime.toString().substring(10, 15)}:00',
-      if (selectedType == 'guest')
-        'end_date':
-            '${endDate.toString().substring(0, 10)} ${endTime.toString().substring(10, 15)}:00',
+      if (selectedType == 'guest') 'start_date': startDateController.text,
+      if (selectedType == 'guest') 'end_date': endDateController.text,
     };
 
+    logger.i(data);
     final result = await API(context: context)
         .sendRequest(route: '/invite', method: 'post', data: data);
     final response = jsonDecode(result.body);
@@ -202,56 +188,84 @@ class _InviteScreenState extends State<InviteScreen> {
                         : Column(children: [
                             Row(
                               children: [
-                                ElevatedButton(
-                                  onPressed: () => selectStartDate(context),
-                                  child: Text('Start Date'),
+                                Expanded(
+                                  flex: 7,
+                                  child: TextField(
+                                    onTap: () async {
+                                      DateTime? picked =
+                                          await selectDateTime(context);
+                                      if (picked != null) {
+                                        startDateController.text =
+                                            formatDate(picked);
+                                      }
+                                    },
+                                    readOnly: true,
+                                    controller: startDateController,
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.grey.shade700),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10),
+                                      prefixIcon: Icon(
+                                        Icons.calendar_today,
+                                        color: primaryColor,
+                                        size: 17,
+                                      ),
+                                      labelText: 'Start Date',
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(width: screenWidth(context) * 0.05),
-                                Text(
-                                  startDate.toString().substring(0, 10),
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(height: screenHeight(context) * 0.005),
-                                ElevatedButton(
-                                  onPressed: () => selectStartTime(context),
-                                  child: Text('Start Time'),
-                                ),
-                                SizedBox(width: screenWidth(context) * 0.05),
-                                Text(
-                                  startTime.toString().substring(10, 15),
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenHeight(context) * 0.005),
-                            Row(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () => selectEndDate(context),
-                                  child: Text('End Date'),
-                                ),
-                                SizedBox(width: screenWidth(context) * 0.05),
-                                Text(
-                                  endDate.toString().substring(0, 10),
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: screenHeight(context) * 0.005),
-                            Row(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () => selectEndTime(context),
-                                  child: Text('End Time'),
-                                ),
-                                SizedBox(width: screenWidth(context) * 0.05),
-                                Text(
-                                  endTime.toString().substring(10, 15),
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                Expanded(flex: 1, child: Container()),
+                                Expanded(
+                                  flex: 7,
+                                  child: TextField(
+                                    onTap: () async {
+                                      DateTime? picked =
+                                          await selectDateTime(context);
+                                      if (picked != null) {
+                                        endDateController.text =
+                                            formatDate(picked);
+                                      }
+                                    },
+                                    readOnly: true,
+                                    controller: endDateController,
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey.shade700),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10),
+                                      prefixIcon: Icon(
+                                        Icons.calendar_today,
+                                        color: primaryColor,
+                                        size: 17,
+                                      ),
+                                      labelText: 'End Date',
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: primaryColor),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
