@@ -230,7 +230,7 @@ class ChangeKnockScreenState extends State<ChangeKnockScreen> {
               child: Column(
                 children: [
                   Text(
-                    'The green circle represents the knock while the yellow one represents the break point. Press on the green or yellow circle to define the pattern. Add 4 knocks at least. Break points added at the beginning or the end are ignored. Consecutive break points are considered as one',
+                    '- The green circle represents the knock while the yellow one represents the break point.\n- Press on the green or yellow circle to define the pattern.\n- Break points added at the beginning or the end are ignored.\n- Consecutive break points are considered as one.\n- Add minimum 4 knocks.',
                     style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                   ),
