@@ -171,7 +171,7 @@ class ChangePasswordScreen extends StatelessWidget {
                           Navigator.of(formKey.currentContext!).pushNamed('/forgotPassword');
                         },
                         child: Text(
-                          'forgot password?',
+                          'Forgot password?',
                           style: TextStyle(
                             color: primaryColor,
                             fontSize: 14,
