@@ -10,15 +10,13 @@
 > It provides multiple secure methods for users to unlock the door, including secret knock pattern, fingerprint scanning, passcode authentication.
 >
 > Additionally, users can conveniently operate the door from anywhere through the mobile app interface, as well as by accessing the associated camera on the door.
->
-> As well as, user can be alerted on any abnormal door opening conditions.
+
 
 ### User Stories
 
 - As a home owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door or not.
 - As a home owner, I want to track my family members and guests when they're leaving the home.
 - As a home owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor the whole door activity at specific date.
-- As a home owner, I want to receive real-time alerts on my smartphone whenever someone attempts to tamper with or forcibly open the door, so I can take immediate action if there's a security breach.
 <br>
 - As a family member, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me access to the home.
 - As a family member, I want to use the fingerprint scanner to unlock the home door, so no need to carry keys and prevent being locked out in case of lossing them.
