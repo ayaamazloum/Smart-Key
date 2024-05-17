@@ -17,8 +17,8 @@ class SquaredButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: screenWidth(context) * 0.25,
-      width: screenWidth(context) * 0.25,
+      height: screenWidth(context) * 0.26,
+      width: screenWidth(context) * 0.26,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
