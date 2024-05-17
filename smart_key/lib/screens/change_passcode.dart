@@ -166,21 +166,6 @@ class ChangePasscodeScreen extends StatelessWidget {
                       SizedBox(
                         height: screenHeight(context) * 0.015,
                       ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(formKey.currentContext!).pushNamed('/forgotPasscode');
-                        },
-                        child: Text(
-                          'forgot Passcode?',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
                     ],
                   ),
                 ),
