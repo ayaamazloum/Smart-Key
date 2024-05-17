@@ -58,6 +58,7 @@
 
 ### Architecting Data Excellence: Innovative Database Design Strategies:
 
+| ER Diagram                             |
 | --------------------------------------- |
 | ![fsdaf](./readme/database/MySQL_ERD.png) |
 
