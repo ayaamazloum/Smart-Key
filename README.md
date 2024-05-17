@@ -49,7 +49,7 @@
 
 | Splash screen                             | Signup Screen                           | Invite Screen                          |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/splash.png) | ![fsdaf](./readme/demo/Signup.png) | ![fsdaf](./readme/demo/invite.png) |
+| ![Splash](./readme/demo/splash.png) | ![Signup](./readme/demo/Signup.png) | ![Invite](./readme/demo/invite.png) |
 
 <br><br>
 
@@ -69,9 +69,17 @@
 
 ### User Screens (Mobile)
 
-| Login screen                              | Register screen                         | Landing screen                          |
+| Signup Screen                              | Home Screen                         | Invite Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
-| ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
+| ![Signup](./readme/screens/signup.gif) | ![Home](./readme/screens/home.gif) | ![Invite](./readme/screens/invite.gif) |
+
+| Secret Knock Screen                              | Profile Screen                         | Logs Screen                          |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Secret Knock](./readme/screens/knock.gif) | ![Profile](./readme/screens/profile.gif) | ![Logs](./readme/screens/logs.gif) |
+
+| Change Passcode Screen                              | Invitations Screen                         | Change Password Screen                          |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Change Passcode](./readme/screens/change_passcode.gif) | ![Invitations](./readme/screens/invitations.gif) | ![Change Password](./readme/screens/change_password.gif) |
 
 <br><br>
 
