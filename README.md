@@ -89,7 +89,7 @@
 
 | Visitor Notifier                              | Fingerprint                         |
 | ----------------------------------------- | --------------------------------------- |
-| ![Visitor Notifier](./readme/simulation/visitor_notifier.gif) | ![Fingerprint](./readme/simulation/secret_knock.gif) |
+| ![Visitor Notifier](./readme/simulation/visitor_notifier.gif) | ![Fingerprint](./readme/simulation/fingerprint.gif) |
 
 <br><br>
 
