@@ -81,6 +81,16 @@
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Change Passcode](./readme/screens/change_passcode.gif) | ![Invitations](./readme/screens/invitations.gif) | ![Change Password](./readme/screens/change_password.gif) |
 
+### Arduino Simulation
+
+| Door Remote Control                              | Secret Knock                         |
+| ----------------------------------------- | --------------------------------------- |
+| ![Door Remote Control](./readme/simulation/door_control.gif) | ![Secret Knock](./readme/simulation/secret_knock.gif) |
+
+| Visitor Notifier                              | Fingerprint                         |
+| ----------------------------------------- | --------------------------------------- |
+| ![Visitor Notifier](./readme/simulation/visitor_notifier.gif) | ![Fingerprint](./readme/simulation/secret_knock.gif) |
+
 <br><br>
 
 <!-- AWS Deployment -->
