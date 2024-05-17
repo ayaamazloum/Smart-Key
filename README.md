@@ -43,15 +43,15 @@
 <!-- UI UX -->
 <img src="./readme/title4.svg"/>
 
-> We designed Coffee Express using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
+> We designed Smart Key using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
 
-- Project Figma design [figma](https://www.figma.com/file/LsuOx5Wnh5YTGSEtrgvz4l/Purrfect-Pals?type=design&node-id=257%3A79&mode=design&t=adzbABt5hbb91ucZ-1)
+- Project Figma design [figma](https://www.figma.com/design/t4rdlMJrAbQdZxu6lGgFt7/Smart-Key-App?node-id=541%3A1262&t=jk0Dh0nWpASl1Cy7-1)
 
 ### Mockups
 
-| Home screen                             | Menu Screen                           | Order Screen                          |
+| Splash screen                             | Signup Screen                           | Invite Screen                          |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| ![Landing](./readme/demo/SplashMockup.png) | ![fsdaf](./readme/demo/SignupMockup.png) | ![fsdaf](./readme/demo/InviteMockup.png) |
 
 <br><br>
 
