@@ -79,10 +79,12 @@ class AuthController extends Controller
             return response()->json(['status' => 'error', 'message' => 'The email is not invited.'], 422);
         }
 
-        $now = Carbon::now();
-        $invitationStartDate = Carbon::parse($invitation->start_date);
-        if($invitationStartDate->gt($now)) {
-            return response()->json(['status' => 'error', 'message' => 'Cannot register before invitation start date.'], 422);
+        if($invitation->type == "guest") {
+            $now = Carbon::now();
+            $invitationStartDate = Carbon::parse($invitation->start_date);
+            if($invitationStartDate->gt($now)) {
+                return response()->json(['status' => 'error', 'message' => 'Cannot register before invitation start date.'], 422);
+            }
         }
 
         if($request->key != $invitation->key) {
@@ -116,7 +118,7 @@ class AuthController extends Controller
         if($role->role == 'owner' || $user->role->role == 'family_member') {
             Device::create([
                 'fcm_token' => $request->fcmToken,
-                'arduino_id' => $arduino_id,
+                'arduino_id' => $invitation->arduino_id,
             ]);
         }
 
