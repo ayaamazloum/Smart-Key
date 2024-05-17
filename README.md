@@ -49,7 +49,7 @@
 
 | Splash screen                             | Signup Screen                           | Invite Screen                          |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/SplashMockup.png) | ![fsdaf](./readme/demo/SignupMockup.png) | ![fsdaf](./readme/demo/InviteMockup.png) |
+| ![Landing](./readme/demo/splash.png) | ![fsdaf](./readme/demo/Signup.png) | ![fsdaf](./readme/demo/invite.png) |
 
 <br><br>
 
@@ -69,33 +69,14 @@
 
 ### User Screens (Mobile)
 
-| Login screen                              | Register screen                         | Landing screen                          | Loading screen                          |
-| ----------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| Login screen                              | Register screen                         | Landing screen                          |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
-| Home screen                               | Menu Screen                             | Order Screen                            | Checkout Screen                         |
-| ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
-
-### Admin Screens (Web)
-
-| Login screen                            | Register screen                       | Landing screen                        |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-| Home screen                             | Menu Screen                           | Order Screen                          |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-
-<br><br>
-
-<!-- Prompt Engineering -->
-<img src="./readme/title7.svg"/>
-
-### Mastering AI Interaction: Unveiling the Power of Prompt Engineering:
-
-- This project uses advanced prompt engineering techniques to optimize the interaction with natural language processing models. By skillfully crafting input instructions, we tailor the behavior of the models to achieve precise and efficient language understanding and generation for various tasks and preferences.
 
 <br><br>
 
 <!-- AWS Deployment -->
-<img src="./readme/title8.svg"/>
+<img src="./readme/title7.svg"/>
 
 ### Efficient AI Deployment: Unleashing the Potential with AWS Integration:
 
@@ -104,7 +85,7 @@
 <br><br>
 
 <!-- Unit Testing -->
-<img src="./readme/title9.svg"/>
+<img src="./readme/title8.svg"/>
 
 ### Precision in Development: Harnessing the Power of Unit Testing:
 
@@ -113,7 +94,7 @@
 <br><br>
 
 <!-- How to run -->
-<img src="./readme/title10.svg"/>
+<img src="./readme/title9.svg"/>
 
 > To set up Coffee Express locally, follow these steps:
 
