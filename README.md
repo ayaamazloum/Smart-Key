@@ -52,7 +52,7 @@
 
 | Splash screen                             | Signup Screen                           | Invite Screen                          |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Splash](./readme/demo/splash.png) | ![Signup](./readme/demo/Signup.png) | ![Invite](./readme/demo/invite.png) |
+| ![Splash](./readme/demo/splash.png) | ![Signup](./readme/demo/signup.png) | ![Invite](./readme/demo/invite.png) |
 
 <br><br>
 
