@@ -121,31 +121,114 @@
 <!-- How to run -->
 <img src="./readme/title9.svg"/>
 
-> To set up Coffee Express locally, follow these steps:
+> To set up Smart Key locally, follow these steps:
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+-   ESP8266 Module (Hardware)
+-   ESP32-CAM Module (Hardware)
+-   FT232R USB to Serial/TTL Converter Module (Hardware)
+-   Fingerprint Scanner (Hardware)
+-   Sound Sensor Module (Hardware)
+-   Keypad 4x4 (Hardware)
+-   Arduino Mega (Hardware)
+-   Servo motor (Hardware)
+-   Solenoid (Hardware)
+-   9V Battery (Hardware)
+-   5V Relay Module (Hardware)
+-   3 Push Buttons (Hardware)
+-   Connecting wires (Hardware)
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+1. Clone the repo
 
-1. Get a free API Key at [example](https://example.com)
-2. Clone the repo
-   git clone [github](https://github.com/your_username_/Project-Name.git)
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
+    ```sh
+    git clone https://github.com/tahataha005/solaro.git
+    ```
 
-Now, you should be able to run Coffee Express locally and explore its features.
+2. Install [Node.js](https://nodejs.org/en/)
+
+3. Go to nodejs-server directory
+    ```sh
+    cd nodejs-server
+    ```
+4. Install npm packages
+    ```sh
+    npm install
+    ```
+5. Run the server
+    ```sh
+    nodemon .
+    ```
+6. Install [Flutter SDK](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQiAveebBhD_ARIsAFaAvrEXbca0gKEuW9ROxwC86eiEtJUUO5tm-AIIzds41AXpzsjkbESCw2EaAsTwEALw_wcB&gclsrc=aw.ds)
+
+7. Go to flutter_app directory
+    ```sh
+    cd flutter_app
+    ```
+8. Install pub packages
+    ```sh
+    flutter pub get
+    ```
+9. Run flutter_app
+    ```sh
+    flutter run
+    ```
+
+### Hardware Setup (Go to sumulation section to simulate hardware functionality)
+
+-   Uploading code
+
+1. Plug your arduino to your laptop/mac
+
+2. Install [Arduino IDE](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing)(You can use alternative aurduino IDE's)
+
+3. Upload the code found in arduino directory
+
+<br><br>
+
+-   Configuration
+
+1. Connect the arduino to the solar panel and the battery
+
+2. Connect the arduino to the computer
+
+3. In arduino/src/main.cpp, change the following variables to match your setup
+
+    ```c
+    const char* userId = "your_user_id";
+
+    const char* systemId =  "your_system_id";
+    uint8_t systemConsumptionPin = "pin_number";
+    uint8_t systemChargingPin = "pin_number";
+
+    const char* itemId =    "your_item_id";
+    double idealConsumption = "#";
+    uint8_t itemConsumptionPin = "pin_number";
+    uint8_t itemControlPin = "pin_number";
+    ```
+
+4. Upload the code to the arduino
+
+### Hardware Simulation
+
+1. Go to simulator directory in arduino
+
+    ```sh
+    cd simulator
+    ```
+
+2. Change solar and item ids constants in index.js
+
+    ```sh
+    const system_id = "_Insert id here_"
+    const item_id = "_Insert id here_"
+    ```
+
+3. Run server
+    ```sh
+    nodemon .
+    ```
+
+When applied successfully, fake data will be sent to flutter app.
