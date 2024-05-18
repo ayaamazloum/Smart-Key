@@ -34,4 +34,27 @@ class InvitationTest extends TestCase
             'email' => 'example@example.com',
         ]);
     }
+
+    
+
+    public function test_delete_invitation()
+    {
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'arduino_id' => 1,
+            'role_id' => 1,
+        ]);
+
+        $invitation = Invitation::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/api/deleteInvitation', ['id' => $invitation->id]);
+
+        $response->assertStatus(200)->assertJson([
+            'status' => 'success',
+        ]);
+
+        $this->assertDatabaseMissing('invitations', [
+            'id' => $invitation->id,
+        ]);
+    }
 }
