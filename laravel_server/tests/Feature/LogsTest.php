@@ -51,11 +51,11 @@ class LogsTest extends TestCase
         ->assertJsonStructure([
             'logs' => [
                 '*' => [
-                    "id",
-                    "log",
-                    "arduino_id",
-                    "created_at",
-                    "updated_at"
+                    'id',
+                    'log',
+                    'arduino_id',
+                    'created_at',
+                    'updated_at'
                 ],
             ],
             
