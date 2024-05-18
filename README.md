@@ -186,3 +186,41 @@
     ```sh
     flutter run
     ```
+
+### Hardware Setup 
+
+-   Uploading code
+
+1. Connect yor hardware as shown in the fritzing circuit inside arduino directory
+
+2. Connect the arduino to the computer
+
+3. Install [Arduino IDE](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing) (You can use alternative aurduino IDE's)
+
+4. In arduino/DoorSystem/DoorSystem.ino, change the following variables to match your wifi credentials and setup
+
+    ```cpp
+    const char* ssid = "your_wifi_ssid";
+    const char* password = "your_wifi_password";
+
+    const String serverUrl = "server_IP_address:8000/api";
+    ```
+
+5. In arduino/CameraWebServer/CameraWebServer.ino, change the following variables to match your wifi credentials
+
+    ```cpp
+    const char* ssid = "your_wifi_ssid";
+    const char* password = "your_wifi_password";
+    ```
+
+6. Upload each arduino code into its corresponding board
+
+7. After uploading CameraWebServer.ino code, open serial monitor in Arduino IDE (on the top right of the screen), and whenever you get the camera server IP address copy it.
+
+8. In smart_key/lib/constants.dart, paste the copied camera server IP address into this line
+
+    ```dart
+    String streamUrl = 'paste_it_here:81/stream';
+    ```
+
+Now, you are all set to control the door system through the application, with all other features working.
