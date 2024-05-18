@@ -52,7 +52,7 @@ class ArduinoControllerTest extends TestCase
             'name' => 'Test User',
             'arduino_id' => 1,
             'role_id' => 1,
-        ]);        
+        ]);
 
         $response = $this->actingAs($user)->postJson('/api/changePasscode', [
             'currentPasscode' => $arduino->passcode,
@@ -66,5 +66,27 @@ class ArduinoControllerTest extends TestCase
             ]);
         
         $this->assertDatabaseHas('arduinos', ['id' => $arduino->id, 'passcode' => 'newpasscode123']);
+    }
+
+    public function testChangeKnock()
+    {
+        $arduino = Arduino::findOrFail(1);
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'arduino_id' => 1,
+            'role_id' => 1,
+        ]); 
+
+        $response = $this->actingAs($user)->postJson('/api/changeKnock', [
+            'newPattern' => '1101101',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'message' => 'Knock changed successfully.',
+            ]);
+        
+        $this->assertDatabaseHas('arduinos', ['id' => $arduino->id, 'knock_pattern' => '1101101']);
     }
 }
