@@ -19,6 +19,9 @@ class InvitationTest extends TestCase
             'role_id' => 1,
         ]);
 
+        $invitation = Invitation::where('email', 'example@example.com')->first();
+        if($invitation) $invitation->delete();
+
         $invitationData = [
             'email' => 'example@example.com',
             'type' => 'family_member',
