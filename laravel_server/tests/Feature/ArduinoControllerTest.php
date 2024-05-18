@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Arduino;
+use App\Models\User;
 
 class ArduinoControllerTest extends TestCase
 {
@@ -42,5 +43,28 @@ class ArduinoControllerTest extends TestCase
             'log' => 'Test Log',
             'arduino_id' => $arduino->id,
         ]);
+    }
+
+    public function testChangePasscode()
+    {
+        $arduino = Arduino::findOrFail(1);
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'arduino_id' => 1,
+            'role_id' => 1,
+        ]);        
+
+        $response = $this->actingAs($user)->postJson('/api/changePasscode', [
+            'currentPasscode' => $arduino->passcode,
+            'newPasscode' => 'newpasscode123',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+                'message' => 'Passcode changed successfully.',
+            ]);
+        
+        $this->assertDatabaseHas('arduinos', ['id' => $arduino->id, 'passcode' => 'newpasscode123']);
     }
 }
