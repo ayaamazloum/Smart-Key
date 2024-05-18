@@ -137,98 +137,52 @@
 -   9V Battery (Hardware)
 -   5V Relay Module (Hardware)
 -   3 Push Buttons (Hardware)
--   Connecting wires (Hardware)
+-   Connecting Wires (Hardware)
 
 ### Installation
 
 1. Clone the repo
 
     ```sh
-    git clone https://github.com/tahataha005/solaro.git
+    git clone https://github.com/ayaamazloum/Smart-Key.git
     ```
+2. Install database server: Any Apache HTTP Server, MariaDB database server, recommended [XAMPP](https://www.apachefriends.org/download.html).
 
-2. Install [Node.js](https://nodejs.org/en/)
+3. Install [Composer](https://getcomposer.org/download/)
 
-3. Go to nodejs-server directory
+4. Go to laravel-server directory
     ```sh
-    cd nodejs-server
+    cd laravel-server
     ```
-4. Install npm packages
+5. Run database migrations
     ```sh
-    npm install
+    php artisan migrate
     ```
-5. Run the server
+6. Run database seeders
     ```sh
-    nodemon .
+    php artisan db:seed
     ```
-6. Install [Flutter SDK](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQiAveebBhD_ARIsAFaAvrEXbca0gKEuW9ROxwC86eiEtJUUO5tm-AIIzds41AXpzsjkbESCw2EaAsTwEALw_wcB&gclsrc=aw.ds)
+7. Run the server on computer's local IP address 
+    ```sh
+    php artisan serve --host local_IP_address
+    ```
+8. Install [Flutter SDK](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQiAveebBhD_ARIsAFaAvrEXbca0gKEuW9ROxwC86eiEtJUUO5tm-AIIzds41AXpzsjkbESCw2EaAsTwEALw_wcB&gclsrc=aw.ds)
 
-7. Go to flutter_app directory
+9. Go to smart_key directory
     ```sh
-    cd flutter_app
+    cd smart_key
     ```
-8. Install pub packages
+10. Install pub packages
     ```sh
     flutter pub get
     ```
-9. Run flutter_app
+11. In lib/utils/constants.dart file, change the following variables to match your server IP address
+
+    ```dart
+    String apiUrl = 'http://server_IP_address:8000/api';
+    String serverImagesUrl = 'http://server_IP_address:8000/profile_pictures';
+    ```
+12. Run flutter_app
     ```sh
     flutter run
     ```
-
-### Hardware Setup (Go to sumulation section to simulate hardware functionality)
-
--   Uploading code
-
-1. Plug your arduino to your laptop/mac
-
-2. Install [Arduino IDE](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing)(You can use alternative aurduino IDE's)
-
-3. Upload the code found in arduino directory
-
-<br><br>
-
--   Configuration
-
-1. Connect the arduino to the solar panel and the battery
-
-2. Connect the arduino to the computer
-
-3. In arduino/src/main.cpp, change the following variables to match your setup
-
-    ```c
-    const char* userId = "your_user_id";
-
-    const char* systemId =  "your_system_id";
-    uint8_t systemConsumptionPin = "pin_number";
-    uint8_t systemChargingPin = "pin_number";
-
-    const char* itemId =    "your_item_id";
-    double idealConsumption = "#";
-    uint8_t itemConsumptionPin = "pin_number";
-    uint8_t itemControlPin = "pin_number";
-    ```
-
-4. Upload the code to the arduino
-
-### Hardware Simulation
-
-1. Go to simulator directory in arduino
-
-    ```sh
-    cd simulator
-    ```
-
-2. Change solar and item ids constants in index.js
-
-    ```sh
-    const system_id = "_Insert id here_"
-    const item_id = "_Insert id here_"
-    ```
-
-3. Run server
-    ```sh
-    nodemon .
-    ```
-
-When applied successfully, fake data will be sent to flutter app.
