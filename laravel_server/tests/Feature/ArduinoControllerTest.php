@@ -68,6 +68,25 @@ class ArduinoControllerTest extends TestCase
         $this->assertDatabaseHas('arduinos', ['id' => $arduino->id, 'passcode' => 'newpasscode123']);
     }
 
+    public function testGetKnock()
+    {
+        $arduino = Arduino::findOrFail(1);
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'arduino_id' => 1,
+            'role_id' => 1,
+        ]);
+        
+        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $arduino->key])
+        ->getJson('/api/knockPattern');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'status',
+                'knockPattern',
+            ]);
+    }
+
     public function testChangeKnock()
     {
         $arduino = Arduino::findOrFail(1);
@@ -75,7 +94,7 @@ class ArduinoControllerTest extends TestCase
             'name' => 'Test User',
             'arduino_id' => 1,
             'role_id' => 1,
-        ]); 
+        ]);
 
         $response = $this->actingAs($user)->postJson('/api/changeKnock', [
             'newPattern' => '1101101',
