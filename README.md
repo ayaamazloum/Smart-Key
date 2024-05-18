@@ -182,7 +182,7 @@
     String apiUrl = 'http://server_IP_address:8000/api';
     String serverImagesUrl = 'http://server_IP_address:8000/profile_pictures';
     ```
-12. Run flutter_app
+12. Run smart_key
     ```sh
     flutter run
     ```
@@ -221,6 +221,10 @@
 
     ```dart
     String streamUrl = 'paste_it_here:81/stream';
+    ```
+12. Run smart_key again
+    ```sh
+    flutter run
     ```
 
 Now, you are all set to control the door system through the application, with all other features working.
