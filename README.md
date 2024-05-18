@@ -34,6 +34,9 @@
 - This Project uses [Laravel](https://laravel.com/) framework for backend. Laravel serves as a backend framework for PHP web development, offering features and tools that streamline backend processes, such as routing, database management, authentication, and API development, empowering developers to build robust and scalable server-side applications efficiently.
 - The door lock system is implemented using [Arduino](https://www.arduino.cc/) modules. These modules control the physical locking mechanism, providing a reliable and programmable hardware solution that integrates seamlessly with the app for secure and efficient access management.
 - To send push notifications, the app uses the [Firebase Cloud Messaging](https://pub.dev/packages/flutter_local_notifications), a cross-platform messaging solution that lets you reliably send notification messages into mobile devices.
+- To control the physical locking mechanism in real time, the app uses an [MQTT broker](https://mqtt.org/), a lightweight and flexible IoT message exchange and data transmission protocol. This protocol is dedicated to achieving a balance between flexibility and hardware/network resources for IoT developers.
+- To connect the arduino to the server, I used [ESP8266](https://www.espressif.com/en/products/socs/esp8266) which is a low-cost Wi-Fi microchip with full TCP/IP stack and microcontroller capability produced by Shanghai-based Chinese manufacturer, Espressif Systems.
+- To stream a live video from in front of the door of the house, I used an [ESP32-CAM](https://www.espressif.com/en/news/ESP32_CAM), a small size, low power consumption camera module based on the ESP32. It comes with an OV2640 camera and provides an onboard TF card slot.
 - The app uses the font ["Niramit"](https://fonts.google.com/specimen/Niramit) as its main font, and the design of the app adheres to the material design guidelines.
 
 <br><br>
