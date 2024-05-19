@@ -79,8 +79,10 @@ class _HomeScreenState extends State<HomeScreen> {
       logger.e(response);
 
     if (response['status'] == 'success') {
-      logger.e(response["homeLatitude"]);
-    }
+      final double homeLatitude = double.parse(response['homeLatitude']);
+      final double homeLongitude = double.parse(response['homeLongitude']);
+      const double thresholdDistance = 0.1;
+      }
   }
 
   Future<dynamic> connectToMqttBroker() async {
