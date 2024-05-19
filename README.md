@@ -74,11 +74,11 @@
 
 ### User Screens (Mobile)
 
-| Signup Screen                              | Home Screen                         | Invite Screen                          |
+| Home Screen                              | Invite Screen                         | Secret Knock Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Home](./readme/screens/home.gif) | ![Invite](./readme/screens/invite.gif) | ![Secret Knock](./readme/screens/knock.gif) |
 
-| Secret Knock Screen                              | Profile Screen                         | Logs Screen                          |
+| Signup Screen                              | Profile Screen                         | Logs Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Signup](./readme/screens/signup.gif) | ![Profile](./readme/screens/profile.gif) | ![Logs](./readme/screens/logs.gif) |
 
