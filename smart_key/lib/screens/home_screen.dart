@@ -48,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getUserData();
-    checkIsHome();
     connectToMqttBroker();
   }
 
@@ -196,58 +195,6 @@ class _HomeScreenState extends State<HomeScreen> {
       logger.i(response);
       final errorMessage = response['message'];
       showSnackbar(errorMessage, Colors.red.shade800);
-    }
-  }
-
-  Future<dynamic> checkIsHome() async {
-    var status = await Permission.location.status;
-
-    logger.e('Current location permission status: $status');
-
-    if (status.isDenied || status.isRestricted || status.isLimited) {
-      status = await Permission.location.request();
-      logger.e('Requested location permission status: $status');
-    }
-
-    if (status.isGranted) {
-      final result = await API(context: context)
-          .sendRequest(route: '/homeLocation', method: 'get');
-      final response = jsonDecode(result.body);
-      logger.e(response);
-
-      if (response['status'] == 'success') {
-        final double homeLatitude = double.parse(response['homeLatitude']);
-        final double homeLongitude = double.parse(response['homeLongitude']);
-        const double thresholdDistance = 0.1;
-
-        try {
-          Position currentPosition = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high);
-
-          double distanceInKm = Geolocator.distanceBetween(
-              currentPosition.latitude,
-              currentPosition.longitude,
-              homeLatitude,
-              homeLongitude);
-
-          if (distanceInKm <= thresholdDistance) {
-            markNotHome();
-            logger.i('Not home');
-          } else {
-            markHome();
-            logger.i('Home');
-          }
-        } catch (e) {
-          logger.e("Error getting location: $e");
-          _showLocationErrorDialog();
-        }
-      } else if (status.isDenied) {
-        logger.e('Location permission denied by the user.');
-        showPermissionDeniedDialog();
-      } else if (status.isPermanentlyDenied) {
-        logger.e('Location permission permanently denied by the user.');
-        _showPermissionPermanentlyDeniedDialog();
-      }
     }
   }
 
