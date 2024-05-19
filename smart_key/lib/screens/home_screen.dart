@@ -102,6 +102,28 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _showPermissionPermanentlyDeniedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location Permission Permanently Denied'),
+          content: Text(
+              'Location permission is permanently denied. Please open settings to grant permission manually.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+              child: Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showLocationErrorDialog() {
     showDialog(
       context: context,
@@ -222,6 +244,9 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (status.isDenied) {
         logger.e('Location permission denied by the user.');
         showPermissionDeniedDialog();
+      } else if (status.isPermanentlyDenied) {
+        logger.e('Location permission permanently denied by the user.');
+        _showPermissionPermanentlyDeniedDialog();
       }
     }
   }
