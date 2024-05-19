@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_key/main.dart';
@@ -72,19 +74,124 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<dynamic> checkIsHome() async {
+  void _showLocationErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location Error'),
+          content: Text(
+              'An error occurred while trying to get your location. Please try again later.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showSnackbar(
+    text,
+    color,
+  ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          text,
+          style: TextStyle(fontSize: 12, color: color),
+        ),
+        backgroundColor: Colors.grey.shade200,
+        elevation: 30,
+      ),
+    );
+  }
+
+  void markNotHome() async {
     final result = await API(context: context)
-        .sendRequest(route: '/homeLocation', method: 'get');
+        .sendRequest(route: '/markNotHome', method: 'get');
     final response = jsonDecode(result.body);
-      logger.e(response);
 
     if (response['status'] == 'success') {
-      final double homeLatitude = double.parse(response['homeLatitude']);
-      final double homeLongitude = double.parse(response['homeLongitude']);
-      const double thresholdDistance = 0.1;
+      setState(() {
+        isHome = false;
+      });
+      await preferences.setBool('isHome', false);
 
-      Position currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+      showSnackbar('Marked as not home successfully!', primaryColor);
+    } else {
+      logger.i(response);
+      final errorMessage = response['message'];
+      showSnackbar(errorMessage, Colors.red.shade800);
+    }
+  }
+
+  void markHome() async {
+    final result = await API(context: context)
+        .sendRequest(route: '/markHome', method: 'get');
+    final response = jsonDecode(result.body);
+
+    if (response['status'] == 'success') {
+      setState(() {
+        isHome = true;
+      });
+      await preferences.setBool('isHome', true);
+
+      showSnackbar('Marked as home successfully!', primaryColor);
+    } else {
+      logger.i(response);
+      final errorMessage = response['message'];
+      showSnackbar(errorMessage, Colors.red.shade800);
+    }
+  }
+
+  Future<dynamic> checkIsHome() async {
+    var status = await Permission.location.status;
+
+    logger.e('Current location permission status: $status');
+
+    if (status.isDenied || status.isRestricted || status.isLimited) {
+      status = await Permission.location.request();
+      logger.e('Requested location permission status: $status');
+    }
+
+    if (status.isGranted) {
+      final result = await API(context: context)
+          .sendRequest(route: '/homeLocation', method: 'get');
+      final response = jsonDecode(result.body);
+      logger.e(response);
+
+      if (response['status'] == 'success') {
+        final double homeLatitude = double.parse(response['homeLatitude']);
+        final double homeLongitude = double.parse(response['homeLongitude']);
+        const double thresholdDistance = 0.1;
+
+        try {
+          Position currentPosition = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+
+          double distanceInKm = Geolocator.distanceBetween(
+              currentPosition.latitude,
+              currentPosition.longitude,
+              homeLatitude,
+              homeLongitude);
+
+          if (distanceInKm <= thresholdDistance) {
+            markNotHome();
+            logger.i('Not home');
+          } else {
+            markHome();
+            logger.i('Home');
+          }
+        } catch (e) {
+          logger.e("Error getting location: $e");
+          _showLocationErrorDialog();
+        }
+      }
     }
   }
 
@@ -208,60 +315,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void markHome() async {
-    if (isHome!) {
-      final result = await API(context: context)
-          .sendRequest(route: '/markNotHome', method: 'get');
-      final response = jsonDecode(result.body);
-
-      if (response['status'] == 'success') {
-        setState(() {
-          isHome = false;
-        });
-        await preferences.setBool('isHome', false);
-
-        showSnackbar('Marked as not home successfully!', primaryColor);
-      } else {
-        logger.i(response);
-        final errorMessage = response['message'];
-        showSnackbar(errorMessage, Colors.red.shade800);
-      }
-    } else {
-      final result = await API(context: context)
-          .sendRequest(route: '/markHome', method: 'get');
-      final response = jsonDecode(result.body);
-
-      if (response['status'] == 'success') {
-        setState(() {
-          isHome = true;
-        });
-        await preferences.setBool('isHome', true);
-
-        showSnackbar('Marked as home successfully!', primaryColor);
-      } else {
-        logger.i(response);
-        final errorMessage = response['message'];
-        showSnackbar(errorMessage, Colors.red.shade800);
-      }
-    }
-  }
-
-  void showSnackbar(
-    text,
-    color,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          text,
-          style: TextStyle(fontSize: 12, color: color),
-        ),
-        backgroundColor: Colors.grey.shade200,
-        elevation: 30,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -367,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Switch(
                                         value: isHome!,
                                         onChanged: (value) {
-                                          markHome();
+                                          return;
                                         },
                                         activeColor: primaryColor,
                                         inactiveThumbColor: Colors.grey,
