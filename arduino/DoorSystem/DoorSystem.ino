@@ -43,10 +43,12 @@ void setup() {
   Serial.begin(115200);
 
   setup_wifi();
+  
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
   
   servo.attach(servoPin);
+
   pinMode(lock, OUTPUT);
   pinMode(bell, OUTPUT);
   pinMode(bellButton, INPUT_PULLUP);
@@ -67,10 +69,10 @@ void loop() {
   client.loop();
 
   getFingerprintID();
+  
   if(digitalRead(knockCheckButton) == LOW && !isOpened) {
     checkKnock();
   }
-
   if (digitalRead(bellButton) == LOW) {ringBell();}
   if (digitalRead(openDoorButton) == LOW) {openDoor();}
   if (digitalRead(closeDoorButton) == LOW) {closeDoor();}
