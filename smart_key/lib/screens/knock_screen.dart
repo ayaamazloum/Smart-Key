@@ -99,7 +99,7 @@ class KncockScreenState extends State<KncockScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                           Text(
-                            'The green circle represents the knock while the yellow one represents the break point.',
+                            'The green circle represents a knock while the yellow one represents a break point.',
                             style: Theme.of(context).textTheme.bodySmall,
                             textAlign: TextAlign.center,
                           ),
