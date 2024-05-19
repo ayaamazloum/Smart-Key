@@ -14,6 +14,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:smart_key/widgets/profile_image.dart';
 import 'package:smart_key/widgets/squared_button.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     getUserData();
+    checkIsHome();
     connectToMqttBroker();
   }
 
@@ -68,6 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
       doorStatusTopic = 'arduino${arduinoId}door/status';
       isLoading = false;
     });
+  }
+
+  Future<dynamic> checkIsHome() async {
+    final result = await API(context: context)
+        .sendRequest(route: '/homeLocation', method: 'get');
+    final response = jsonDecode(result.body);
+      logger.e(response);
+
+    if (response['status'] == 'success') {
+      logger.e(response["homeLatitude"]);
+    }
   }
 
   Future<dynamic> connectToMqttBroker() async {
