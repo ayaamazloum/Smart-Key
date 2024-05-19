@@ -76,11 +76,11 @@
 
 | Signup Screen                              | Home Screen                         | Invite Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
-| ![Signup](./readme/screens/signup.gif) | ![Home](./readme/screens/home.gif) | ![Invite](./readme/screens/invite.gif) |
+| ![Home](./readme/screens/home.gif) | ![Invite](./readme/screens/invite.gif) | ![Secret Knock](./readme/screens/knock.gif) |
 
 | Secret Knock Screen                              | Profile Screen                         | Logs Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
-| ![Secret Knock](./readme/screens/knock.gif) | ![Profile](./readme/screens/profile.gif) | ![Logs](./readme/screens/logs.gif) |
+| ![Signup](./readme/screens/signup.gif) | ![Profile](./readme/screens/profile.gif) | ![Logs](./readme/screens/logs.gif) |
 
 | Change Passcode Screen                              | Invitations Screen                         | Change Password Screen                          |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
