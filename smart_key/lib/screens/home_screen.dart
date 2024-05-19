@@ -74,6 +74,34 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void showPermissionDeniedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location Permission Denied'),
+          content: Text(
+              'This app needs location access to function properly. Please grant location permissions.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+            TextButton(
+              onPressed: () {
+                openAppSettings();
+                Navigator.of(context).pop();
+              },
+              child: Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showLocationErrorDialog() {
     showDialog(
       context: context,
@@ -191,6 +219,9 @@ class _HomeScreenState extends State<HomeScreen> {
           logger.e("Error getting location: $e");
           _showLocationErrorDialog();
         }
+      } else if (status.isDenied) {
+        logger.e('Location permission denied by the user.');
+        showPermissionDeniedDialog();
       }
     }
   }
