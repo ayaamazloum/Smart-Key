@@ -17,6 +17,7 @@
 - As a home owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door or not.
 - As a home owner, I want to track my family members and guests when they're leaving the home.
 - As a home owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor the whole door activity at specific date.
+<br><br>
 - As a family member, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me access to the home.
 - As a family member, I want to use the fingerprint scanner to unlock the home door, so no need to carry keys and prevent being locked out in case of lossing them.
 - As a family member, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
