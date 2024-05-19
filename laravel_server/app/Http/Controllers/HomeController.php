@@ -11,19 +11,6 @@ use App\Models\Log;
 
 class HomeController extends Controller
 {
-
-    public function getHomeLocation(Request $request) {
-        $arduino_id = Auth::user()->arduino_id;
-
-        $arduino = Arduino::findOrFail($arduino_id);
-        
-        return response()->json([
-            'status' => 'success',
-            'homeLatitude' => $arduino->home_latitude,
-            'homeLongitude' => $arduino->home_longitude,
-        ]);
-    }
-
     public function getMembersAtHome(Request $request) {
         $arduino_id = Auth::user()->arduino_id;
 
