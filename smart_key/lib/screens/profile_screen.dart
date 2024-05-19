@@ -31,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final userData =
-      Provider.of<UserData>(navigatorKey.currentContext!, listen: true);
+  final userData = Provider.of<UserData>(navigatorKey.currentContext!, listen: true);
 
   @override
   void initState() {
@@ -75,7 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void editProfile(BuildContext context) async {
     bool isNameChanged = nameController.text.toString() != name;
-
     if (!isNameChanged && newProfilePicture == null) {
       return;
     }
@@ -95,8 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         userData.setName(nameController.text.toString());
       }
       if (newProfilePicture != null) {
-        await preferences.setString(
-            'profilePicture', response['profilePicture']);
+        await preferences.setString('profilePicture', response['profilePicture']);
       }
       ScaffoldMessenger.of(formKey.currentContext!).showSnackBar(
         SnackBar(
