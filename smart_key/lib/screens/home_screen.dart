@@ -82,7 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
       final double homeLatitude = double.parse(response['homeLatitude']);
       final double homeLongitude = double.parse(response['homeLongitude']);
       const double thresholdDistance = 0.1;
-      }
+
+      Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    }
   }
 
   Future<dynamic> connectToMqttBroker() async {
