@@ -20,8 +20,6 @@ class ArduinosTableSeeder extends Seeder
             'key' => $randomKey,
             'knock_pattern' => '11011011',
             'passcode' => '123456',
-            'home_latitude' => '33.950211',
-            'home_longitude' => '36.104758',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
