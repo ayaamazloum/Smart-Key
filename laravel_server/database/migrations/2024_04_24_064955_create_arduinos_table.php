@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('key');
             $table->string('knock_pattern');
             $table->string('passcode');
-            $table->decimal('home_latitude', 10, 7);
-            $table->decimal('home_longitude', 10, 7);
             $table->timestamps();
         });
     }
