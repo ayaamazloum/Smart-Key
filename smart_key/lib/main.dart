@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_key/providers/user_data.dart';
@@ -36,6 +35,7 @@ void main() async {
     projectId: 'smart-key-958ce',
   ));
   await FirebaseApi().initNotifications();
+
   runApp(ChangeNotifierProvider(create: (_) => UserData(), child: SmartKey()));
 }
 
@@ -77,7 +77,6 @@ class SmartKeyState extends State<SmartKey> {
     final response = jsonDecode(result.body);
 
     if (response['status'] == 'success') {
-      print(response);
       final userData =
           Provider.of<UserData>(navigatorKey.currentContext!, listen: false);
       setState(() {
