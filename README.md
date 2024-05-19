@@ -147,7 +147,7 @@
     ```sh
     git clone https://github.com/ayaamazloum/Smart-Key.git
     ```
-2. Install database server: Any Apache HTTP Server, MariaDB database server, recommended [XAMPP](https://www.apachefriends.org/download.html).
+2. Install database server: Any Apache HTTP Server or MariaDB database server. Recommended [XAMPP](https://www.apachefriends.org/download.html).
 
 3. Install [Composer](https://getcomposer.org/download/)
 
