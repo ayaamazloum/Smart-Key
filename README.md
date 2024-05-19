@@ -142,7 +142,6 @@
 ### Installation
 
 1. Clone the repo
-
     ```sh
     git clone https://github.com/ayaamazloum/Smart-Key.git
     ```
@@ -177,7 +176,6 @@
     flutter pub get
     ```
 11. In lib/utils/constants.dart file, change the following variables to match your server IP address
-
     ```dart
     String apiUrl = 'http://server_IP_address:8000/api';
     String serverImagesUrl = 'http://server_IP_address:8000/profile_pictures';
@@ -198,7 +196,6 @@
 3. Install [Arduino IDE](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started/ide-v2-downloading-and-installing) (You can use alternative aurduino IDE's)
 
 4. In arduino/DoorSystem/DoorSystem.ino, change the following variables to match your wifi credentials and setup
-
     ```cpp
     const char* ssid = "your_wifi_ssid";
     const char* password = "your_wifi_password";
@@ -207,7 +204,6 @@
     ```
 
 5. In arduino/CameraWebServer/CameraWebServer.ino, change the following variables to match your wifi credentials
-
     ```cpp
     const char* ssid = "your_wifi_ssid";
     const char* password = "your_wifi_password";
@@ -218,7 +214,6 @@
 7. After uploading CameraWebServer.ino code, open serial monitor in Arduino IDE (on the top right of the screen), and whenever you get the camera server IP address copy it.
 
 8. In smart_key/lib/constants.dart, paste the copied camera server IP address into this line
-
     ```dart
     String streamUrl = 'paste_it_here:81/stream';
     ```
