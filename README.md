@@ -12,16 +12,20 @@
 > Additionally, users can conveniently operate the door from anywhere through the mobile app interface, as well as by accessing the associated camera on the door.
 
 
-### User Stories
+### Home Owner Stories
 
 - As a home owner, I want to have a visual confirmation of visitors via the camera feed, so I can identify them before deciding whether to remotely unlock the door or not.
 - As a home owner, I want to track my family members and guests when they're leaving the home.
 - As a home owner, I want to have access to a log of door activity, including who unlocked the door and at what time, so I can monitor the whole door activity at specific date.
-<br><br>
+
+### Family Member Stories
+
 - As a family member, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me access to the home.
 - As a family member, I want to use the fingerprint scanner to unlock the home door, so no need to carry keys and prevent being locked out in case of lossing them.
 - As a family member, I want to be notified whenever the doorbell rings or the door is opened, so I keep track of visitors or any door activity.
-<br><br>
+
+### Guest Stories
+
 - As a guest, I want the to be able to receive a digital invitation via the mobile app from the home owner, granting me temporary access to the home during my stay.
 - As a guest, I want to be automatically added to the members at home list whenever I arrive at the owner's home location.
 
