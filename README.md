@@ -114,9 +114,9 @@ _A demo of a Postman request to Smart Key laravel hosted on an AWS EC2 instance.
 
 Below are the steps followed to deploy Smart Key's Laravel backend on AWS:
 
-- **Step 1**: Connect to the instance. Open Terminal (or Command Prompt on Windows)
+- **Step 1**: Open Terminal (or Command Prompt on Windows)
   ```sh
-  ssh -i /path/to/key-file.ppk ubuntu@13.38.41.37
+  ssh -i /path/to/key-file.pem ec2-user@YOUR_IPv4_ADDRESS
   ```
 - **Step 2**: Update Packages
   ```sh
@@ -173,7 +173,7 @@ Below are the steps followed to deploy Smart Key's Laravel backend on AWS:
   sudo chown -R ubuntu:ubuntu /var/www/html/Smart-Key
   ```
   Replace `ubuntu:ubuntu` with your instance username.
-- **Step 8**: Install MySQL on your instance. A good guide can be found here: [How To Install MySQL on Ubuntu 20.04 (DigitalOcean)](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
+- **Step 8**: Install MySQL on your instance. A good guide can be found on [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
 
 Laravel application now should be accessible via ec2 instance IP address or DNS.
 
