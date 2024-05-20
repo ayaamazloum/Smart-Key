@@ -102,6 +102,83 @@
 
 <br><br>
 
+<!-- AWS Deployment -->
+<img src="./readme/title7.svg"/>
+
+### Efficient Deployment: Unleashing the Potential with AWS Integration:
+
+- This project leverages AWS deployment strategies to seamlessly integrate and deploy the backend services. With a focus on scalability, reliability, and performance, we ensure that the Laravel backend for Smart Key delivers robust and responsive solutions for diverse use cases. By deploying the Laravel backend on AWS, Smart Key benefits from the comprehensive suite of services and tools that AWS offers, providing a solid foundation for future growth and enhancements.
+
+![Postman Screenshot](./readme/deployment/aws_deploy_postman.png)
+_A demo of a Postman request to Smart Key laravel hosted on an AWS EC2 instance._
+
+Below are the steps followed to deploy Smart Key's Laravel backend on AWS:
+
+- **Step 1**: Connect to the instance. Open Terminal (or Command Prompt on Windows)
+  ```sh
+  ssh -i /path/to/key-file.ppk ubuntu@13.38.41.37
+  ```
+- **Step 2**: Update Packages
+  ```sh
+  sudo apt update
+  sudo apt upgrade -y
+  ```
+- **Step 3**: Install Composer, Apache and PHP and its extensions
+  ```sh
+  sudo apt install composer -y
+  sudo apt-get install apache2
+  sudo apt-get install php-mysql php-bcmath php-curl php-json php-mbstring php-tokenizer php-xml php-zip
+  ```
+- **Step 4**: Create Virtual Hosts File
+  ```sh
+  sudo nano /etc/apache2/sites-available/laravel.conf
+  ```
+- **Step 5**: Copy and paste the following snippet into `laravel.conf`:
+
+  ```
+  <VirtualHost *:80>
+      ServerName <YOUR_IPv4_ADDRESS_HERE>
+      DocumentRoot /var/www/html/Smart-Key/backend/public
+
+      <Directory /var/www/html/Smart-Key/backend/public>
+         AllowOverride All
+         Require all granted
+     </Directory>
+     ProxyRequests Off
+     ProxyPass / http://127.0.0.1:8000/
+     ProxyPassReverse / http://127.0.0.1:8000/
+
+     <Proxy *>
+         Order allow,deny
+         Allow from all
+     </Proxy>
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+  </VirtualHost>
+  ```
+
+  Replace `YOUR_IPv4_ADDRESS_HERE` with your AWS EC2 instance's IPv4 Public Address.
+
+- **Step 6**: Activate your virtual host setup, then reload Apache:
+  ```sh
+  sudo a2enmod proxy proxy_http
+  sudo a2ensite laravel
+  sudo systemctl reload apache2
+  ```
+- **Step 7**: Clone this repository, then set permissions
+  ```sh
+  cd /var/www/html
+  sudo git clone https://github.com/ayaamazloum/Smart-Key.git /var/www/html/Smart-Key
+  sudo chown -R ubuntu:ubuntu /var/www/html/Smart-Key
+  ```
+  Replace `ubuntu:ubuntu` with your instance username.
+- **Step 8**: Install MySQL on your instance. A good guide can be found here: [How To Install MySQL on Ubuntu 20.04 (DigitalOcean)](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
+
+Laravel application now should be accessible via ec2 instance IP address or DNS.
+
+<br><br>
+
 <!-- Unit Testing -->
 <img src="./readme/title8.svg"/>
 
