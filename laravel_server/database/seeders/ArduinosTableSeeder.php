@@ -17,7 +17,7 @@ class ArduinosTableSeeder extends Seeder
         $randomKey = Str::random(20);
 
         Arduino::create([
-            'key' => $randomKey,
+            'key' => 'yqquWzNXmS5WHSpLf6KF',
             'knock_pattern' => '11011011',
             'passcode' => '123456',
             'created_at' => now(),
