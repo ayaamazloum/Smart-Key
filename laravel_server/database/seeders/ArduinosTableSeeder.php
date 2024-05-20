@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Arduino;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class ArduinosTableSeeder extends Seeder
 {
@@ -14,8 +13,6 @@ class ArduinosTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $randomKey = Str::random(20);
-
         Arduino::create([
             'key' => 'yqquWzNXmS5WHSpLf6KF',
             'knock_pattern' => '11011011',
